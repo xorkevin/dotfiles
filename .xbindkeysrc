@@ -1,0 +1,11 @@
+# modifiers
+## caps to ctrl
+
+
+# volume
+"pamixer --increase 2"
+  XF86AudioRaiseVolume
+
+"pamixer --decrease 2"
+  XF86AudioLowerVolume
+

@@ -1,0 +1,33 @@
+sw_volume: 0
+audio_device_state:1:mpdAudioOut
+audio_device_state:1:FIFO
+state: play
+current: 0
+time: 187.477000
+random: 0
+repeat: 0
+single: 0
+consume: 0
+crossfade: 0
+mixrampdb: 0.000000
+mixrampdelay: -1.000000
+playlist_begin
+0:Jake Kaufman - Shovel Knight Original Soundtrack/Jake Kaufman - Shovel Knight Original Soundtrack - 04 Strike the Earth! (Plains of Passage).flac
+1:Jake Kaufman - Shovel Knight Original Soundtrack/Jake Kaufman - Shovel Knight Original Soundtrack - 06 For Shovelry! (Boss Victory).flac
+2:Jake Kaufman - Shovel Knight Original Soundtrack/Jake Kaufman - Shovel Knight Original Soundtrack - 07 The Starlit Wilds (Campfire Scene).flac
+3:Jake Kaufman - Shovel Knight Original Soundtrack/Jake Kaufman - Shovel Knight Original Soundtrack - 08 The Adventure Awaits (Map Screen).flac
+4:Jake Kaufman - Shovel Knight Original Soundtrack/Jake Kaufman - Shovel Knight Original Soundtrack - 09 In the Halls of the Usurper (Pridemoor Keep).flac
+5:Jake Kaufman - Shovel Knight Original Soundtrack/Jake Kaufman - Shovel Knight Original Soundtrack - 11 High Above the Land (The Flying Machine).flac
+6:Jake Kaufman - Shovel Knight Original Soundtrack/Jake Kaufman - Shovel Knight Original Soundtrack - 13 An Underlying Problem (The Lost City).flac
+7:Jake Kaufman - Shovel Knight Original Soundtrack/Jake Kaufman - Shovel Knight Original Soundtrack - 15 No Weapons Here (Village).flac
+8:Jake Kaufman - Shovel Knight Original Soundtrack/Jake Kaufman - Shovel Knight Original Soundtrack - 16 Pastorale (Village Interiors).flac
+9:Jake Kaufman - Shovel Knight Original Soundtrack/Jake Kaufman - Shovel Knight Original Soundtrack - 19 Spin Ye Bottle (Minigame).flac
+10:Jake Kaufman - Shovel Knight Original Soundtrack/Jake Kaufman - Shovel Knight Original Soundtrack - 20 A Thousand Leagues Below (Iron Whale) -Manami Matsumae-.flac
+11:Jake Kaufman - Shovel Knight Original Soundtrack/Jake Kaufman - Shovel Knight Original Soundtrack - 22 Of Devious Machinations (Clockwork Tower).flac
+12:Jake Kaufman - Shovel Knight Original Soundtrack/Jake Kaufman - Shovel Knight Original Soundtrack - 32 Fighting with All of Our Might.flac
+13:Jake Kaufman - Shovel Knight Original Soundtrack/Jake Kaufman - Shovel Knight Original Soundtrack - 33 Flowers of Antimony (The Explodatorium) -Manami Matsumae-.flac
+14:Jake Kaufman - Shovel Knight Original Soundtrack/Jake Kaufman - Shovel Knight Original Soundtrack - 34 The Vital Vitriol (Plague Knight Battle).flac
+15:Jake Kaufman - Shovel Knight Original Soundtrack/Jake Kaufman - Shovel Knight Original Soundtrack - 41 End of Days (Endgame Map Screen).flac
+16:Jake Kaufman - Shovel Knight Original Soundtrack/Jake Kaufman - Shovel Knight Original Soundtrack - 42 The Fateful Return (Tower Approach).flac
+17:Jake Kaufman - Shovel Knight Original Soundtrack/Jake Kaufman - Shovel Knight Original Soundtrack - 43 The Inner Struggle (Tower).flac
+playlist_end
