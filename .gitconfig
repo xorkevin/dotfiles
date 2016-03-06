@@ -1,0 +1,7 @@
+[user]
+	email = wangkevin448@gmail.com
+	name = Kevin Wang
+[push]
+	default = simple
+[merge]
+	tool = meld
