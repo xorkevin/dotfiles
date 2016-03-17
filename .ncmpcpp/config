@@ -424,7 +424,7 @@ clock_display_seconds = yes
 #
 display_bitrate = yes
 #
-display_remaining_time = yes
+#display_remaining_time = no
 #
 ## Available values: none, basic, extended, perl.
 ##
