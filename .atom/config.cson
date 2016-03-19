@@ -1,0 +1,41 @@
+"*":
+  "atom-material-ui":
+    colors: {}
+    fonts:
+      fontSize: 14
+    tabs:
+      compactTabs: true
+      tintedTabBar: true
+    treeView:
+      blendTabs: true
+      compactList: true
+    ui:
+      panelContrast: true
+      panelShadows: true
+  core:
+    autoHideMenuBar: true
+    disabledPackages: [
+      "editor-stats"
+      "activate-power-mode"
+      "linter"
+      "linter-eslint"
+      "minimap"
+    ]
+    themes: [
+      "atom-material-ui"
+      "atom-material-syntax"
+    ]
+  editor:
+    backUpBeforeSaving: true
+    fontFamily: "Hack"
+    fontSize: 12
+    invisibles: {}
+    scrollPastEnd: true
+    showIndentGuide: true
+    softWrap: true
+    tabType: "soft"
+    zoomFontWhenCtrlScrolling: false
+  "linter-eslint": {}
+  react: {}
+  welcome:
+    showOnStartup: false
