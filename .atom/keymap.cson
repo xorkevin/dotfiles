@@ -1,6 +1,6 @@
 'atom-text-editor:not([mini])':
   'ctrl-shift-down': 'multi-cursor:expandDown'
   'ctrl-shift-up': 'multi-cursor:expandUp'
-'atom-text-editor':
+'body':
   'alt': ' '
   'alt-m': 'window:toggle-menu-bar'
