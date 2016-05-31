@@ -12,5 +12,3 @@ zstyle :compinstall filename '/home/kevin/.zshrc'
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
-
-alias steam-wine='WINEDEBUG=-all nohup wine ~/.wine/drive_c/Program\ Files\ \(x86\)/Steam/Steam.exe >/dev/null 2>&1 &'
