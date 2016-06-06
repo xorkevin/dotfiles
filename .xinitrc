@@ -5,4 +5,5 @@ xrandr --output DisplayPort-2 --auto --primary --pos 1920x0 --output HDMI-0 --au
 urxvtd -q -o -f
 xmodmap "${HOME}/.xmodmap"
 mpd
+feh --bg-fill "${HOME}/Pictures/ArchRing4k.jpg"
 exec i3
