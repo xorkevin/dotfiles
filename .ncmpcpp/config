@@ -313,7 +313,7 @@ visualizer_type = spectrum
 #
 #volume_change_step = 2
 #
-#autocenter_mode = no
+autocenter_mode = yes
 #
 #centered_cursor = no
 #
@@ -321,7 +321,7 @@ visualizer_type = spectrum
 ## Note: You can specify third character which will
 ## be used to build 'empty' part of progressbar.
 ##
-#progressbar_look = =>
+progressbar_look = ──
 #
 #progressbar_boldness = yes
 #
