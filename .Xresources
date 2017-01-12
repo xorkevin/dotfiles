@@ -3,9 +3,6 @@ URxvt.scrollBar: false
 
 Xft.dpi: 64
 
-URxvt.transparent:   true
-URxvt.shading:       20
-
 ! Google Material Design
 
 *background 		: #263238
