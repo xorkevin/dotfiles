@@ -14,4 +14,5 @@ fi
 alias xclip="xclip -selection c"
 
 export GOPATH=$HOME/go
+export PATH="$PATH:$GOPATH/bin"
 
