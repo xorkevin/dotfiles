@@ -12,6 +12,15 @@ fi
 
 # Customize to your needs...
 alias xclip="xclip -selection c"
+alias ss="maim -s ~/screenshot.png"
+
+# Git
+alias gs="git status"
+alias gd="git diff"
+alias gp="git push"
+alias gl="git log"
+alias ga="git add"
+alias gc="git commit"
 
 export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
