@@ -19,8 +19,8 @@ alias gs="git status"
 alias gd="git diff"
 alias gp="git push"
 alias gl="git log"
-alias ga="git add"
-alias gc="git commit"
+alias ga="git add -A"
+alias gc="git commit -m"
 
 export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
