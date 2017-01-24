@@ -16,6 +16,7 @@ alias ss="maim -s ~/screenshot.png"
 
 # Neovim
 alias vim="nvim"
+alias vi="nvim"
 
 # Git
 alias gs="git status"
