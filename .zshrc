@@ -14,6 +14,9 @@ fi
 alias xclip="xclip -selection c"
 alias ss="maim -s ~/screenshot.png"
 
+# Neovim
+alias vim="nvim"
+
 # Git
 alias gs="git status"
 alias gd="git diff"
