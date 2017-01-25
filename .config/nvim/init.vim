@@ -14,7 +14,6 @@ Plug 'junegunn/vim-easy-align'
 Plug 'nsf/gocode'
 Plug 'fatih/vim-go'
 Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
-Plug 'tpope/vim-sensible'
 Plug 'scrooloose/nerdtree'
 
 call plug#end()
