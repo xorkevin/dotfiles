@@ -154,8 +154,8 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 
-new_window pixel 1 px
-new_float pixel 1 px
+new_window pixel 2 px
+new_float pixel 2 px
 hide_edge_borders both
 
 # class                 border  back.   text    indicator child_border
@@ -172,7 +172,7 @@ bar {
 
 	colors {
 		#color class       border  back.   text
-		focused_workspace  #b5bd68 #b5bd68 #ffffff
+		focused_workspace  #8abeb7 #8abeb7 #ffffff
 		active_workspace   #81a2be #81a2be #e0e0e0
 		inactive_workspace #1d1f21 #1d1f21 #e0e0e0
 		urgent_workspace   #cc6666 #cc6666 #e0e0e0
