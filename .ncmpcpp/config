@@ -33,7 +33,7 @@ mpd_port = 6600
 #
 ## Needed for tag editor and file operations to work.
 ##
-mpd_music_dir = ~/Music
+mpd_music_dir = /storage/Music
 #
 #mpd_crossfade_time = 5
 #
@@ -53,7 +53,7 @@ mpd_music_dir = ~/Music
 ## }
 ##
 #
-visualizer_fifo_path = /tmp/mpd.fifo
+visualizer_fifo_path = "/tmp/mpd.fifo"
 #
 ##
 ## Note: Below parameter is needed for ncmpcpp
@@ -63,18 +63,18 @@ visualizer_fifo_path = /tmp/mpd.fifo
 ## are some problems with it.
 ##
 #
-visualizer_output_name = FIFO
+visualizer_output_name = "FIFO"
 #
 ##
 ## If you set format to 44100:16:2, make it 'yes'.
 ##
-visualizer_in_stereo = yes
+visualizer_in_stereo = "yes"
 #
 ##
 ## Multiply received samples by given value. Very
 ## useful for proper visualization of quiet music.
 ##
-visualizer_sample_multiplier = 1
+visualizer_sample_multiplier = "1"
 #
 ##
 ## Note: Below parameter defines how often ncmpcpp
@@ -84,7 +84,7 @@ visualizer_sample_multiplier = 1
 ## Keep in mind that sane values start with >=10.
 ##
 #
-visualizer_sync_interval = 30
+visualizer_sync_interval = "30"
 #
 ##
 ## Note: To enable spectrum frequency visualization
@@ -93,9 +93,9 @@ visualizer_sync_interval = 30
 #
 ## Available values: spectrum, wave, wave_filled, ellipse.
 ##
-visualizer_type = spectrum
+visualizer_type = "spectrum"
 #
-#visualizer_look = ??
+visualizer_look = "+≡"
 #
 #visualizer_color = blue, cyan, green, yellow, magenta, red
 #
