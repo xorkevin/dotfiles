@@ -5,7 +5,6 @@ xrandr --output DisplayPort-2 --auto --primary --pos 1920x0 --output HDMI-0 --au
 urxvtd -q -o -f
 xmodmap "${HOME}/.xmodmap"
 xbindkeys
-mpd
 feh --bg-fill "${HOME}/Pictures/Interstellar.jpg"
 exec i3
 
