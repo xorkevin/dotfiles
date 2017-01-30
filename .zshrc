@@ -12,7 +12,7 @@ fi
 
 # Customize to your needs...
 alias xclip="xclip -selection c"
-alias ss="maim -s ~/screenshot.png"
+alias sx="maim -s ~/screenshot.png"
 alias sc="scrot -c -d 5 ~/screenshot.png"
 
 # Neovim
