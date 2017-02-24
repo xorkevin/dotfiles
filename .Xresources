@@ -1,7 +1,7 @@
-URxvt.font: xft:Hack:size=12
+URxvt.font: xft:Hack:size=8
 URxvt.scrollBar: false
 
-Xft.dpi: 64
+Xft.dpi: 96
 
 ! Base16 Tomorrow
 
