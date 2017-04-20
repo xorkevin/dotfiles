@@ -30,3 +30,6 @@ alias gc="git commit -m"
 export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
 
+export PATH="$PATH:$(ruby -e 'print Gem.user_dir')/bin"
+export GEM_HOME=$(ruby -e 'print Gem.user_dir')
+
