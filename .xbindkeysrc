@@ -11,8 +11,8 @@
    XF86AudioMute
 
 # Set Output Headphones
-"pactl set-sink-mute 2 false ; pactl set-sink-mute 1 true"
+"pactl set-sink-mute 1 false ; pactl set-sink-mute 0 true"
    XF86AudioPrev
 # Set Output Speakers
-"pactl set-sink-mute 1 false ; pactl set-sink-mute 2 true"
+"pactl set-sink-mute 0 false ; pactl set-sink-mute 1 true"
    XF86AudioNext
