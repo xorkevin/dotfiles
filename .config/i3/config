@@ -184,3 +184,18 @@ bar {
 	tray_padding 0
 }
 
+# mouse
+focus_follows_mouse no
+mouse_warping none
+
+# workspaces
+workspace 1 output DisplayPort-2
+workspace 2 output DisplayPort-2
+workspace 3 output DisplayPort-2
+workspace 4 output DisplayPort-2
+workspace 5 output DisplayPort-2
+workspace 6 output DisplayPort-2
+workspace 7 output DisplayPort-2
+workspace 8 output HDMI-0
+workspace 9 output HDMI-0
+workspace 10 output HDMI-0
