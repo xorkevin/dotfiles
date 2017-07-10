@@ -27,6 +27,13 @@ alias gl="git log"
 alias ga="git add -A"
 alias gc="git commit -m"
 
+# Tmux
+alias tn="tmux new -s"
+alias ta="tmux attach -t"
+alias tls="tmux list-sessions"
+alias tk="tmux kill-session -t"
+
+
 export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
 
