@@ -7,8 +7,18 @@ Plug 'junegunn/fzf.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'nsf/gocode'
 Plug 'fatih/vim-go'
+Plug 'chriskempson/base16-vim'
 
 call plug#end()
 
 set relativenumber
 set number
+
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
+
+colorscheme base16-tomorrow-night
+
+map <C-\> :NERDTreeToggle<CR>

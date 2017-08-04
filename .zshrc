@@ -10,7 +10,9 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# Customize to your needs...
+BASE16_SHELL=$HOME/.config/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+
 alias xclip="xclip -selection c"
 alias sx="maim -s ~/screenshot.png"
 alias sc="scrot -c -d 5 ~/screenshot.png"
@@ -40,3 +42,5 @@ export PATH="$PATH:$GOPATH/bin"
 export PATH="$PATH:$(ruby -e 'print Gem.user_dir')/bin"
 export GEM_HOME=$(ruby -e 'print Gem.user_dir')
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
