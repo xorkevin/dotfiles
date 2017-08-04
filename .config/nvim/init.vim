@@ -10,3 +10,5 @@ Plug 'fatih/vim-go'
 
 call plug#end()
 
+set relativenumber
+set number
