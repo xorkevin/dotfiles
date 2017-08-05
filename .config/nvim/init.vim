@@ -42,6 +42,8 @@ set completeopt+=noinsert
 set completeopt+=noselect
 
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#disable_auto_complete = 1
+inoremap <silent><expr><C-Space> deoplete#mappings#manual_complete()
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 let g:deoplete#enable_camel_case = 1
 
