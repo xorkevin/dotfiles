@@ -43,9 +43,7 @@ set completeopt+=noselect
 set completeopt-=preview
 
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#disable_auto_complete = 1
 let g:deoplete#enable_camel_case = 1
-inoremap <silent><expr><C-Space> deoplete#mappings#manual_complete()
 
 let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
@@ -56,13 +54,16 @@ autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
 
 "Keybindings
-map <C-\> :NERDTreeToggle<CR>
+nmap <C-\> :NERDTreeToggle<CR>
+imap <C-\> :NERDTreeToggle<CR>
 
 nmap <C-p> :Files<CR>
 nmap <C-o> :Buffers<CR>
 
+inoremap <silent><expr><C-Space> deoplete#mappings#manual_complete()
 imap <expr> <tab>   pumvisible() ? "\<c-n>" : "\<tab>"
 imap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<tab>"
 imap <expr> <cr>    pumvisible() ? deoplete#close_popup() : "\<cr>"
 
 nmap <C-g> :Goyo<CR>
+imap <C-g> :Goyo<CR>
