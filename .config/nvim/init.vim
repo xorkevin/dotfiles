@@ -40,12 +40,12 @@ let g:airline_theme='base16'
 "Deoplete
 set completeopt+=noinsert
 set completeopt+=noselect
+set completeopt-=preview
 
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#disable_auto_complete = 1
-inoremap <silent><expr><C-Space> deoplete#mappings#manual_complete()
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 let g:deoplete#enable_camel_case = 1
+inoremap <silent><expr><C-Space> deoplete#mappings#manual_complete()
 
 let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
