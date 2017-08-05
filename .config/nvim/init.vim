@@ -27,3 +27,4 @@ colorscheme base16-tomorrow-night
 let g:airline_theme='base16'
 
 map <C-\> :NERDTreeToggle<CR>
+nmap <C-p> <plug>(fzf-maps-n)
