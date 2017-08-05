@@ -41,6 +41,7 @@ let g:airline_theme='base16'
 let g:deoplete#enable_at_startup = 1
 
 let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 let g:deoplete#sources#go#use_cache = 1
 let g:deoplete#sources#go#json_directory = '~/.cache/deoplete/go/linux_amd64'
 
@@ -53,5 +54,9 @@ map <C-\> :NERDTreeToggle<CR>
 
 nmap <C-p> :Files<CR>
 nmap <C-o> :Buffers<CR>
+
+imap <expr> <tab>   pumvisible() ? "\<c-n>" : "\<tab>"
+imap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<tab>"
+imap <expr> <cr>    pumvisible() ? deoplete#close_popup() : "\<cr>"
 
 nmap <C-g> :Goyo<CR>
