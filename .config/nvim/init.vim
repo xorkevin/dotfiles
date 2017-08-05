@@ -24,6 +24,8 @@ set relativenumber
 set number
 set listchars=tab:>\ ,trail:.,extends:>,precedes:<,nbsp:␣
 set list
+set tabstop=2
+set shiftwidth=2
 
 "Colours
 if filereadable(expand("~/.vimrc_background"))
