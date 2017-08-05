@@ -16,6 +16,8 @@ Plug 'junegunn/limelight.vim'
 
 call plug#end()
 
+set updatetime=250
+
 set relativenumber
 set number
 
