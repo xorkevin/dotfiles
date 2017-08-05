@@ -55,7 +55,6 @@ autocmd! User GoyoLeave Limelight!
 
 "Keybindings
 nmap <C-\> :NERDTreeToggle<CR>
-imap <C-\> :NERDTreeToggle<CR>
 
 nmap <C-p> :Files<CR>
 nmap <C-o> :Buffers<CR>
@@ -66,4 +65,3 @@ imap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<tab>"
 imap <expr> <cr>    pumvisible() ? deoplete#close_popup() : "\<cr>"
 
 nmap <C-g> :Goyo<CR>
-imap <C-g> :Goyo<CR>
