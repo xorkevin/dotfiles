@@ -22,6 +22,8 @@ set updatetime=250
 
 set relativenumber
 set number
+set listchars=tab:>\ ,trail:.,extends:>,precedes:<,nbsp:␣
+set list
 
 "Colours
 if filereadable(expand("~/.vimrc_background"))
