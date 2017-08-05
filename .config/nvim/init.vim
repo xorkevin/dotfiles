@@ -11,6 +11,8 @@ Plug 'chriskempson/base16-vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
 
 call plug#end()
 
@@ -26,7 +28,12 @@ colorscheme base16-tomorrow-night
 
 let g:airline_theme='base16'
 
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
+
 map <C-\> :NERDTreeToggle<CR>
 
 nmap <C-p> :Files<CR>
 nmap <C-o> :Buffers<CR>
+
+nmap <C-g> :Goyo<CR>
