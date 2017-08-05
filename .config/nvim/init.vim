@@ -38,12 +38,15 @@ colorscheme base16-tomorrow-night
 let g:airline_theme='base16'
 
 "Deoplete
+set completeopt+=noinsert
+set completeopt+=noselect
+
 let g:deoplete#enable_at_startup = 1
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+let g:deoplete#enable_camel_case = 1
 
 let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
-let g:deoplete#sources#go#use_cache = 1
-let g:deoplete#sources#go#json_directory = '~/.cache/deoplete/go/linux_amd64'
 
 "Goyo
 autocmd! User GoyoEnter Limelight
