@@ -27,6 +27,8 @@ set list
 set tabstop=2
 set shiftwidth=2
 
+:autocmd VimResized * wincmd =
+
 "Colours
 if filereadable(expand("~/.vimrc_background"))
   let base16colorspace=256
