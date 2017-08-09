@@ -26,6 +26,7 @@ set listchars=tab:>\ ,trail:.,extends:>,precedes:<,nbsp:␣
 set list
 set tabstop=2
 set shiftwidth=2
+set expandtab
 
 :autocmd VimResized * wincmd =
 
