@@ -28,8 +28,7 @@ zstyle ':prezto:load' pmodule \
   'prompt' \
   'pacman' \
   'git' \
-  'node' \
-  'python'
+  'node'
 
 #
 # Autosuggestions
