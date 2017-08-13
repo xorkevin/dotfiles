@@ -5,6 +5,6 @@ xrdb -merge "${HOME}/.Xresources"
 urxvtd -q -o -f
 xmodmap "${HOME}/.xmodmap"
 xbindkeys
-feh --bg-fill "${HOME}/Pictures/Interstellar.jpg"
+feh --bg-fill "${HOME}/Pictures/bg"
 exec i3
 
