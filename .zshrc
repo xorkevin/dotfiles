@@ -24,6 +24,7 @@ alias vi="nvim"
 # Git
 alias gs="git status"
 alias gd="git diff"
+alias gds="git diff --stat"
 alias gp="git push"
 alias gl="git log"
 alias ga="git add -A"
