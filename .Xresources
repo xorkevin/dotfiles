@@ -2,6 +2,12 @@ URxvt.font: xft:Hack:size=8
 URxvt.scrollBar: false
 
 Xft.dpi: 96
+Xft.antialias: true
+Xft.autohint: 0
+Xft.hinting: true
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+Xft.rgba: rgb
 
 ! Base16 Tomorrow
 
