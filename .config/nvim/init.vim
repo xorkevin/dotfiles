@@ -59,6 +59,9 @@ autocmd! User GoyoLeave Limelight!
 "Keybindings
 nmap <C-\> :NERDTreeToggle<CR>
 
+nmap ga <Plug>(EasyAlign)
+xmap ga <Plug>(EasyAlign)
+
 nmap <C-p> :Files<CR>
 nmap <C-o> :Buffers<CR>
 
