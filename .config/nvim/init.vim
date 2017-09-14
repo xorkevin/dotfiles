@@ -1,3 +1,5 @@
+let mapleader = ';'
+
 "Plugins
 call plug#begin('~/.local/share/nvim/plugged')
 
@@ -15,8 +17,13 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
+Plug 'vimwiki/vimwiki'
 
 call plug#end()
+
+set nocompatible
+filetype plugin on
+syntax on
 
 set updatetime=250
 
