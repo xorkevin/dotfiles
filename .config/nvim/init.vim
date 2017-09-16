@@ -1,3 +1,11 @@
+let mapleader = ';'
+
+if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 "Plugins
 call plug#begin('~/.local/share/nvim/plugged')
 
@@ -15,8 +23,13 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
+Plug 'vimwiki/vimwiki'
 
 call plug#end()
+
+set nocompatible
+filetype plugin on
+syntax on
 
 set updatetime=250
 
