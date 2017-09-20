@@ -30,12 +30,13 @@ call plug#end()
 set nocompatible
 filetype plugin on
 syntax on
+set lazyredraw
 
-set updatetime=250
+set updatetime=500
 
 set relativenumber
 set number
-set listchars=tab:>\ ,trail:.,extends:>,precedes:<,nbsp:␣
+set listchars=tab:\|\ ,trail:.,extends:>,precedes:<,nbsp:␣
 set list
 set tabstop=2
 set shiftwidth=2
@@ -83,4 +84,5 @@ imap <expr> <tab>   pumvisible() ? "\<c-n>" : "\<tab>"
 imap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<tab>"
 imap <expr> <cr>    pumvisible() ? deoplete#close_popup() : "\<cr>"
 
-nmap <C-g> :Goyo<CR>
+nnoremap <leader><space> :nohlsearch<CR>
+nmap <leader>g :Goyo<CR>
