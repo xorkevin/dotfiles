@@ -84,5 +84,8 @@ imap <expr> <tab>   pumvisible() ? "\<c-n>" : "\<tab>"
 imap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<tab>"
 imap <expr> <cr>    pumvisible() ? deoplete#close_popup() : "\<cr>"
 
-nnoremap <leader><space> :nohlsearch<CR>
 nmap <leader>g :Goyo<CR>
+
+nnoremap <leader><space> :nohlsearch<CR>
+nnoremap <leader>d :bd<CR>
+nnoremap <leader>s :w<CR>
