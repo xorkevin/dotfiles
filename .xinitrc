@@ -5,6 +5,8 @@ xrandr --output DisplayPort-2 --auto --primary --pos 1920x0 --output HDMI-0 --au
 urxvtd -q -o -f
 xmodmap "${HOME}/.xmodmap"
 xbindkeys
+xset m 1 0
+xset s 600 600
+xset dpms 3600 3600 3600
 feh --bg-fill "${HOME}/Pictures/bg"
 exec i3
-
