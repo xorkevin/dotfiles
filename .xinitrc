@@ -5,6 +5,8 @@ xrdb -merge "${HOME}/.Xresources"
 urxvtd -q -o -f
 xmodmap "${HOME}/.xmodmap"
 xbindkeys
+xset m 1 0
+xset s 3600 3600
+xset dpms 3600 3600 3600
 feh --bg-fill "${HOME}/Pictures/bg"
 exec i3
-
