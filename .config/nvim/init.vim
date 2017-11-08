@@ -19,7 +19,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
 Plug 'fatih/vim-go'
-Plug 'zchee/deoplete-go', { 'do': 'make'}
+Plug 'zchee/deoplete-go', { 'do': 'make' }
+Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql'] }
 Plug 'chriskempson/base16-vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
@@ -69,6 +70,10 @@ let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 let g:deoplete#sources#go#pointer = 1
 
+"Prettier
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql Prettier
+
 "Goyo
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
@@ -88,6 +93,7 @@ imap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<tab>"
 imap <expr> <cr>    pumvisible() ? deoplete#close_popup() : "\<cr>"
 
 nmap <leader>g :Goyo<CR>
+nmap <Leader>py <Plug>(Prettier)
 
 nnoremap <leader><space> :nohlsearch<CR>
 nnoremap <leader>d :bd<CR>
