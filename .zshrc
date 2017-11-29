@@ -29,7 +29,7 @@ alias gdd="git diff --no-index"
 alias gp="git push"
 alias gl="git log"
 alias ga="git add -A"
-alias gc="git commit -m"
+alias gc="git commit"
 
 # Tmux
 alias tn="tmux new -s"
