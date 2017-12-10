@@ -13,7 +13,7 @@ fi
 BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
-alias xclip="xclip -selection c"
+alias clip="xclip -selection c"
 alias sx="maim -s ~/screenshot.png"
 alias sc="scrot -c -d 5 ~/screenshot.png"
 
