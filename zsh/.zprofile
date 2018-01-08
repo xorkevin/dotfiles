@@ -66,6 +66,6 @@ fi
 
 TMPPREFIX="${TMPDIR%/}/zsh"
 
-if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+if [[ ! $DISPLAY && $XDG_VTNR -eq 1 && ! $TMUX ]]; then
   exec startx
 fi
