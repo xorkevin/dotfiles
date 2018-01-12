@@ -27,7 +27,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
-Plug 'xorkevin/vimwiki-md-syntax'
+Plug 'vimwiki/vimwiki'
 
 call plug#end()
 
