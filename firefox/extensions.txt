@@ -1,0 +1,6 @@
+ublock
+vimium
+dark mode
+instapaper
+res
+bttv
