@@ -45,6 +45,7 @@ set list
 set tabstop=2
 set shiftwidth=2
 set expandtab
+set conceallevel=2
 
 :autocmd VimResized * wincmd =
 
