@@ -5,7 +5,6 @@ user_pref('privacy.history.custom', true);
 user_pref('privacy.popups.showBrowserMessage', false);
 user_pref('privacy.sanitize.migrateClearSavedPwdsOnExit', true);
 user_pref('privacy.trackingprotection.enabled', true);
-user_pref('privacy.trackingprotection.introCount', 20);
 user_pref('browser.selfsupport.enabled', false);
 
 // devtools
