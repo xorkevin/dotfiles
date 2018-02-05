@@ -49,7 +49,7 @@ user_pref('font.default.x-western', 'sans-serif');
 user_pref('font.name.monospace.x-western', 'Hack');
 user_pref('font.name.sans-serif.x-western', 'Lato');
 user_pref('font.name.serif.x-western', 'Source Serif Pro');
-user_pref('font.size.variable.x-western', 14);
+user_pref('font.size.variable.x-western', 18);
 
 // downloads
 user_pref('browser.download.autohideButton', false);
