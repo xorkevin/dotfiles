@@ -72,7 +72,7 @@
 /*! Begin color overrides */
 
 /*! End color overrides */
-@-moz-document url-prefix(about:)  {
+@-moz-document url-prefix(about:) {
   :root {
     --in-content-page-color: var(--primary-light-color) !important;
     --in-content-page-background: var(--dark-accent) !important;
@@ -92,15 +92,25 @@
     --in-content-category-text: var(--primary-light-color) !important;
     --in-content-category-text-active: var(--primary-light-color) !important;
     --in-content-category-text-selected: var(--primary-accent-color) !important;
-    --in-content-category-text-selected-active: var(--primary-accent-color-dark) !important;
-    --in-content-category-background-selected-hover: var(--primary-dark-color) !important;
-    --in-content-category-background-selected-active: var(--primary-dark-color) !important;
+    --in-content-category-text-selected-active: var(
+      --primary-accent-color-dark
+    ) !important;
+    --in-content-category-background-selected-hover: var(
+      --primary-dark-color
+    ) !important;
+    --in-content-category-background-selected-active: var(
+      --primary-dark-color
+    ) !important;
     --in-content-link-color: var(--primary-accent-color) !important;
     --in-content-link-color-hover: var(--primary-accent-color-dark) !important;
     --in-content-link-color-visited: var(--dark-accent) !important;
     --in-content-primary-button-background: var(--dark-accent) !important;
-    --in-content-primary-button-background-hover: var(--primary-accent-color-dark) !important;
-    --in-content-primary-button-background-active: var(--primary-accent-color-dark) !important;
+    --in-content-primary-button-background-hover: var(
+      --primary-accent-color-dark
+    ) !important;
+    --in-content-primary-button-background-active: var(
+      --primary-accent-color-dark
+    ) !important;
     --in-content-table-header-background: var(--dark-accent) !important;
     --in-content-category-background: var(--primary-dark-color) !important;
   }
@@ -145,7 +155,7 @@
     border: 0px !important;
   }
 
-@media screen and (-moz-windows-theme) {
+  @media screen and (-moz-windows-theme) {
     menupopup menu,
     menuitem {
       margin: 1px 6px 1px 6px !important;
@@ -157,12 +167,13 @@
     menupopup > menu > menupopup {
       border: 1px solid var(--dark-accent) !important;
     }
-}
+  }
 }
 
 /* Basic changes fundamental to all pages */
 
-@-moz-document regexp("^about:(?!reader).*"), url(https://www.mozilla.org/credits/)  {
+@-moz-document regexp('^about:(?!reader).*'),
+  url(https://www.mozilla.org/credits/) {
   html:not(#ublock0-epicker),
   html:not(#ublock0-epicker) body,
   #newtab-customize-overlay {
@@ -174,7 +185,7 @@
     color: var(--primary-accent-color) !important;
   }
 }
-@-moz-document url(about:)  {
+@-moz-document url(about:) {
   a:link {
     color: var(--primary-accent-color) !important;
   }
@@ -183,7 +194,7 @@
     border: none !important;
   }
 }
-@-moz-document url(about:accounts)  {
+@-moz-document url(about:accounts) {
   #stage {
     background: var(--dark-accent) !important;
   }
@@ -202,7 +213,7 @@
     background: var(--primary-accent-color-dark) !important;
   }
 }
-@-moz-document url(about:addons), url-prefix(about:debugging)  {
+@-moz-document url(about:addons), url-prefix(about:debugging) {
   .detail-view-container {
     color: var(--primary-light-color) !important;
   }
@@ -221,7 +232,7 @@
 
   page#addons-page,
   page.greasemonkey #greasemonkey-sort-bar,
-  #list-view[type="userstyle"] #addon-list-empty[hidden] ~ #userstyle-sorting,
+  #list-view[type='userstyle'] #addon-list-empty[hidden] ~ #userstyle-sorting,
   #addons-page .global-info-container,
   .alert,
   #nav-header,
@@ -263,7 +274,7 @@
     color: gray !important;
   }
 
-  .addon[active="false"] {
+  .addon[active='false'] {
     opacity: 0.4 !important;
   }
 
@@ -316,17 +327,20 @@
     color: var(--primary-light-color) !important;
   }
 
-  *|button,
+  button,
   menulist {
     -moz-appearance: none !important;
-    background: linear-gradient(var(--dark-accent), var(--dark-accent)) !important;
+    background: linear-gradient(
+      var(--dark-accent),
+      var(--dark-accent)
+    ) !important;
     border: 1px #444 solid !important;
     color: #999 !important;
     box-shadow: unset !important;
     text-decoration: unset !important;
   }
 
-  *|button:hover {
+  button:hover {
     color: var(--primary-light-color) !important;
     background: var(--dark-accent) !important;
   }
@@ -335,7 +349,7 @@
     display: none !important;
   }
 
-  .addon-view[notification="warning"] {
+  .addon-view[notification='warning'] {
     --view-highlight-color: transparent !important;
   }
 
@@ -343,7 +357,7 @@
     color: var(--primary-accent-color) !important;
   }
 
-  textbox[type="search"] {
+  textbox[type='search'] {
     color: var(--primary-light-color) !important;
     background: var(--mid-way-color) !important;
     border: 1px solid var(--light-accent-color) !important;
@@ -373,7 +387,7 @@
     border-top: 1px solid var(--primary-light-color) !important;
   }
 
-  input[type="checkbox"] {
+  input[type='checkbox'] {
     background: var(--light-accent-color) !important;
     border: none !important;
     box-shadow: none !important;
@@ -394,7 +408,7 @@
     fill: var(--primary-accent-color) !important;
   }
 }
-@-moz-document url(about:config)  {
+@-moz-document url(about:config) {
   /* Warning Message */
 
   #warningScreen,
@@ -437,7 +451,7 @@
   }
 }
 
-@-moz-document url(about:debugging)  {
+@-moz-document url(about:debugging) {
   .addon-target-container {
     background: var(--dark-accent) !important;
   }
@@ -452,7 +466,7 @@
     color: var(--primary-accent-color) !important;
   }
 }
-@-moz-document url(about:healthreport)  {
+@-moz-document url(about:healthreport) {
   .headerContainer {
     background: var(--primary-dark-color) !important;
     color: var(--primary-light-color) !important;
@@ -476,7 +490,7 @@
     color: var(--primary-light-color) !important;
   }
 }
-@-moz-document url(about:memory)  {
+@-moz-document url(about:memory) {
   div.opsRow {
     background-color: var(--dark-accent) !important;
   }
@@ -494,19 +508,20 @@
   color: var(--primary-accent-color) !important;
 }
 
-.toggle-container-with-text input[type="checkbox"] {
+.toggle-container-with-text input[type='checkbox'] {
   border: 1px solid var(--light-accent-color) !important;
   background-color: var(--mid-way-color) !important;
   background-image: none !important;
   box-shadow: none !important;
 }
 
-.toggle-container-with-text input[type="checkbox"]:checked {
-  background-image: url("chrome://global/skin/in-content/check.svg"), linear-gradient(var(--mid-way-color), var(--mid-way-color)) !important;
+.toggle-container-with-text input[type='checkbox']:checked {
+  background-image: url('chrome://global/skin/in-content/check.svg'),
+    linear-gradient(var(--mid-way-color), var(--mid-way-color)) !important;
   fill: var(--primary-accent-color) !important;
 }
 
-@-moz-document url(about:neterror)  {
+@-moz-document url(about:neterror) {
   /* about:neterror button */
 
   #errorTryAgain {
@@ -514,7 +529,7 @@
     color: var(--primary-light-color) !important;
   }
 }
-@-moz-document url-prefix(about:newtab), url(about:home)  {
+@-moz-document url-prefix(about:newtab), url(about:home) {
   .top-sites-list .top-site-outer .title span,
   .card-outer .card-context {
     color: var(--primary-light-color) !important;
@@ -542,7 +557,7 @@
   .top-sites-list .top-site-outer .context-menu-button,
   .card-outer .context-menu-button {
     background-color: var(--grey-20) !important;
-    background-image: url("chrome://browser/skin/page-action.svg") !important;
+    background-image: url('chrome://browser/skin/page-action.svg') !important;
     border: 1px solid var(--grey-20) !important;
     filter: invert(95%) !important;
     box-shadow: none !important;
@@ -616,16 +631,16 @@
 
   /* Check boxes */
 
-  .prefs-pane [type="checkbox"]:not(:checked) + label::before,
-  .prefs-pane [type="checkbox"]:checked + label::before {
+  .prefs-pane [type='checkbox']:not(:checked) + label::before,
+  .prefs-pane [type='checkbox']:checked + label::before {
     border: 1px solid var(--primary-light-color) !important;
     background: var(--mid-way-color) !important;
   }
 
   /* Check marks */
 
-  .prefs-pane [type="checkbox"]:not(:checked) + label::after,
-  .prefs-pane [type="checkbox"]:checked + label::after {
+  .prefs-pane [type='checkbox']:not(:checked) + label::after,
+  .prefs-pane [type='checkbox']:checked + label::after {
     fill: var(--primary-accent-color) !important;
   }
 
@@ -682,7 +697,7 @@
   }
 
   #onboarding-notification-close-btn {
-    filter: invert(65%)!important;
+    filter: invert(65%) !important;
   }
 
   .contentSearchHeader,
@@ -718,7 +733,7 @@
   }
 
   .snippet section {
-    color: #FFF !important;
+    color: #fff !important;
   }
 
   /* Background color of top site icons */
@@ -744,7 +759,7 @@
     background: var(--primary-dark-color) !important;
   }
 
-  input[type="text"] {
+  input[type='text'] {
     border: solid 1px var(--primary-light-color) !important;
     background: var(--light-accent-color) !important;
     color: var(--primary-light-color) !important;
@@ -752,7 +767,7 @@
 
   .actions button {
     background: var(--mid-way-color) !important;
-    border: 1px solid #B1B1B3;
+    border: 1px solid #b1b1b3;
     color: var(--primary-light-color) !important;
   }
 
@@ -770,13 +785,13 @@
 
   #onboarding-overlay-dialog,
   .onboarding-hidden,
-  #onboarding-tour-sync-page[data-login-state=logged-in] .show-on-logged-out,
-  #onboarding-tour-sync-page[data-login-state=logged-out] .show-on-logged-in {
+  #onboarding-tour-sync-page[data-login-state='logged-in'] .show-on-logged-out,
+  #onboarding-tour-sync-page[data-login-state='logged-out'] .show-on-logged-in {
     background: var(--primary-dark-color) !important;
     color: var(--primary-light-color) !important;
   }
 }
-@-moz-document url(about:performance)  {
+@-moz-document url(about:performance) {
   #subprocess-reports th {
     background-color: var(--primary-accent-color) !important;
     color: white !important;
@@ -787,7 +802,7 @@
     border-color: var(--primary-dark-color) !important;
   }
 }
-@-moz-document url(about:plugins)  {
+@-moz-document url(about:plugins) {
   th {
     background-color: var(--primary-accent-color-dark) !important;
   }
@@ -805,7 +820,7 @@
     color: var(--primary-accent-color) !important;
   }
 }
-@-moz-document url-prefix(about:preferences)  {
+@-moz-document url-prefix(about:preferences) {
   :root {
     --primary-accent-color-dark: var(--primary-accent-color);
   }
@@ -820,7 +835,7 @@
     background: var(--mid-way-color) !important;
   }
 
-  menulist:not([editable="true"]) > *.menulist-dropmarker {
+  menulist:not([editable='true']) > *.menulist-dropmarker {
     filter: invert(65%) !important;
   }
 
@@ -856,7 +871,7 @@
     background: var(--dark-accent) !important;
   }
 
-  #handlersView richlistitem[selected="true"] {
+  #handlersView richlistitem[selected='true'] {
     background: var(--primary-accent-color) !important;
     color: var(--primary-light-color) !important;
   }
@@ -880,7 +895,7 @@
     background: var(--primary-dark-color) !important;
   }
 }
-@-moz-document url(about:profiles)  {
+@-moz-document url(about:profiles) {
   /* Upper right box */
 
   #action-box {
@@ -904,7 +919,7 @@
     color: var(--primary-light-color) !important;
   }
 }
-@-moz-document url-prefix(about:reader)  {
+@-moz-document url-prefix(about:reader) {
   body.dark a:link {
     color: var(--primary-accent-color) !important;
   }
@@ -968,12 +983,12 @@
     box-shadow: inset 0 -3px 0 0 var(--primary-accent-color) !important;
   }
 }
-@-moz-document url(about:robots)  {
+@-moz-document url(about:robots) {
   #errorPageContainer {
     background-color: var(--dark-accent) !important;
   }
 }
-@-moz-document url(about:serviceworkers)  {
+@-moz-document url(about:serviceworkers) {
   .warningBackground {
     background: var(--primary-dark-color) !important;
   }
@@ -984,12 +999,12 @@
     color: var(--primary-light-color) !important;
   }
 }
-@-moz-document url(about:studies)  {
+@-moz-document url(about:studies) {
   .info-box-content {
     background-color: var(--dark-accent) !important;
   }
 }
-@-moz-document url(about:support)  {
+@-moz-document url(about:support) {
   :root {
     --primary-accent-color-dark: var(--primary-accent-color-darkest);
   }
@@ -1017,7 +1032,7 @@
     color: var(--primary-light-color) !important;
   }
 }
-@-moz-document url(about:url-classifier)  {
+@-moz-document url(about:url-classifier) {
   /* Upper right box */
 
   #action-box {
@@ -1039,7 +1054,7 @@
     color: var(--primary-light-color) !important;
   }
 }
-@-moz-document url(about:webrtc)  {
+@-moz-document url(about:webrtc) {
   #content > div {
     background: var(--dark-accent) !important;
   }
@@ -1051,7 +1066,7 @@
 /*! Alters the webextension Brief
   IMPORTANT: change the Internal UUID */
 
-@-moz-document url-prefix("moz-extension://brief_UUID/")  {
+@-moz-document url-prefix('moz-extension://brief_UUID/') {
   h2 {
     color: var(--primary-accent-color) !important;
   }
@@ -1061,7 +1076,7 @@
   }
 
   #custom-style-textbox,
-  input[type="number"],
+  input[type='number'],
   #clear-all-entries {
     -moz-appearance: none !important;
     background: var(--mid-way-color) !important;
@@ -1080,7 +1095,7 @@
 /*! Alters the webextension Cookie AutoDelete
   IMPORTANT: change the Internal UUID */
 
-@-moz-document url-prefix("moz-extension://cookie_autodelete_UUID/")  {
+@-moz-document url-prefix('moz-extension://cookie_autodelete_UUID/') {
   a {
     color: var(--primary-accent-color);
   }
@@ -1108,7 +1123,7 @@
     background-color: var(--mid-way-color) !important;
   }
 
-  input[type="number"],
+  input[type='number'],
   .form-control {
     -moz-appearance: none !important;
     background: var(--mid-way-color) !important;
@@ -1142,7 +1157,7 @@
 /*! Alters the webextension Dark Mode
   IMPORTANT: change the Internal UUID */
 
-@-moz-document url-prefix("moz-extension://dark_mode_UUID/")  {
+@-moz-document url-prefix('moz-extension://dark_mode_UUID/') {
   /* Headers */
 
   .comment {
@@ -1156,7 +1171,7 @@
 /*! Alters the webextension Decentraleyes
   IMPORTANT: change the Internal UUID */
 
-@-moz-document url-prefix("moz-extension://decentraleyes_UUID/")  {
+@-moz-document url-prefix('moz-extension://decentraleyes_UUID/') {
   body {
     background-color: var(--mid-way-color) !important;
     color: var(--primary-light-color) !important;
@@ -1175,7 +1190,7 @@
 /*! Alters the webextension HTTPS Everywhere
   IMPORTANT: change the Internal UUID */
 
-@-moz-document url-prefix("moz-extension://https_everywhere_UUID/")  {
+@-moz-document url-prefix('moz-extension://https_everywhere_UUID/') {
   body {
     color: var(--primary-light-color) !important;
     background: var(--mid-way-color) !important;
@@ -1196,7 +1211,7 @@
 /*! Alters the webextension Multi-Account Containers
   IMPORTANT: change the Internal UUID in BOTH locations */
 
-@-moz-document url-prefix("moz-extension://multi_account_containers_UUID/")  {
+@-moz-document url-prefix('moz-extension://multi_account_containers_UUID/') {
   html body div#container-panel.panel.container-panel,
   .column-panel-content {
     background: var(--mid-way-color) !important;
@@ -1285,13 +1300,13 @@
     color: var(--primary-light-color) !important;
   }
 
-  .edit-container-panel input[type="text"] {
+  .edit-container-panel input[type='text'] {
     background: var(--dark-accent) !important;
     color: var(--primary-light-color) !important;
     border: 1px solid var(--light-accent-color) !important;
   }
 
-  [data-identity-color="grey"] {
+  [data-identity-color='grey'] {
     --identity-icon-color: var(--primary-light-color) !important;
   }
 
@@ -1308,7 +1323,7 @@
 /*! Alters the webextension Multi-Account Containers
   IMPORTANT: change the Internal UUID in BOTH locations */
 
-@-moz-document url-prefix("moz-extension://multi_account_containers_UUID/confirm-page")  {
+@-moz-document url-prefix('moz-extension://multi_account_containers_UUID/confirm-page') {
   body {
     background-color: var(--primary-dark-color) !important;
   }
@@ -1340,14 +1355,14 @@
   }
 
   #never-ask:checked {
-    background-image: url("chrome://global/skin/in-content/check.svg") !important;
+    background-image: url('chrome://global/skin/in-content/check.svg') !important;
     background-color: var(--mid-way-color) !important;
   }
 }
 /*! Alters the webextension Multiple Tab Handler
   IMPORTANT: change the Internal UUID */
 
-@-moz-document url-prefix("moz-extension://multiple_tab_handler_UUID/")  {
+@-moz-document url-prefix('moz-extension://multiple_tab_handler_UUID/') {
   h1,
   p,
   ul,
@@ -1358,7 +1373,7 @@
 /*! Alters the webextension Neat URL
   IMPORTANT: change the Internal UUID */
 
-@-moz-document url-prefix("moz-extension://neat_url_UUID/")  {
+@-moz-document url-prefix('moz-extension://neat_url_UUID/') {
   label,
   h2,
   body {
@@ -1391,7 +1406,7 @@
 /*! Alters the webextension NoScript
   IMPORTANT: change the Internal UUID */
 
-@-moz-document url-prefix("moz-extension://noscript_UUID/")  {
+@-moz-document url-prefix('moz-extension://noscript_UUID/') {
   body {
     background: var(--mid-way-color) !important;
   }
@@ -1408,9 +1423,9 @@
     background-color: var(--mid-way-color) !important;
   }
 
-  .site .url[data-key="secure"] .domain,
-  .site .url[data-key="secure"] .sub,
-  .site .url[data-key="full"] span {
+  .site .url[data-key='secure'] .domain,
+  .site .url[data-key='secure'] .sub,
+  .site .url[data-key='full'] span {
     color: var(--primary-light-color) !important;
   }
 
@@ -1418,7 +1433,7 @@
     background: var(--mid-way-color) !important;
   }
 
-  .sites > tr:nth-child(2n+1) {
+  .sites > tr:nth-child(2n + 1) {
     background: var(--primary-dark-color) !important;
   }
 
@@ -1437,7 +1452,7 @@
   }
 
   button,
-  input[type="text"] {
+  input[type='text'] {
     -moz-appearance: none !important;
     background-color: var(--primary-dark-color) !important;
     border: 1px solid var(--light-accent-color) !important;
@@ -1497,7 +1512,7 @@
 /*! Alters the webextension Request Control
   IMPORTANT: change the Internal UUID */
 
-@-moz-document url-prefix("moz-extension://request_control_UUID/")  {
+@-moz-document url-prefix('moz-extension://request_control_UUID/') {
   body {
     background-color: var(--primary-dark-color) !important;
     color: var(--primary-light-color) !important;
@@ -1555,7 +1570,7 @@
     background: var(--mid-way-color) !important;
   }
 
-  .table-striped > tbody > tr:nth-of-type(2n+1) {
+  .table-striped > tbody > tr:nth-of-type(2n + 1) {
     background-color: var(--dark-accent) !important;
   }
 
@@ -1587,15 +1602,15 @@
 /*! Alters the webextension Skip Redirect
   IMPORTANT: change the Internal UUID */
 
-@-moz-document url-prefix("moz-extension://skip_redirect_UUID/")  {
+@-moz-document url-prefix('moz-extension://skip_redirect_UUID/') {
   body {
     background: var(--mid-way-color) !important;
     color: var(--primary-light-color) !important;
   }
 
   textarea,
-  input[type="text"],
-  input[type="number"] {
+  input[type='text'],
+  input[type='number'] {
     -moz-appearance: none !important;
     background: var(--light-accent-color) !important;
     color: var(--grey-30) !important;
@@ -1608,14 +1623,14 @@
 /*! Alters the webextension Smart HTTPS
   IMPORTANT: change the Internal UUID */
 
-@-moz-document url-prefix("moz-extension://smart_https_UUID/")  {
+@-moz-document url-prefix('moz-extension://smart_https_UUID/') {
   body {
     background-color: var(--mid-way-color) !important;
     color: var(--primary-light-color) !important;
   }
 
-  .information input[type="number"],
-  input[type="text"] {
+  .information input[type='number'],
+  input[type='text'] {
     -moz-appearance: none !important;
     background: var(--mid-way-color) !important;
     color: var(--primary-light-color) !important;
@@ -1629,13 +1644,13 @@
 /*! Alters the webextension Tab Suspender (memory saver)
   IMPORTANT: change the Internal UUID */
 
-@-moz-document url-prefix("moz-extension://tab_suspender_UUID/")  {
+@-moz-document url-prefix('moz-extension://tab_suspender_UUID/') {
   label,
   body {
     color: var(--primary-light-color) !important;
   }
 
-  input[type="number"],
+  input[type='number'],
   textarea {
     -moz-appearance: none !important;
     background: var(--mid-way-color) !important;
@@ -1656,7 +1671,7 @@
 /*! Alters the webextension Tree Style Tab
   IMPORTANT: change the Internal UUID in BOTH locations */
 
-@-moz-document url-prefix("moz-extension://tree_style_tab_UUID/")  {
+@-moz-document url-prefix('moz-extension://tree_style_tab_UUID/') {
   p,
   ul {
     color: var(--primary-light-color) !important;
@@ -1701,7 +1716,7 @@
 /*! Alters the webextension Tree Style Tab
   IMPORTANT: change the Internal UUID in BOTH locations */
 
-@-moz-document url-prefix("moz-extension://tree_style_tab_UUID/resources/group-tab.html")  {
+@-moz-document url-prefix('moz-extension://tree_style_tab_UUID/resources/group-tab.html') {
   :root {
     background: var(--primary-dark-color) !important;
     color: ButtonText;
@@ -1714,7 +1729,7 @@
 /*! Alters the webextension uBlock Origin
   IMPORTANT: change the Internal UUID */
 
-@-moz-document url-prefix("moz-extension://ublock_origin_UUID/")  {
+@-moz-document url-prefix('moz-extension://ublock_origin_UUID/') {
   /* header */
 
   #appinfo {
@@ -1724,7 +1739,7 @@
 
   /* Right Column */
 
-  body[dir="ltr"] #panes > div {
+  body[dir='ltr'] #panes > div {
     background: var(--primary-dark-color) !important;
     color: var(--primary-light-color) !important;
   }
@@ -1755,7 +1770,7 @@
 
   a.info {
     color: var(--primary-light-color) !important;
-    opacity: .5;
+    opacity: 0.5;
   }
 
   li.listEntry span.status {
@@ -1824,21 +1839,36 @@
   /* Darker Red */
 
   body.advancedUser #firewallContainer > div > span.blockRule.ownRule,
-  #netFilteringDialog .dialog > div.containers > div.dynamic tr.entry > td > div.action.own.block {
+  #netFilteringDialog
+    .dialog
+    > div.containers
+    > div.dynamic
+    tr.entry
+    > td
+    > div.action.own.block {
     background-color: #ab0000 !important;
   }
 
   /* Lighter Red */
 
   body.advancedUser #firewallContainer > div > span.blockRule,
-  #netFilteringDialog .dialog > div.containers > div.dynamic tr.entry > td > div.action > span.block {
+  #netFilteringDialog
+    .dialog
+    > div.containers
+    > div.dynamic
+    tr.entry
+    > td
+    > div.action
+    > span.block {
     background-color: #dda0a2 !important;
   }
 
   /* Before Red */
 
   #firewallContainer > div.blocked > span:first-of-type::before,
-  #firewallContainer.minimized > div.isDomain.totalBlocked > span:first-of-type::before {
+  #firewallContainer.minimized
+    > div.isDomain.totalBlocked
+    > span:first-of-type::before {
     background-color: #c87576 !important;
     opacity: 1 !important;
   }
@@ -1846,21 +1876,36 @@
   /* Darker Green */
 
   body.advancedUser #firewallContainer > div > span.allowRule.ownRule,
-  #netFilteringDialog .dialog > div.containers > div.dynamic tr.entry > td > div.action.own.allow {
+  #netFilteringDialog
+    .dialog
+    > div.containers
+    > div.dynamic
+    tr.entry
+    > td
+    > div.action.own.allow {
     background-color: #229400 !important;
   }
 
   /* Lighter Green */
 
   body.advancedUser #firewallContainer > div > span.allowRule,
-  #netFilteringDialog .dialog > div.containers > div.dynamic tr.entry > td > div.action > span.allow {
+  #netFilteringDialog
+    .dialog
+    > div.containers
+    > div.dynamic
+    tr.entry
+    > td
+    > div.action
+    > span.allow {
     background-color: #95ca8a !important;
   }
 
   /* Before Green */
 
   #firewallContainer > div.allowed > span:first-of-type::before,
-  #firewallContainer.minimized > div.isDomain.totalAllowed > span:first-of-type::before {
+  #firewallContainer.minimized
+    > div.isDomain.totalAllowed
+    > span:first-of-type::before {
     background-color: #7ec26f !important;
     opacity: 1 !important;
   }
@@ -1868,7 +1913,13 @@
   /* Darker Blue */
 
   body.advancedUser #firewallContainer > div > span.noopRule.ownRule,
-  #netFilteringDialog .dialog > div.containers > div.dynamic tr.entry > td > div.action.own.noop {
+  #netFilteringDialog
+    .dialog
+    > div.containers
+    > div.dynamic
+    tr.entry
+    > td
+    > div.action.own.noop {
     background-color: #0c46a7 !important;
   }
 
@@ -1881,14 +1932,23 @@
   /* Lighter Blue */
 
   body.advancedUser #firewallContainer > div > span.noopRule,
-  #netFilteringDialog .dialog > div.containers > div.dynamic tr.entry > td > div.action > span.noop {
+  #netFilteringDialog
+    .dialog
+    > div.containers
+    > div.dynamic
+    tr.entry
+    > td
+    > div.action
+    > span.noop {
     background-color: #65bdfb !important;
   }
 
   /* Before Yellow */
 
   #firewallContainer > div.allowed.blocked > span:first-of-type::before,
-  #firewallContainer.minimized > div.isDomain.totalAllowed.totalBlocked > span:first-of-type::before {
+  #firewallContainer.minimized
+    > div.isDomain.totalAllowed.totalBlocked
+    > span:first-of-type::before {
     background-color: #cdc16e !important;
     opacity: 1 !important;
   }
@@ -1897,7 +1957,10 @@
 
   /* Dark Block Color */
 
-  body.advancedUser #firewallContainer.colorBlind > div > span.blockRule.ownRule {
+  body.advancedUser
+    #firewallContainer.colorBlind
+    > div
+    > span.blockRule.ownRule {
     background-color: #000060 !important;
   }
 
@@ -1909,7 +1972,10 @@
 
   /* Dark Allow */
 
-  body.advancedUser #firewallContainer.colorBlind > div > span.allowRule.ownRule {
+  body.advancedUser
+    #firewallContainer.colorBlind
+    > div
+    > span.allowRule.ownRule {
     background-color: #fbb900 !important;
   }
 
@@ -1921,7 +1987,10 @@
 
   /* Dark Noop */
 
-  body.advancedUser #firewallContainer.colorBlind > div > span.noopRule.ownRule {
+  body.advancedUser
+    #firewallContainer.colorBlind
+    > div
+    > span.noopRule.ownRule {
     background-color: #2f2e2e !important;
   }
 
@@ -1934,14 +2003,18 @@
   /* Yellow Side */
 
   #firewallContainer.colorBlind > div.allowed > span:first-of-type::before,
-  #firewallContainer.colorBlind.minimized > div.isDomain.totalAllowed > span:first-of-type::before {
+  #firewallContainer.colorBlind.minimized
+    > div.isDomain.totalAllowed
+    > span:first-of-type::before {
     background-color: #ebd287 !important;
   }
 
   /* Blue Side */
 
   #firewallContainer.colorBlind > div.blocked > span:first-of-type::before,
-  #firewallContainer.colorBlind.minimized > div.isDomain.totalBlocked > span:first-of-type::before {
+  #firewallContainer.colorBlind.minimized
+    > div.isDomain.totalBlocked
+    > span:first-of-type::before {
     background-color: #787cab !important;
   }
 
@@ -1962,8 +2035,8 @@
     border-bottom: 1px solid var(--primary-dark-color) !important;
   }
 
-  input[type="number"] {
-    -moz-appearance: none!important;
+  input[type='number'] {
+    -moz-appearance: none !important;
     background-color: var(--mid-way-color) !important;
     color: var(--primary-light-color) !important;
   }
@@ -1998,7 +2071,7 @@
 
   textarea#userFilters.userFilters,
   textarea#externalLists {
-    -moz-appearance: none!important;
+    -moz-appearance: none !important;
     background: var(--mid-way-color) !important;
     color: var(--primary-light-color) !important;
   }
@@ -2020,8 +2093,8 @@
   }
 
   #netInspector tr.blocked {
-    background-color: rgb(75,49,55) !important;
-    color: rgb(255,148,148) !important;
+    background-color: rgb(75, 49, 55) !important;
+    color: rgb(255, 148, 148) !important;
   }
 
   #netInspector #filterInput,
@@ -2035,8 +2108,8 @@
 
   #netInspector tr.cosmetic,
   #netInspector tr.redirect {
-    background-color: rgb(68,57,31) !important;
-    color: rgb(252,225,159) !important;
+    background-color: rgb(68, 57, 31) !important;
+    color: rgb(252, 225, 159) !important;
   }
 
   body:not(.popupOn) #netInspector tr.canMtx td:nth-of-type(2):hover,
@@ -2065,11 +2138,21 @@
     border-color: var(--light-accent-color) !important;
   }
 
-  #netFilteringDialog .dialog > div.containers > div.dynamic tr.entry > td:first-of-type {
+  #netFilteringDialog
+    .dialog
+    > div.containers
+    > div.dynamic
+    tr.entry
+    > td:first-of-type {
     border-color: var(--light-accent-color) !important;
   }
 
-  #netFilteringDialog .dialog > div.containers > div.dynamic > table.toolbar #saveRules {
+  #netFilteringDialog
+    .dialog
+    > div.containers
+    > div.dynamic
+    > table.toolbar
+    #saveRules {
     background-color: var(--mid-way-color) !important;
     border: none !important;
   }
@@ -2086,7 +2169,7 @@
 /*! Alters the webextension uBO-Scope
   IMPORTANT: change the Internal UUID */
 
-@-moz-document url-prefix("moz-extension://ubo_scope_UUID/")  {
+@-moz-document url-prefix('moz-extension://ubo_scope_UUID/') {
   body {
     background: var(--mid-way-color) !important;
   }
@@ -2143,8 +2226,8 @@
 /*! Alters the webextension uMatrix
   IMPORTANT: change the Internal UUID */
 
-@-moz-document url-prefix("moz-extension://umatrix_UUID/")  {
-  body[dir="ltr"] {
+@-moz-document url-prefix('moz-extension://umatrix_UUID/') {
+  body[dir='ltr'] {
     background-color: var(--primary-dark-color) !important;
     color: var(--primary-light-color) !important;
   }
@@ -2264,7 +2347,7 @@
     color: var(--primary-light-color) !important;
   }
 
-  body[dir="ltr"] #gotoDashboard > span:last-of-type {
+  body[dir='ltr'] #gotoDashboard > span:last-of-type {
     color: var(--primary-light-color) !important;
   }
 
@@ -2363,7 +2446,7 @@
     background-color: var(--mid-way-color) !important;
   }
 
-  #content table tr:nth-of-type(2n+1) {
+  #content table tr:nth-of-type(2n + 1) {
     background-color: var(--primary-dark-color) !important;
   }
 
@@ -2394,7 +2477,7 @@
 /*! Alters the webextension Vim Vixen
   IMPORTANT: change the Internal UUID */
 
-@-moz-document url-prefix("moz-extension://vim_vixen_UUID/")  {
+@-moz-document url-prefix('moz-extension://vim_vixen_UUID/') {
   /* Top Border */
 
   .vimvixen-console-command-wrapper {
@@ -2431,15 +2514,15 @@
   }
 
   .vimvixen-console-completion-item.vimvixen-completion-selected {
-    background-color: rgb(68,57,31) !important;
-    color: rgb(252,225,159) !important;
+    background-color: rgb(68, 57, 31) !important;
+    color: rgb(252, 225, 159) !important;
   }
 
   /* Error Message */
 
   .vimvixen-console-error {
-    background-color: rgb(75,49,55) !important;
-    color: rgb(255,148,148) !important;
+    background-color: rgb(75, 49, 55) !important;
+    color: rgb(255, 148, 148) !important;
   }
 
   /* Settings page in about:addons */
@@ -2449,7 +2532,7 @@
     color: var(--primary-light-color) !important;
   }
 
-  .vimvixen-settings-form textarea[name="json"] {
+  .vimvixen-settings-form textarea[name='json'] {
     background-color: var(--mid-way-color) !important;
     -moz-appearance: none !important;
     color: var(--primary-light-color) !important;
@@ -2461,7 +2544,7 @@
     background: var(--primary-accent-color-dark);
   }
 }
-@-moz-document url-prefix("https://addons.mozilla.org")  {
+@-moz-document url-prefix('https://addons.mozilla.org') {
   /* Header & Footer */
 
   .Header,
@@ -2506,7 +2589,9 @@
   .Card--photon .Card-contents,
   .Card-footer-link,
   .MetadataCard,
-  .AddonDescription-more-addons:not(.AddonDescription-more-addons--theme) .Card-contents .AddonsCard-list,
+  .AddonDescription-more-addons:not(.AddonDescription-more-addons--theme)
+    .Card-contents
+    .AddonsCard-list,
   .AddonDescription-more-addons--theme .Card-contents .AddonsCard-list,
   .Search .SearchResults .SearchResult,
   .SearchForm-suggestions-item.SearchForm-suggestions-item,
@@ -2535,8 +2620,7 @@
   .AddonBadges .Badge,
   .Addon-author,
   .Addon-author a,
-  .Addon-author a:link
-	.Button--action,
+  .Addon-author a:link .Button--action,
   .Button--action:link,
   .Button--action.Button--small:link,
   .Button--action,
@@ -2559,7 +2643,10 @@
   }
 
   .ShowMoreCard-contents::after {
-    background: linear-gradient(rgba(255, 255, 255, 0), var(--mid-way-color)) !important;
+    background: linear-gradient(
+      rgba(255, 255, 255, 0),
+      var(--mid-way-color)
+    ) !important;
   }
 
   .Home-SubjectShelf-link:active,
@@ -2618,7 +2705,7 @@
     filter: invert(85%) !important;
   }
 }
-@-moz-document url-prefix(file:///)  {
+@-moz-document url-prefix('file:///') {
   :root {
     background-color: var(--mid-way-color) !important;
   }
@@ -2644,43 +2731,43 @@
     color: var(--primary-accent-color) !important;
   }
 }
-@-moz-document regexp("^moz-extension://.*manifest.json$")  {
+@-moz-document regexp('^moz-extension://.*manifest.json$') {
   html {
     background: var(--primary-dark-color) !important;
     color: var(--primary-light-color) !important;
   }
 }
-@-moz-document regexp(".*\\.(p|P)(d|D)(f|F).*")  {
+@-moz-document regexp('.*\\.(p|P)(d|D)(f|F).*') {
   .dropdownToolbarButton > select > option,
   .overlayButton,
   .secondaryToolbarButton,
   body,
   div#viewer {
-    background-color: var(--mid-way-color)!important;
+    background-color: var(--mid-way-color) !important;
   }
 
   body {
-    background-image: none!important;
+    background-image: none !important;
   }
 
   .splitToolbarButtonSeparator,
   .verticalToolbarSeparator {
-    box-shadow: none!important;
-    background-color: var(--mid-way-color)!important;
+    box-shadow: none !important;
+    background-color: var(--mid-way-color) !important;
   }
 
   div#toolbarViewer {
-    background-color: var(--dark-accent)!important;
+    background-color: var(--dark-accent) !important;
   }
 
   #numPages,
   #pageNumber,
   #scaleSelect {
-    color: var(--primary-light-color)!important;
+    color: var(--primary-light-color) !important;
   }
 
   .pdfViewer .page {
-    border-image: none!important;
+    border-image: none !important;
   }
 
   #pageNumber,
@@ -2697,88 +2784,88 @@
   }
 
   #sidebarContainer {
-    background-color: var(--primary-dark-color)!important;
+    background-color: var(--primary-dark-color) !important;
   }
 
   #toolbarSidebar {
-    background-color: var(--dark-accent)!important;
-    background-image: none!important;
+    background-color: var(--dark-accent) !important;
+    background-image: none !important;
   }
 
   .doorHanger,
   .doorHangerRight {
-    border: 1px solid!important;
-    box-shadow: none!important;
+    border: 1px solid !important;
+    box-shadow: none !important;
   }
 
   #toolbarContainer,
   .findbar,
   .secondaryToolbar {
-    background-color: var(--mid-way-color)!important;
-    background-image: none!important;
+    background-color: var(--mid-way-color) !important;
+    background-image: none !important;
   }
 
   .dropdownToolbarButton,
   .overlayButton,
   .secondaryToolbarButton,
   .toolbarButton {
-    border: none!important;
-    color: var(--primary-light-color)!important;
+    border: none !important;
+    color: var(--primary-light-color) !important;
   }
 
   .dropdownToolbarButton,
   .overlayButton,
   .toolbarButton:focus,
   .toolbarButton:hover {
-    background-color: var(--mid-way-color)!important;
-    background-image: none!important;
-    border: none!important;
-    box-shadow: none!important;
+    background-color: var(--mid-way-color) !important;
+    background-image: none !important;
+    border: none !important;
+    box-shadow: none !important;
   }
 
   .secondaryToolbarButton:focus,
   .secondaryToolbarButton:hover {
-    background-color: var(--primary-dark-color)!important;
-    background-image: none!important;
-    box-shadow: none!important;
+    background-color: var(--primary-dark-color) !important;
+    background-image: none !important;
+    box-shadow: none !important;
   }
 
   .secondaryToolbarButton::before,
   .toolbarButton::before {
-    filter: invert(20%)!important;
+    filter: invert(20%) !important;
   }
 
   .secondaryToolbarButton.toggled,
   .splitToolbarButton.toggled > .toolbarButton.toggled,
   .toolbarButton.toggled {
-    background-color: var(--primary-dark-color)!important;
-    background-image: none!important;
-    box-shadow: none!important;
-    color: #fff!important;
+    background-color: var(--primary-dark-color) !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    color: #fff !important;
   }
 
   .horizontalToolbarSeparator {
-    background-color: var(--light-accent-color)!important;
-    box-shadow: none!important;
+    background-color: var(--light-accent-color) !important;
+    box-shadow: none !important;
   }
 
   .dropdownToolbarButton > select,
   .toolbarField {
-    background: var(--mid-way-color)!important;
+    background: var(--mid-way-color) !important;
   }
 
   #loadingBar .progress {
-    background-color: var(--mid-way-color)!important;
+    background-color: var(--mid-way-color) !important;
   }
 }
-@-moz-document url-prefix(https://raw.githubusercontent.com)  {
+@-moz-document url-prefix('https://raw.githubusercontent.com') {
   html {
     background: var(--primary-dark-color) !important;
     color: var(--primary-light-color) !important;
   }
 }
-@-moz-document url-prefix(view-source)  {
-  *|*:root {
+@-moz-document url-prefix(view-source) {
+  *:root {
     background-color: var(--primary-dark-color) !important;
     color: var(--primary-light-color) !important;
   }
@@ -2801,7 +2888,7 @@
   }
 
   .highlight .cdata {
-    color: #CC0066 !important;
+    color: #cc0066 !important;
   }
 
   .highlight .doctype {
@@ -2830,8 +2917,9 @@
   }
 
   .highlight .error,
-  .highlight .error > :-moz-any(.start-tag, .end-tag, .comment, .cdata, .doctype,
-	                              .pi, .entity, .attribute-name, .attribute-value) {
+  .highlight
+    .error
+    > :-moz-any(.start-tag, .end-tag, .comment, .cdata, .doctype, .pi, .entity, .attribute-name, .attribute-value) {
     color: #de7474 !important;
   }
 }

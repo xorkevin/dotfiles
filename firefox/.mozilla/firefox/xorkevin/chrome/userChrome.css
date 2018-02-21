@@ -72,7 +72,7 @@
 /*! Begin color overrides */
 
 /*! End color overrides */
-@-moz-document url(chrome://browser/content/aboutDialog.xul)  {
+@-moz-document url(chrome://browser/content/aboutDialog.xul) {
   #clientBox {
     color: var(--primary-light-color) !important;
     background-color: var(--primary-dark-color) !important;
@@ -111,13 +111,16 @@
 }
 
 #editBMPanel_folderTree treechildren:not(.autocomplete-treebody)::-moz-tree-row,
-#editBMPanel_tagsSelector treechildren:not(.autocomplete-treebody)::-moz-tree-row {
+#editBMPanel_tagsSelector
+  treechildren:not(.autocomplete-treebody)::-moz-tree-row {
   background: var(--mid-way-color) !important;
   color: var(--primary-light-color) !important;
 }
 
-#editBMPanel_folderTree treechildren:not(.autocomplete-treebody)::-moz-tree-row(hover),
-#editBMPanel_tagsSelector treechildren:not(.autocomplete-treebody)::-moz-tree-row(hover) {
+#editBMPanel_folderTree
+  treechildren:not(.autocomplete-treebody)::-moz-tree-row(hover),
+#editBMPanel_tagsSelector
+  treechildren:not(.autocomplete-treebody)::-moz-tree-row(hover) {
   background: var(--dark-accent) !important;
   color: var(--primary-accent-color) !important;
   -moz-border-top-colors: var(--dark-accent) !important;
@@ -138,16 +141,18 @@
 
 /* Selected, in focus */
 
-#editBMPanel_folderTree treechildren:not(.autocomplete-treebody)::-moz-tree-row(selected, current, focus) {
+#editBMPanel_folderTree
+  treechildren:not(.autocomplete-treebody)::-moz-tree-row(selected, current, focus) {
   background: var(--primary-accent-color) !important;
 }
 
-listitem[selected="true"] {
+listitem[selected='true'] {
   background-color: var(--primary-accent-color) !important;
   color: white !important;
 }
 
-#editBMPanel_folderTree treechildren:not(.autocomplete-treebody)::-moz-tree-row(selected, current) {
+#editBMPanel_folderTree
+  treechildren:not(.autocomplete-treebody)::-moz-tree-row(selected, current) {
   background: var(--primary-accent-color) !important;
 }
 
@@ -161,7 +166,7 @@ listitem[selected="true"] {
   border: 1px solid var(--light-accent-color) !important;
   box-shadow: none !important;
 }
-@-moz-document url("chrome://global/content/commonDialog.xul")  {
+@-moz-document url('chrome://global/content/commonDialog.xul') {
   #commonDialog {
     -moz-appearance: none !important;
     background: var(--primary-dark-color) !important;
@@ -176,8 +181,8 @@ listitem[selected="true"] {
   --panel-separator-color: var(--mid-way-color) !important;
 }
 
-#urlbar[focused=true],
-.searchbar-textbox[focused=true] {
+#urlbar[focused='true'],
+.searchbar-textbox[focused='true'] {
   border: 1px solid var(--primary-accent-color) !important;
   box-shadow: 0 1px 4px var(--primary-accent-color) !important;
 }
@@ -206,20 +211,20 @@ treechildren.searchbar-treebody::-moz-tree-row(hover) {
   color: var(--primary-light-color) !important;
 }
 
-.autocomplete-richlistitem[selected=true] {
+.autocomplete-richlistitem[selected='true'] {
   background-color: var(--primary-accent-color) !important;
 }
 
-.autocomplete-richlistitem[selected=true] .ac-title,
+.autocomplete-richlistitem[selected='true'] .ac-title,
 .ac-title[selected],
-.autocomplete-richlistitem[selected=true] .ac-action,
+.autocomplete-richlistitem[selected='true'] .ac-action,
 .ac-action[selected],
-.autocomplete-richlistitem[selected=true] .ac-separator,
+.autocomplete-richlistitem[selected='true'] .ac-separator,
 .ac-separator[selected] {
   color: white !important;
 }
 
-.autocomplete-richlistitem[selected=true] .ac-url,
+.autocomplete-richlistitem[selected='true'] .ac-url,
 .ac-url[selected] {
   color: white !important;
 }
@@ -253,8 +258,8 @@ treechildren.searchbar-treebody::-moz-tree-row(hover) {
 
 /* Searchbar */
 
-panel[type="autocomplete"],
-panel[type="autocomplete-richlistbox"],
+panel[type='autocomplete'],
+panel[type='autocomplete-richlistbox'],
 .autocomplete-history-popup {
   color: var(--primary-light-color) !important;
   background: var(--primary-dark-color) !important;
@@ -271,7 +276,7 @@ panel[type="autocomplete-richlistbox"],
 }
 
 .searchbar-treebody::-moz-tree-row(hover) {
-  background-color: background-color: var(--primary-dark-color) !important;
+  background-color: var(--primary-dark-color) !important;
 }
 
 .searchbar-treebody::-moz-tree-row(selected) {
@@ -287,7 +292,7 @@ menupopup scrollbox {
   -moz-appearance: none !important;
   background: var(--mid-way-color) !important;
   border: none !important;
-  padding: 0px 0px 0px 0px  !important;
+  padding: 0px 0px 0px 0px !important;
 }
 
 /* More options right arrow */
@@ -325,30 +330,30 @@ menupopup menuseparator {
 
 /* Context menu, display disabled items in a different colour */
 
-menu[disabled="true"],
-menuitem[disabled="true"] {
+menu[disabled='true'],
+menuitem[disabled='true'] {
   color: var(--light-accent-color) !important;
 }
 
-menu[disabled="true"]:hover,
-menuitem:hover[disabled="true"] {
+menu[disabled='true']:hover,
+menuitem:hover[disabled='true'] {
   color: var(--light-accent-color) !important;
   background-color: var(--primary-dark-color) !important;
 }
 
-#context-navigation menuitem[disabled="true"] {
+#context-navigation menuitem[disabled='true'] {
   color: var(--light-accent-color) !important;
 }
 
-#context-navigation menuitem:hover[disabled="true"] {
+#context-navigation menuitem:hover[disabled='true'] {
   color: var(--light-accent-color) !important;
   background-color: var(--dark-accent) !important;
 }
 
 menupopup menu:hover,
 menuitem:hover,
-menu[_moz-menuactive="true"],
-menuitem[_moz-menuactive="true"] {
+menu[_moz-menuactive='true'],
+menuitem[_moz-menuactive='true'] {
   color: var(--grey-10) !important;
   background-color: var(--dark-accent) !important;
 }
@@ -379,11 +384,11 @@ vbox#sidebar-box.chromeclass-extrachrome {
  * only noticed on Windows computers */
 
 @media screen and (-moz-windows-theme),
-       screen and (-moz-windows-classic),
-       screen and (-moz-windows-default-theme),
-       screen and (-moz-os-version: windows-win7),
-       screen and (-moz-os-version: windows-win8),
-       screen and (-moz-os-version: windows-win10) {
+  screen and (-moz-windows-classic),
+  screen and (-moz-windows-default-theme),
+  screen and (-moz-os-version: windows-win7),
+  screen and (-moz-os-version: windows-win8),
+  screen and (-moz-os-version: windows-win10) {
   /* Remove white separators between menu items */
 
   menupopup menuseparator {
@@ -402,7 +407,7 @@ vbox#sidebar-box.chromeclass-extrachrome {
   /* Bookmark Toolbar, fix border */
 
   #BMB_bookmarksPopup menupopup {
-    padding: 4px 0px 0px 0px  !important;
+    padding: 4px 0px 0px 0px !important;
   }
 
   /* Context menus, border added because Windows has a different drop shadow effect than macOS */
@@ -410,10 +415,10 @@ vbox#sidebar-box.chromeclass-extrachrome {
   #personal-bookmarks menupopup,
   .panel-arrowcontent,
   .box-inherit scrollbox-innerbox,
-  #BMB_bookmarksPopup menupopup[placespopup="true"] > hbox,
+  #BMB_bookmarksPopup menupopup[placespopup='true'] > hbox,
   menupopup#BMB_bookmarksPopup > menu > menupopup > hbox,
   menupopup#bookmarksMenuPopup > menu > menupopup,
-  menupopup#bookmarksMenuPopup menupopup[placespopup="true"],
+  menupopup#bookmarksMenuPopup menupopup[placespopup='true'],
   menupopup#contentAreaContextMenu,
   menupopup#contentAreaContextMenu menupopup,
   menupopup#placesContext,
@@ -451,7 +456,7 @@ vbox#sidebar-box.chromeclass-extrachrome {
 
   menupopup,
   menupopup > menu > menupopup {
-    padding: 4px 0px 4px 0px  !important;
+    padding: 4px 0px 4px 0px !important;
   }
 
   /* Menus, text size to match macOS */
@@ -564,7 +569,7 @@ vbox#sidebar-box.chromeclass-extrachrome {
 /* header of sub menus */
 
 .panel-subview-footer,
-[class^="PanelUI-"] {
+[class^='PanelUI-'] {
   color: var(--grey-10) !important;
   background: var(--primary-dark-color) !important;
 }
@@ -620,7 +625,10 @@ photonpanelmultiview panelview {
 
 /* Divider */
 
-#identity-popup-multiView > .panel-viewcontainer > .panel-viewstack > .panel-subviews {
+#identity-popup-multiView
+  > .panel-viewcontainer
+  > .panel-viewstack
+  > .panel-subviews {
   background: var(--primary-light-color) !important;
 }
 
@@ -642,7 +650,7 @@ photonpanelmultiview panelview {
 
 /* Lock color */
 
-#identity-popup[connection^="secure"] .identity-popup-security-content {
+#identity-popup[connection^='secure'] .identity-popup-security-content {
   fill: var(--primary-accent-color) !important;
 }
 
@@ -669,7 +677,7 @@ photonpanelmultiview panelview {
 
 /* New update is available */
 
-.popup-notification-button[default][highlight="true"]:not([disabled]) {
+.popup-notification-button[default][highlight='true']:not([disabled]) {
   background-color: var(--primary-accent-color) !important;
   color: #ccc;
 }
@@ -678,9 +686,9 @@ photonpanelmultiview panelview {
   color: var(--primary-accent-color) !important;
 }
 
-.popup-notification-icon[popupid="update-available"],
-.popup-notification-icon[popupid="update-manual"],
-.popup-notification-icon[popupid="update-restart"] {
+.popup-notification-icon[popupid='update-available'],
+.popup-notification-icon[popupid='update-manual'],
+.popup-notification-icon[popupid='update-restart'] {
   background-color: var(--primary-accent-color) !important;
   border-radius: 50%;
 }
@@ -694,7 +702,7 @@ toolbarbutton {
 }
 
 .panel-banner-item {
-  background-color: hsla(96,65%,37%,.9) !important;
+  background-color: hsla(96, 65%, 37%, 0.9) !important;
 }
 
 #update-manual-whats-new {
@@ -704,7 +712,9 @@ toolbarbutton {
 /* Color of highlighted buttons */
 
 toolbar[brighttext] {
-  --toolbarbutton-icon-fill-attention: var(--primary-accent-color-dark) !important;
+  --toolbarbutton-icon-fill-attention: var(
+    --primary-accent-color-dark
+  ) !important;
 }
 
 ::-moz-selection {
@@ -755,7 +765,7 @@ toolbar[brighttext] {
 
 #sidebar-search-container textbox {
   -moz-appearance: none !important;
-  border-radius: .3em !important;
+  border-radius: 0.3em !important;
   background-color: var(--mid-way-color) !important;
   color: var(--primary-light-color) !important;
   border: solid 1px var(--mid-way-color) !important;
@@ -788,7 +798,8 @@ toolbar[brighttext] {
 /* Reverse color of sidebar header icon for Tree Style Tabs
 *  you may delete this snippit if you don't use the extension */
 
-#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar-icon {
+#sidebar-box[sidebarcommand='treestyletab_piro_sakura_ne_jp-sidebar-action']
+  #sidebar-icon {
   filter: invert(60%);
 }
 
@@ -841,7 +852,7 @@ statuspanel .statuspanel-label {
   background: var(--toolbarbutton-hover-background) !important;
 }
 @-moz-document url(chrome://browser/content/places/places.xul),
-url(chrome://browser/content/places/bookmarkProperties.xul)  {
+  url(chrome://browser/content/places/bookmarkProperties.xul) {
   /* Details Dock and Bookmark Properties*/
 
   #detailsDeck,
@@ -902,8 +913,8 @@ url(chrome://browser/content/places/bookmarkProperties.xul)  {
 
   /* Text Boxes - One Line */
 
-  #places textbox:not([multiline="true"]),
-  #editBookmarkPanelContent textbox:not([multiline="true"]) {
+  #places textbox:not([multiline='true']),
+  #editBookmarkPanelContent textbox:not([multiline='true']) {
     -moz-appearance: none !important;
     color: var(--primary-light-color) !important;
     background-color: var(--mid-way-color) !important;
@@ -918,7 +929,7 @@ url(chrome://browser/content/places/bookmarkProperties.xul)  {
     color: var(--primary-light-color) !important;
   }
 
-  textbox[type="search"] {
+  textbox[type='search'] {
     padding-left: 3px !important;
     border-radius: 2px !important;
     border: 1px solid var(--light-accent-color) !important;
@@ -932,14 +943,12 @@ url(chrome://browser/content/places/bookmarkProperties.xul)  {
     color: var(--primary-light-color) !important;
   }
 
-  #places listbox:focus > listitem[selected="true"] {
+  #places listbox:focus > listitem[selected='true'] {
     background-color: var(--primary-accent-color) !important;
     color: black !important;
   }
 
-  /*								*
-	 *	  Tree Items	*
-	 *								*/
+  /* Tree Items */
 
   #placesList > treechildren::-moz-tree-cell-text(selected) {
     color: var(--grey-30) !important;
@@ -953,7 +962,7 @@ url(chrome://browser/content/places/bookmarkProperties.xul)  {
 
   #places treechildren::-moz-tree-row {
     background-color: transparent !important;
-    overflow-y: scroll  !important;
+    overflow-y: scroll !important;
   }
 
   /* Change the outline of icons to light instead of dark */
@@ -968,7 +977,8 @@ url(chrome://browser/content/places/bookmarkProperties.xul)  {
 
   /* Selected, not in focus */
 
-  #places treechildren:not(.autocomplete-treebody)::-moz-tree-row(selected, current) {
+  #places
+    treechildren:not(.autocomplete-treebody)::-moz-tree-row(selected, current) {
     background: var(--primary-accent-color) !important;
   }
 
@@ -979,7 +989,8 @@ url(chrome://browser/content/places/bookmarkProperties.xul)  {
     -moz-border-bottom-colors: var(--dark-accent) !important;
   }
 
-  #placeContent treechildren:not(.autocomplete-treebody)::-moz-tree-cell-text(selected) {
+  #placeContent
+    treechildren:not(.autocomplete-treebody)::-moz-tree-cell-text(selected) {
     color: var(--grey-30) !important;
   }
 
@@ -990,7 +1001,8 @@ url(chrome://browser/content/places/bookmarkProperties.xul)  {
 
   /* Selected, in focus */
 
-  #places treechildren:not(.autocomplete-treebody)::-moz-tree-row(selected, current, focus) {
+  #places
+    treechildren:not(.autocomplete-treebody)::-moz-tree-row(selected, current, focus) {
     background: var(--primary-accent-color) !important;
   }
 
@@ -1002,7 +1014,8 @@ url(chrome://browser/content/places/bookmarkProperties.xul)  {
     -moz-border-bottom-colors: var(--dark-accent) !important;
   }
 
-  #places treechildren:not(.autocomplete-treebody)::-moz-tree-row(hover, selected) {
+  #places
+    treechildren:not(.autocomplete-treebody)::-moz-tree-row(hover, selected) {
     background: var(--primary-accent-color) !important;
   }
 
@@ -1010,7 +1023,7 @@ url(chrome://browser/content/places/bookmarkProperties.xul)  {
     color: var(--primary-light-color) !important;
   }
 }
-@-moz-document url(chrome://browser/content/pageinfo/pageInfo.xul)  {
+@-moz-document url(chrome://browser/content/pageinfo/pageInfo.xul) {
   #topBar {
     -moz-appearance: none !important;
     background: var(--dark-accent) !important;
@@ -1027,25 +1040,27 @@ url(chrome://browser/content/places/bookmarkProperties.xul)  {
 
   tree {
     -moz-appearance: none !important;
-    border: 1px solid rgb(0,0,0) !important;
-    color: rgb(200,200,200) !important;
+    border: 1px solid rgb(0, 0, 0) !important;
+    color: rgb(200, 200, 200) !important;
     background-color: var(--mid-way-color) !important;
   }
 
   treechildren::-moz-tree-row {
     background-color: transparent !important;
-    overflow-y: scroll  !important;
+    overflow-y: scroll !important;
   }
 
   treecol {
     -moz-appearance: none !important;
     border: 0px solid !important;
     border-bottom: 1px solid !important;
-    border-right: 1px solid rgb(0,0,0) !important;
-    -moz-border-bottom-colors: rgb(0,0,0) !important;
-    background: linear-gradient(to bottom,
-			           rgba(56,70,82,1) 0%,
-			           rgba(35,39,48,1) 100%) !important;
+    border-right: 1px solid rgb(0, 0, 0) !important;
+    -moz-border-bottom-colors: rgb(0, 0, 0) !important;
+    background: linear-gradient(
+      to bottom,
+      rgba(56, 70, 82, 1) 0%,
+      rgba(35, 39, 48, 1) 100%
+    ) !important;
     color: white !important;
   }
 
@@ -1070,12 +1085,12 @@ url(chrome://browser/content/places/bookmarkProperties.xul)  {
 
   /* [WINDOWS ONLY] fixes */
 
-@media screen and (-moz-windows-theme),
-       screen and (-moz-windows-classic),
-       screen and (-moz-windows-default-theme),
-       screen and (-moz-os-version: windows-win7),
-       screen and (-moz-os-version: windows-win8),
-       screen and (-moz-os-version: windows-win10) {
+  @media screen and (-moz-windows-theme),
+    screen and (-moz-windows-classic),
+    screen and (-moz-windows-default-theme),
+    screen and (-moz-os-version: windows-win7),
+    screen and (-moz-os-version: windows-win8),
+    screen and (-moz-os-version: windows-win10) {
     #topBar {
       -moz-appearance: none !important;
       background-color: var(--dark-accent) !important;
@@ -1104,7 +1119,7 @@ url(chrome://browser/content/places/bookmarkProperties.xul)  {
       -moz-appearance: none !important;
       background-color: var(--dark-accent) !important;
     }
-}
+  }
 }
 /* Remove 1px border underneath bookmarks bar */
 
@@ -1113,9 +1128,9 @@ url(chrome://browser/content/places/bookmarkProperties.xul)  {
 }
 /* Minimize white flash when loading some sites */
 
-browser[type="content-primary"],
+browser[type='content-primary'],
 #content,
-browser[type="content"] > html {
+browser[type='content'] > html {
   background: var(--primary-dark-color) !important;
 }
 #identity-box.verifiedIdentity {
@@ -1127,13 +1142,13 @@ browser[type="content"] > html {
   color: var(--primary-accent-color) !important;
 }
 
-#identity-popup[connection^=secure] #identity-popup-securityView,
-#identity-popup[connection^=secure] #identity-popup-security-content,
+#identity-popup[connection^='secure'] #identity-popup-securityView,
+#identity-popup[connection^='secure'] #identity-popup-security-content,
 #connection-icon {
   fill: var(--primary-accent-color) !important;
 }
 /* Change active tab line color */
 
-.tab-line[selected="true"] {
+.tab-line[selected='true'] {
   background-color: var(--primary-accent-color) !important;
 }
