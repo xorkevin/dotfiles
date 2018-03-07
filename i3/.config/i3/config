@@ -168,18 +168,18 @@ bar {
         status_command i3status
         tray_output primary
 
-	colors {
-		#color class       border  back.   text
-		focused_workspace  #8abeb7 #8abeb7 #ffffff
-		active_workspace   #81a2be #81a2be #ffffff
-		inactive_workspace #1d1f21 #1d1f21 #ffffff
-		urgent_workspace   #cc6666 #cc6666 #ffffff
-		background         #1d1f21
-		statusline         #e0e0e0
-		separator          #373b41
-	}
+  colors {
+    #color class       border  back.   text
+    focused_workspace  #8abeb7 #8abeb7 #ffffff
+    active_workspace   #81a2be #81a2be #ffffff
+    inactive_workspace #1d1f21 #1d1f21 #ffffff
+    urgent_workspace   #cc6666 #cc6666 #ffffff
+    background         #1d1f21
+    statusline         #e0e0e0
+    separator          #373b41
+  }
 
-	tray_padding 0
+  tray_padding 0
 }
 
 # mouse
