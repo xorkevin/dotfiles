@@ -12,18 +12,19 @@ general {
 }
 
 order += "ipv6"
-# order += "disk /"
 order += "wireless _first_"
 order += "ethernet _first_"
 # order += "battery all"
+# order += "disk /"
 order += "load"
+order += "cpu_temperature 0"
 order += "volume master"
 order += "tztime unix"
 order += "tztime utc"
 order += "tztime local"
 
 wireless _first_ {
-        format_up = "W: (%quality at %essid) %ip"
+        format_up = "W: (%quality at %essid, %bitrate / %frequency) %ip"
         format_down = "W: down"
 }
 
@@ -46,17 +47,22 @@ tztime unix {
 }
 
 tztime utc {
-        format = "utc: %T"
+        format = "utc: %F %T"
         timezone = "UTC"
 }
 
 load {
-        format = "%1min"
+        format = "[load: %1min %5min %15min]"
 }
 
 # disk "/" {
 #         format = "%avail"
 # }
+
+cpu_temperature 0 {
+        format = "%degrees °C"
+        path = "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input"
+}
 
 volume master {
         format = "♪: %volume"
