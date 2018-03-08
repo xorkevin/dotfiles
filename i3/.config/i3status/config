@@ -24,7 +24,7 @@ order += "tztime utc"
 order += "tztime local"
 
 wireless _first_ {
-        format_up = "W: (%quality at %essid, %bitrate / %frequency) %ip"
+        format_up = "W: (%quality %essid %bitrate %frequency) %ip"
         format_down = "W: down"
 }
 
@@ -39,7 +39,7 @@ ethernet _first_ {
 # }
 
 tztime local {
-        format = "local: [%Z %z] %a, %b %e %Y %T"
+        format = "local: [%Z%z] %a, %b %e %Y %T"
 }
 
 tztime unix {
@@ -52,7 +52,7 @@ tztime utc {
 }
 
 load {
-        format = "[load: %1min %5min %15min]"
+        format = "%1min"
 }
 
 # disk "/" {
@@ -60,12 +60,12 @@ load {
 # }
 
 cpu_temperature 0 {
-        format = "%degrees °C"
+        format = "%degrees°C"
         path = "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input"
 }
 
 volume master {
-        format = "♪: %volume"
-        format_muted = "♪: muted (%volume)"
+        format = "♪:%volume"
+        format_muted = "♪:muted(%volume)"
         device = "pulse:3"
 }
