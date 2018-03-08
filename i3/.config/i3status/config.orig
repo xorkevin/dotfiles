@@ -1,0 +1,79 @@
+# i3status configuration file.
+# see "man i3status" for documentation.
+
+# It is important that this file is edited as UTF-8.
+# The following line should contain a sharp s:
+# ß
+# If the above line is not correctly displayed, fix your editor first!
+
+general {
+        colors = true
+        interval = 5
+}
+
+order += "ipv6"
+order += "wireless _first_"
+order += "ethernet _first_"
+order += "battery all"
+# order += "disk /"
+order += "load"
+order += "cpu_temperature 0"
+order += "volume master"
+order += "tztime unix"
+order += "tztime utc"
+order += "tztime local"
+
+wireless _first_ {
+        format_up = "W: (%quality %essid %bitrate %frequency) %ip"
+        format_down = "W: down"
+}
+
+ethernet _first_ {
+        # if you use %speed, i3status requires root privileges
+        format_up = "E: %ip (%speed)"
+        format_down = "E: down"
+}
+
+battery all {
+        format = "%status %percentage %remaining"
+}
+
+tztime local {
+        format = "local: [%Z%z] %a, %b %e %Y %T"
+}
+
+tztime unix {
+        format = "unix: %s"
+}
+
+tztime utc {
+        format = "utc: %F %T"
+        timezone = "UTC"
+}
+
+load {
+        format = "%1min"
+}
+
+# disk "/" {
+#         format = "%avail"
+# }
+
+cpu_temperature 0 {
+        format = "%degrees°C"
+<<<<<<< HEAD
+        path = "/sys/devices/platform/coretemp.0/hwmon/hwmon2/temp1_input"
+=======
+        path = "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input"
+>>>>>>> bc1a2f0504e302092972a4e342f90560e1a83eac
+}
+
+volume master {
+        format = "♪:%volume"
+        format_muted = "♪:muted(%volume)"
+<<<<<<< HEAD
+        device = "pulse:1"
+=======
+        device = "pulse:3"
+>>>>>>> bc1a2f0504e302092972a4e342f90560e1a83eac
+}
