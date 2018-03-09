@@ -22,6 +22,7 @@ Plug 'fatih/vim-go'
 Plug 'zchee/deoplete-go', { 'do': 'make' }
 Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql'] }
 Plug 'zchee/deoplete-jedi'
+Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
 Plug 'chriskempson/base16-vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
@@ -75,6 +76,9 @@ let g:deoplete#sources#go#pointer = 1
 "Prettier
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql Prettier
+
+"YAPF
+autocmd BufWritePre *.py YAPF
 
 "Goyo
 autocmd! User GoyoEnter Limelight
