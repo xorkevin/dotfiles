@@ -17,7 +17,7 @@ order += "ethernet _first_"
 # order += "battery all"
 # order += "disk /"
 order += "load"
-order += "cpu_temperature 0"
+# order += "cpu_temperature 0"
 order += "volume master"
 order += "tztime unix"
 order += "tztime utc"
@@ -59,10 +59,10 @@ load {
 #         format = "%avail"
 # }
 
-cpu_temperature 0 {
-        format = "%degrees°C"
-        path = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp1_input"
-}
+# cpu_temperature 0 {
+#         format = "%degrees°C"
+#         path = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp1_input"
+# }
 
 volume master {
         format = "♪:%volume"
