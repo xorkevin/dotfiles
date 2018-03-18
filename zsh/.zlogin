@@ -15,12 +15,24 @@
 } &!
 
 # Execute code only if STDERR is bound to a TTY.
-[[ -o INTERACTIVE && -t 2 ]] && {
+[[ -o INTERACTIVE && -t 2 && ! $TMUX ]] && {
+
+  if (( $+commands[hostname] )); then
+    if (( $+commands[figlet] )); then
+      hostname | figlet
+      print
+    else
+      hostname
+      print
+    fi
+  fi
 
   # Print a random, hopefully interesting, adage.
   if (( $+commands[fortune] )); then
     fortune -s
     print
   fi
+
+  echo "Welcome, $USER"
 
 } >&2
