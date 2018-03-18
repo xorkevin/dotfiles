@@ -33,6 +33,9 @@
     print
   fi
 
-  echo "Welcome, $USER"
+  if (( $+commands[whoami] )); then
+    echo "Welcome, $(whoami)"
+    print
+  fi
 
 } >&2
