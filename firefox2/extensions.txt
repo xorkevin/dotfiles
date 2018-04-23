@@ -1,6 +1,6 @@
 ublock
 vimium
-dark mode
+midnight lizard
 instapaper
 res
 bttv
