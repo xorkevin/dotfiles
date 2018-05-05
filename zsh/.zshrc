@@ -37,6 +37,8 @@ alias ta="tmux attach -t"
 alias tls="tmux list-sessions"
 alias tk="tmux kill-session -t"
 
+# check updates
+alias checksyu="curl -s https://www.archlinux.org/feeds/news/ | xmllint --xpath //item/title\ \|\ //item/pubDate /dev/stdin | sed -r -e 's:<title>([^<]*?)</title><pubDate>([^<]*?)</pubDate>:\2\t\1\n:g'"
 
 export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
