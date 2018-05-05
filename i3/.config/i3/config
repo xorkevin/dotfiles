@@ -132,7 +132,10 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 # lockscreen
-bindsym Mod4+z exec scrot /tmp/screen_locked.png && convert /tmp/screen_locked.png -scale 6.25% -scale 1600% /tmp/screen_locked.png && i3lock -i /tmp/screen_locked.png
+bindsym $mod+z exec scrot /tmp/screen_locked.png && convert /tmp/screen_locked.png -scale 6.25% -scale 1600% /tmp/screen_locked.png && i3lock -i /tmp/screen_locked.png
+# screenshot
+bindsym $mod+x exec maim -s ~/screenshot.png
+bindsym $mod+c exec scrot ~/screenshot.png
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
