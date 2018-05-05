@@ -42,6 +42,10 @@ bindsym $mod+d exec dmenu_run
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
+bindsym $mod+n exec i3-input -F 'workspace number %s' -P 'go to workspace: '
+bindsym $mod+Shift+n exec i3-input -F 'rename workspace to %s' -P 'rename workspace: '
+bindsym $mod+Shift+m exec i3-input -F 'move container to workspace number %s' -P 'move to workspace: '
+
 # change focus
 bindsym $mod+h focus left
 bindsym $mod+j focus down
@@ -132,6 +136,9 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
+
+focus_wrapping no
+focus_on_window_activation urgent
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
