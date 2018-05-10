@@ -21,6 +21,9 @@ alias sc="scrot -c -d 5 ~/screenshot.png"
 alias vim="nvim"
 alias vi="nvim"
 
+# Emacs
+alias emacs="emacs -nw"
+
 # Git
 alias gs="git status"
 alias gd="git diff"
