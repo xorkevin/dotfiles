@@ -42,6 +42,8 @@ user_pref('browser.urlbar.userMadeSearchSuggestionsChoice', true);
 user_pref('pref.downloads.disable_button.edit_actions', false);
 user_pref('pref.general.disable_button.default_browser', false);
 user_pref('pref.privacy.disable_button.tracking_protection_exceptions', false);
+user_pref('browser.tabs.warnOnClose', true);
+user_pref('browser.showQuitWarning', true);
 
 // fonts
 user_pref('font.default.x-western', 'sans-serif');
