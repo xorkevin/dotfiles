@@ -67,5 +67,5 @@ load {
 volume master {
         format = "♪:%volume"
         format_muted = "♪:muted(%volume)"
-        device = "pulse:3"
+        device = "pulse:combined"
 }
