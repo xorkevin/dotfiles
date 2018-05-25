@@ -102,3 +102,4 @@ nmap <Leader>py <Plug>(Prettier)
 nnoremap <leader><space> :nohlsearch<CR>
 nnoremap <leader>d :bd<CR>
 nnoremap <leader>s :w<CR>
+nnoremap <C-C> <C-A>
