@@ -34,9 +34,9 @@ ethernet _first_ {
         format_down = "E: down"
 }
 
-# battery all {
-#         format = "%status %percentage %remaining"
-# }
+battery all {
+        format = "%status %percentage %remaining"
+}
 
 tztime local {
         format = "local: [%Z%z] %a, %b %e %Y %T"
