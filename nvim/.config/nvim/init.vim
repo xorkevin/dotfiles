@@ -73,6 +73,7 @@ let g:deoplete#sources#go#pointer = 1
 
 "Prettier
 let g:prettier#autoformat = 0
+let g:prettier#config#arrow_parens = 'always'
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql Prettier
 
 "YAPF
