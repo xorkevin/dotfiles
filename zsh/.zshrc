@@ -52,3 +52,6 @@ export PATH="$PATH:$GOPATH/bin"
 export FZF_DEFAULT_COMMAND="rg --files --hidden --smart-case --glob '!{.git}/*'"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# opam configuration
+test -r $HOME/.opam/opam-init/init.zsh && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
