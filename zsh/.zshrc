@@ -82,6 +82,14 @@ else
 fi
 unset _comp_files
 
+bindkey -v
+bindkey "^?" backward-delete-char
+bindkey "^W" backward-kill-word
+bindkey "^H" backward-delete-char
+bindkey "^U" backward-kill-line
+bindkey "${terminfo[khome]}" beginning-of-line
+bindkey "${terminfo[kend]}" end-of-line
+
 # Safe ops. Ask the user before doing anything destructive.
 alias rm="${aliases[rm]:-rm} -i"
 alias mv="${aliases[mv]:-mv} -i"
