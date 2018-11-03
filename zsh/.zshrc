@@ -89,6 +89,10 @@ bindkey "^H" backward-delete-char
 bindkey "^U" backward-kill-line
 bindkey "${terminfo[khome]}" beginning-of-line
 bindkey "${terminfo[kend]}" end-of-line
+bindkey "$terminfo[kcbt]" reverse-menu-complete
+bindkey "^L" clear-screen
+bindkey "$terminfo[kcub1]" backward-char
+bindkey "$terminfo[kcuf1]" forward-char
 
 # Safe ops. Ask the user before doing anything destructive.
 alias rm="${aliases[rm]:-rm} -i"
