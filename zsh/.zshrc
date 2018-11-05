@@ -195,7 +195,10 @@ export WORDCHARS='*?.[]~&;!#$%^(){}<>'
 bindkey -v
 bindkey "^?" backward-delete-char
 bindkey "^W" backward-kill-word
-bindkey "^H" backward-delete-char
+bindkey "^[Od" backward-word # ctrl left
+bindkey "^[Oc" forward-word # ctrl right
+bindkey '^[[3~' delete-char # delete
+bindkey '^[[3^' kill-word # ctrl delete
 bindkey "^U" backward-kill-line
 bindkey "${terminfo[khome]}" beginning-of-line
 bindkey "${terminfo[kend]}" end-of-line
