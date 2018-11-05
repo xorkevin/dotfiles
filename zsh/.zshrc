@@ -190,6 +190,8 @@ else
 fi
 unset _comp_files
 
+export WORDCHARS='*?.[]~&;!#$%^(){}<>'
+
 bindkey -v
 bindkey "^?" backward-delete-char
 bindkey "^W" backward-kill-word
