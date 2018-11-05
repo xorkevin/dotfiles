@@ -2,9 +2,6 @@
 
 source $HOME/.zsh_plugins.sh
 
-BASE16_SHELL=$HOME/.config/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
-
 # Treat the '!' character specially during expansion.
 setopt BANG_HIST
 # Write the history file in the ':start:elapsed;command' format.
