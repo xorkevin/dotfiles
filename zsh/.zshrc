@@ -2,9 +2,6 @@
 
 source $HOME/.zsh_plugins.sh
 
-BASE16_SHELL=$HOME/.config/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
-
 # Treat the '!' character specially during expansion.
 setopt BANG_HIST
 # Write the history file in the ':start:elapsed;command' format.
@@ -195,7 +192,10 @@ export WORDCHARS='*?.[]~&;!#$%^(){}<>'
 bindkey -v
 bindkey "^?" backward-delete-char
 bindkey "^W" backward-kill-word
-bindkey "^H" backward-delete-char
+bindkey "^[Od" backward-word # ctrl left
+bindkey "^[Oc" forward-word # ctrl right
+bindkey '^[[3~' delete-char # delete
+bindkey '^[[3^' kill-word # ctrl delete
 bindkey "^U" backward-kill-line
 bindkey "${terminfo[khome]}" beginning-of-line
 bindkey "${terminfo[kend]}" end-of-line
