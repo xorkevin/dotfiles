@@ -1,9 +1,6 @@
+.PHONY: all zsh
+
 all:
-	stow x
-	stow zsh
-	stow i3
-	stow git
-	stow keybind
-	stow tmux
-	stow nvim
-	stow ncmpcpp
+
+zsh:
+	antibody bundle < zsh/.zsh_plugins.txt > zsh/.zsh_plugins.sh
