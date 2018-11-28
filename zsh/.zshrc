@@ -256,7 +256,7 @@ alias tk="tmux kill-session -t"
 alias checksyu="curl -s https://www.archlinux.org/feeds/news/ | xmllint --xpath //item/title\ \|\ //item/pubDate /dev/stdin | sed -r -e 's:<title>([^<]*?)</title><pubDate>([^<]*?)</pubDate>:\2\t\1\n:g'"
 
 # observe
-observe() { while inotifywait --exclude .git -e modify -r .; do $@; done; }
+observe() { while inotifywait --exclude .git -e modify -r -qq .; do $@; done; }
 
 export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
