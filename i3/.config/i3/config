@@ -198,13 +198,13 @@ focus_follows_mouse no
 mouse_warping none
 
 # workspaces
-workspace 1 output $display1
-workspace 2 output $display1
-workspace 3 output $display1
-workspace 4 output $display1
-workspace 5 output $display1
-workspace 6 output $display1
-workspace 7 output $display2
-workspace 8 output $display2
-workspace 9 output $display2
-workspace 10 output $display2
+#workspace 1 output $display1
+#workspace 2 output $display1
+#workspace 3 output $display1
+#workspace 4 output $display1
+#workspace 5 output $display1
+#workspace 6 output $display1
+#workspace 7 output $display2
+#workspace 8 output $display2
+#workspace 9 output $display2
+#workspace 10 output $display2
