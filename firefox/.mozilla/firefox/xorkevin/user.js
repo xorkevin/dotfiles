@@ -23,7 +23,11 @@ user_pref('devtools.webconsole.timestampMessages', true);
 
 // ui
 user_pref('browser.uidensity', 1);
-user_pref('general.smoothScroll', false);
+user_pref('general.smoothScroll', true);
+user_pref('general.smoothScroll.mouseWheel', true);
+user_pref('general.smoothScroll.mouseWheel.durationMaxMS', 125);
+user_pref('general.smoothScroll.mouseWheel.durationMinMS', 125);
+user_pref('full-screen-api.warning.timeout', 0);
 user_pref('gfx.use_text_smoothing_setting', true);
 user_pref('toolkit.cosmeticAnimations.enabled', false);
 user_pref('browser.formfill.enable', false);
