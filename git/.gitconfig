@@ -12,3 +12,5 @@
 	keepBackup = true
 [mergetool "vimdiff"]
 	cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+[include]
+	path = .config/git.d/urls
