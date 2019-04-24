@@ -62,7 +62,7 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set conceallevel=2
-set cmdheight=2
+set noshowmode
 set signcolumn=yes
 
 autocmd VimResized * wincmd =
