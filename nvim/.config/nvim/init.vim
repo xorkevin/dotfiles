@@ -81,6 +81,7 @@ let g:airline_theme='base16'
 let g:LanguageClient_serverCommands = {
   \ 'rust': ['rls'],
   \ 'go': ['gopls'],
+  \ 'python': ['pyls'],
   \ }
 
 nnoremap <leader>r :call LanguageClient_contextMenu()<CR>
