@@ -1,7 +1,7 @@
 [user]
 	email = kevin@xorkevin.com
 	name = Kevin Wang
-	signingkey = 3920F75DE27E4A5B
+	signingkey = 2E42FF4C895D00AB
 [alias]
 	fire = !git checkout -b fire-branch-emergency && git add -A && git commit -m \"emergency commit: fire\" && git push origin fire-branch-emergency
 [diff]
