@@ -1,6 +1,7 @@
 [user]
-	email = wangkevin448@gmail.com
+	email = kevin@xorkevin.com
 	name = Kevin Wang
+	signingkey = 3920F75DE27E4A5B
 [alias]
 	fire = !git checkout -b fire-branch-emergency && git add -A && git commit -m \"emergency commit: fire\" && git push origin fire-branch-emergency
 [diff]
@@ -14,3 +15,5 @@
 	cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [include]
 	path = .config/git.d/urls
+[commit]
+	gpgsign = true
