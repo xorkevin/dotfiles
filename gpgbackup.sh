@@ -5,9 +5,9 @@ fileout=$out.tar.gz
 
 mkdir -p $out
 
-gpg --armor --export --output $out/public.asc \
-  && gpg --armor --export-secret-keys --output $out/private.asc \
-  && gpg --armor --export-ownertrust --output $out/trust.asc \
+gpg --armor --export > $out/public.asc \
+  && gpg --armor --export-secret-keys > $out/private.asc \
+  && gpg --armor --export-ownertrust > $out/trust.asc \
   && tar czvf $fileout $out
 
 gpg -c $fileout
