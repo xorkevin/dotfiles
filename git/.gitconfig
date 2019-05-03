@@ -1,5 +1,5 @@
 [user]
-	email = wangkevin448@gmail.com
+	email = kevin@xorkevin.com
 	name = Kevin Wang
 [alias]
 	fire = !git checkout -b fire-branch-emergency && git add -A && git commit -m \"emergency commit: fire\" && git push origin fire-branch-emergency
