@@ -258,6 +258,8 @@ alias checksyu="curl -s https://www.archlinux.org/feeds/news/ | xmllint --xpath 
 # observe
 observe() { while inotifywait --exclude .git -e modify -r -qq .; do $@; done; }
 
+export GPG_TTY=$(tty)
+
 export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
 
