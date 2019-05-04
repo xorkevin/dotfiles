@@ -2,14 +2,17 @@
 
 out=gpgkeys
 fileout=$out.tar.gz
+tmpdir=/tmp/gpgbackup
+tmppath=$tmpdir/$out
 
-mkdir -p $out
+rm -r $tmpdir
+mkdir -p $tmppath
 
-gpg --armor --export > $out/public.asc \
-  && gpg --armor --export-secret-keys > $out/private.asc \
-  && gpg --armor --export-ownertrust > $out/trust.asc \
-  && tar czvf $fileout $out \
+gpg --armor --export > $tmppath/public.asc \
+  && gpg --armor --export-secret-keys > $tmppath/private.asc \
+  && gpg --armor --export-ownertrust > $tmppath/trust.asc \
+  && tar czvf $fileout -C $tmpdir $out \
   && gpg -c $fileout
 
-rm -r $out
+rm -r $tmpdir
 rm $fileout
