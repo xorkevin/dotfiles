@@ -3,7 +3,7 @@
 	name = Kevin Wang
 	signingkey = 2E42FF4C895D00AB
 [alias]
-	fire = !git checkout -b fire-branch-emergency && git add -A && git commit -m \"emergency commit: fire\" && git push origin fire-branch-emergency
+	fire = !git checkout -b fire-branch-emergency && git add -A && git commit --no-gpg-sign -m \"emergency commit: fire\" && git push origin fire-branch-emergency
 [diff]
 	tool = vimdiff
 [merge]
