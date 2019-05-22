@@ -190,13 +190,25 @@ unset _comp_files
 export WORDCHARS='*?.[]~&;!#$%^(){}<>'
 
 bindkey -v
-bindkey "^?" backward-delete-char
-bindkey "^W" backward-kill-word
-bindkey "^[Od" backward-word # ctrl left
-bindkey "^[Oc" forward-word # ctrl right
-bindkey '^[[3~' delete-char # delete
-bindkey '^[[3^' kill-word # ctrl delete
-bindkey "^U" backward-kill-line
+bindkey "^?" backward-delete-char # backspace
+bindkey "^W" backward-kill-word # ctrl w
+bindkey '^H' backward-kill-word # ctrl backspace
+
+bindkey "\e[1;5C" forward-word # ctrl right
+bindkey "\e[1;5D" backward-word # ctrl left
+# urxvt
+bindkey "\eOc" forward-word # ctrl right
+bindkey "\eOd" backward-word # ctrl left
+
+# urxvt
+bindkey "\e[3~" delete-char # delete
+
+bindkey "\e[3;5~" kill-word # ctrl delete
+# urxvt
+bindkey "\e[3^" kill-word # ctrl delete
+
+bindkey "^U" backward-kill-line # ctrl u
+
 bindkey "${terminfo[khome]}" beginning-of-line
 bindkey "${terminfo[kend]}" end-of-line
 bindkey "$terminfo[kcbt]" reverse-menu-complete
