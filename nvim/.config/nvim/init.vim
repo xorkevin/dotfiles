@@ -3,7 +3,10 @@ let mapleader = ';'
 if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
   silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  augroup plug_init
+    autocmd!
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  augroup END
 endif
 
 "Plugins
@@ -24,13 +27,13 @@ Plug 'Shougo/echodoc.vim'
 
 "Autoformat
 "Go
-Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries', 'for': ['go'] }
 "Rust
-Plug 'rust-lang/rust.vim'
+Plug 'rust-lang/rust.vim', { 'for': ['rust'] }
 "JS
-Plug 'prettier/vim-prettier', { 'do': 'npm install' }
+Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'vue', 'yaml'] }
 "Python
-Plug 'ambv/black'
+Plug 'ambv/black', { 'for': ['python'] }
 
 "Writing
 Plug 'junegunn/goyo.vim'
@@ -64,7 +67,10 @@ set conceallevel=2
 set noshowmode
 set signcolumn=yes
 
-autocmd VimResized * wincmd =
+augroup resize_event
+  autocmd!
+  autocmd VimResized * wincmd =
+augroup END
 
 "Visual
 if filereadable(expand("~/.vimrc_background"))
@@ -93,11 +99,6 @@ set completeopt-=preview
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_camel_case = 1
 
-inoremap <silent><expr><C-Space> deoplete#mappings#manual_complete()
-imap <expr> <tab>   pumvisible() ? "\<c-n>" : "\<tab>"
-imap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<tab>"
-imap <expr> <cr>    pumvisible() ? deoplete#close_popup() : "\<cr>"
-
 "Echodoc
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'signature'
@@ -105,7 +106,6 @@ let g:echodoc#type = 'signature'
 "Rustfmt
 let g:rustfmt_autosave = 1
 
-"Prettier
 let g:prettier#autoformat = 0
 let g:prettier#config#print_width = 80
 let g:prettier#config#tab_width = 2
@@ -117,14 +117,24 @@ let g:prettier#config#jsx_bracket_same_line = 'false'
 let g:prettier#config#arrow_parens = 'always'
 let g:prettier#config#trailing_comma = 'all'
 let g:prettier#config#prose_wrap = 'preserve'
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue,*.yaml Prettier
+augroup filetype_js
+  autocmd!
+  "Prettier
+  autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue,*.yaml Prettier
+augroup END
 
-"Black
-autocmd BufWritePre *.py execute ':Black'
+augroup filetype_python
+  autocmd!
+  "Black
+  autocmd BufWritePre *.py execute ':Black'
+augroup END
 
-"Goyo
-autocmd! User GoyoEnter Limelight
-autocmd! User GoyoLeave Limelight!
+augroup goyo_event
+  autocmd!
+  "Goyo
+  autocmd User GoyoEnter Limelight
+  autocmd User GoyoLeave Limelight!
+augroup END
 nnoremap <leader>g :Goyo<CR>
 
 "Keybindings
