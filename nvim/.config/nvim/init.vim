@@ -146,6 +146,5 @@ nnoremap <leader>d :bd<CR>
 
 nnoremap <leader>s :w<CR>
 nnoremap <leader>l :nohlsearch<CR>
-nnoremap <C-C> <C-A>
 
 xmap ga <Plug>(EasyAlign)
