@@ -272,6 +272,10 @@ observe() { while inotifywait --exclude .git -e modify -r -qq .; do $@; done; }
 
 export GPG_TTY=$(tty)
 
+# password store
+export PASSWORD_STORE_DIR=$HOME/.password-store
+export PASSWORD_STORE_GENERATED_LENGTH=32
+
 export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
 
