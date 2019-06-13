@@ -1,6 +1,5 @@
 ublock
 vimium
-dark mode
+greasemonkey
+account container
 instapaper
-res
-bttv

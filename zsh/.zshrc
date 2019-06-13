@@ -190,13 +190,25 @@ unset _comp_files
 export WORDCHARS='*?.[]~&;!#$%^(){}<>'
 
 bindkey -v
-bindkey "^?" backward-delete-char
-bindkey "^W" backward-kill-word
-bindkey "^[Od" backward-word # ctrl left
-bindkey "^[Oc" forward-word # ctrl right
-bindkey '^[[3~' delete-char # delete
-bindkey '^[[3^' kill-word # ctrl delete
-bindkey "^U" backward-kill-line
+bindkey "^?" backward-delete-char # backspace
+bindkey "^W" backward-kill-word # ctrl w
+bindkey '^H' backward-kill-word # ctrl backspace
+
+bindkey "\e[1;5C" forward-word # ctrl right
+bindkey "\e[1;5D" backward-word # ctrl left
+# urxvt
+bindkey "\eOc" forward-word # ctrl right
+bindkey "\eOd" backward-word # ctrl left
+
+# urxvt
+bindkey "\e[3~" delete-char # delete
+
+bindkey "\e[3;5~" kill-word # ctrl delete
+# urxvt
+bindkey "\e[3^" kill-word # ctrl delete
+
+bindkey "^U" backward-kill-line # ctrl u
+
 bindkey "${terminfo[khome]}" beginning-of-line
 bindkey "${terminfo[kend]}" end-of-line
 bindkey "$terminfo[kcbt]" reverse-menu-complete
@@ -258,12 +270,19 @@ alias checksyu="curl -s https://www.archlinux.org/feeds/news/ | xmllint --xpath 
 # observe
 observe() { while inotifywait --exclude .git -e modify -r -qq .; do $@; done; }
 
+export GPG_TTY=$(tty)
+
+# password store
+export PASSWORD_STORE_DIR=$HOME/.password-store
+export PASSWORD_STORE_GENERATED_LENGTH=32
+
 export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
 
 export FZF_DEFAULT_COMMAND="fd --hidden --type f --exclude '.git/'"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
+[ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 
 # opam configuration
 test -r $HOME/.opam/opam-init/init.zsh && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
