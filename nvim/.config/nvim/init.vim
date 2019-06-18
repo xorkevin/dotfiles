@@ -33,7 +33,7 @@ Plug 'rust-lang/rust.vim', { 'for': ['rust'] }
 "JS
 Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'vue', 'yaml'] }
 "Python
-Plug 'ambv/black', { 'for': ['python'] }
+Plug 'python/black', { 'for': ['python'] }
 
 "Writing
 Plug 'junegunn/goyo.vim'
