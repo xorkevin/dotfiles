@@ -5,14 +5,19 @@
 [alias]
 	fire = !git checkout -b fire-branch-emergency && git add -A && git commit --no-gpg-sign -m \"emergency commit: fire\" && git push origin fire-branch-emergency
 [diff]
+	algorithm = histogram
 	tool = vimdiff
+[difftool]
+	prompt = true
+[difftool "vimdiff"]
+	cmd = nvim -d $LOCAL $REMOTE
 [merge]
-	tool = vimdiff
+	tool = vimmerge
 [mergetool]
 	prompt = true
 	keepBackup = true
-[mergetool "vimdiff"]
-	cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+[mergetool "vimmerge"]
+	cmd = nvim -d $LOCAL $MERGED $REMOTE
 [include]
 	path = .config/git.d/urls
 [commit]
