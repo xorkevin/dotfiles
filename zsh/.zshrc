@@ -1,5 +1,8 @@
 # Executes commands at the start of an interactive session.
 
+# pure prompt
+export PURE_GIT_PULL=0
+
 source $HOME/.zsh_plugins.sh
 
 # Treat the '!' character specially during expansion.
