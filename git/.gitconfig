@@ -10,7 +10,7 @@
 [difftool]
 	prompt = true
 [difftool "vimdiff"]
-	cmd = nvim -d $LOCAL $REMOTE
+	cmd = nvim -R -d $LOCAL $REMOTE
 [merge]
 	tool = vimmerge
 [mergetool]
