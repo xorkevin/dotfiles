@@ -282,8 +282,11 @@ export PASSWORD_STORE_GENERATED_LENGTH=32
 export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
 
+export BAT_THEME='base16'
+export BAT_STYLE='header,grid,numbers'
 export FZF_DEFAULT_COMMAND="fd --hidden --type f --exclude '.git/'"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--preview '[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --color=always -r :\$FZF_PREVIEW_LINES {} || head -\$FZF_PREVIEW_LINES {}) 2> /dev/null'"
 [ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
 [ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 
