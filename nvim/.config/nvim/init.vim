@@ -33,7 +33,7 @@ Plug 'rust-lang/rust.vim', { 'for': ['rust'] }
 "JS
 Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'vue', 'yaml'] }
 "Python
-Plug 'ambv/black', { 'for': ['python'] }
+Plug 'python/black', { 'for': ['python'] }
 
 "Writing
 Plug 'junegunn/goyo.vim'
@@ -128,6 +128,8 @@ augroup filetype_python
   "Black
   autocmd BufWritePre *.py execute ':Black'
 augroup END
+
+let g:fzf_files_options = "--preview '[[ $(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --color=always -r :$FZF_PREVIEW_LINES {} || head -$FZF_PREVIEW_LINES {}) 2> /dev/null'"
 
 augroup goyo_event
   autocmd!
