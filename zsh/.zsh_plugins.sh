@@ -6,3 +6,5 @@ source /home/kevin/.cache/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-ma
 fpath+=( /home/kevin/.cache/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-mafredri-SLASH-zsh-async )
 source /home/kevin/.cache/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-sindresorhus-SLASH-pure/pure.plugin.zsh
 fpath+=( /home/kevin/.cache/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-sindresorhus-SLASH-pure )
+source /home/kevin/.cache/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-xorkevin-SLASH-code-review-zsh/code-review.plugin.zsh
+fpath+=( /home/kevin/.cache/antibody/https-COLON--SLASH--SLASH-github.com-SLASH-xorkevin-SLASH-code-review-zsh )

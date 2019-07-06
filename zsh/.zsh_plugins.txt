@@ -2,3 +2,4 @@ chriskempson/base16-shell
 zsh-users/zsh-completions
 mafredri/zsh-async
 sindresorhus/pure
+xorkevin/code-review-zsh

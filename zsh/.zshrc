@@ -1,5 +1,8 @@
 # Executes commands at the start of an interactive session.
 
+# pure prompt
+export PURE_GIT_PULL=0
+
 source $HOME/.zsh_plugins.sh
 
 # Treat the '!' character specially during expansion.
@@ -279,8 +282,13 @@ export PASSWORD_STORE_GENERATED_LENGTH=32
 export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
 
+export BAT_THEME='base16'
+export BAT_STYLE='header,grid,numbers'
 export FZF_DEFAULT_COMMAND="fd --hidden --type f --exclude '.git/'"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_R_OPTS="--reverse"
+export FZF_CTRL_T_OPTS="--reverse --preview '[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --color=always -r :\$FZF_PREVIEW_LINES {} || head -\$FZF_PREVIEW_LINES {}) 2> /dev/null'"
+export FZF_ALT_C_OPTS="--reverse"
 [ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
 [ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 
