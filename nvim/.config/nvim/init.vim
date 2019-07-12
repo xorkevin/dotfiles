@@ -20,6 +20,10 @@ Plug 'tpope/vim-surround'
 "File management
 Plug 'junegunn/fzf.vim'
 
+"Git
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
 "Autocomplete
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -44,7 +48,6 @@ Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
-Plug 'airblade/vim-gitgutter'
 
 call plug#end()
 
@@ -92,9 +95,7 @@ let g:LanguageClient_serverCommands = {
 nnoremap <leader>r :call LanguageClient_contextMenu()<CR>
 
 "Deoplete
-set completeopt+=noinsert
-set completeopt+=noselect
-set completeopt-=preview
+set completeopt=menu,menuone,preview,noinsert,noselect
 
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_camel_case = 1
