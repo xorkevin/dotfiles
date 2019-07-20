@@ -16,6 +16,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+Plug 'bronson/vim-visual-star-search'
 
 "File management
 Plug 'junegunn/fzf.vim'
@@ -47,7 +48,7 @@ Plug 'junegunn/limelight.vim'
 Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-vinegar'
 
 call plug#end()
 
@@ -84,6 +85,8 @@ endif
 colorscheme base16-tomorrow-night
 
 let g:airline_theme='base16'
+
+let g:netrw_fastbrowse=0
 
 "Language client
 let g:LanguageClient_serverCommands = {
@@ -141,7 +144,7 @@ augroup END
 nnoremap <leader>g :Goyo<CR>
 
 "Keybindings
-nnoremap <leader>t :NERDTreeToggle<CR>
+nnoremap <leader>e :edit .<CR>
 
 nnoremap <leader>f :Files<CR>
 nnoremap <leader>b :Buffers<CR>
