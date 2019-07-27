@@ -91,7 +91,7 @@ let g:airline_theme='base16'
 let g:netrw_fastbrowse=0
 
 set completeopt=menu,menuone,noinsert,noselect
-set shortmess=c
+set shortmess+=c
 
 "Language client
 let g:LanguageClient_serverCommands = {
