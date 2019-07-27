@@ -90,24 +90,26 @@ let g:airline_theme='base16'
 
 let g:netrw_fastbrowse=0
 
+set completeopt=menu,menuone,noinsert,noselect
+set shortmess=c
+
 "Language client
 let g:LanguageClient_serverCommands = {
   \ 'rust': ['rls'],
   \ 'go': ['gopls'],
   \ 'python': ['pyls'],
   \ }
+let g:LanguageClient_hoverPreview = 'Never'
 
 nnoremap <leader>r :call LanguageClient_contextMenu()<CR>
 
 "Deoplete
-set completeopt=menu,menuone,preview,noinsert,noselect
-
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_camel_case = 1
+call deoplete#custom#option('camel_case', 1)
 
 "Echodoc
 let g:echodoc#enable_at_startup = 1
-let g:echodoc#type = 'signature'
+let g:echodoc#type = 'floating'
 
 "Rustfmt
 let g:rustfmt_autosave = 1
