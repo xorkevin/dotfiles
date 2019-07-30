@@ -1,16 +1,17 @@
 let mapleader = ';'
 
-if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  augroup plug_init
-    autocmd!
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-  augroup END
-endif
+function InstallPluginManager()
+  if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+    silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  endif
+endfunction
+
+command! InstallPluginManager call InstallPluginManager()
 
 "Plugins
 call plug#begin('~/.local/share/nvim/plugged')
+if exists(':Plug')
 
 "Text manipulation
 Plug 'junegunn/vim-easy-align'
@@ -38,7 +39,7 @@ Plug 'rust-lang/rust.vim', { 'for': ['rust'] }
 "JS
 Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'vue', 'yaml'] }
 "Python
-Plug 'python/black', { 'for': ['python'] }
+Plug 'psf/black', { 'for': ['python'] }
 
 "Writing
 Plug 'junegunn/goyo.vim'
@@ -50,6 +51,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-vinegar'
 
+endif
 call plug#end()
 
 set nocompatible
@@ -88,24 +90,28 @@ let g:airline_theme='base16'
 
 let g:netrw_fastbrowse=0
 
+set tags=.tags;
+
+set completeopt=menu,menuone,noinsert,noselect
+set shortmess+=c
+
 "Language client
 let g:LanguageClient_serverCommands = {
   \ 'rust': ['rls'],
   \ 'go': ['gopls'],
   \ 'python': ['pyls'],
   \ }
+let g:LanguageClient_hoverPreview = 'Never'
 
 nnoremap <leader>r :call LanguageClient_contextMenu()<CR>
 
 "Deoplete
-set completeopt=menu,menuone,preview,noinsert,noselect
-
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_camel_case = 1
+call deoplete#custom#option('camel_case', 1)
 
 "Echodoc
 let g:echodoc#enable_at_startup = 1
-let g:echodoc#type = 'signature'
+let g:echodoc#type = 'floating'
 
 "Rustfmt
 let g:rustfmt_autosave = 1
@@ -130,7 +136,7 @@ augroup END
 augroup filetype_python
   autocmd!
   "Black
-  autocmd BufWritePre *.py execute ':Black'
+  autocmd BufWritePre *.py Black
 augroup END
 
 let g:fzf_files_options = "--preview '[[ $(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --color=always -r :$FZF_PREVIEW_LINES {} || head -$FZF_PREVIEW_LINES {}) 2> /dev/null'"
