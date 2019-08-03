@@ -130,7 +130,14 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+set $mode_exit (e)xit
+mode "$mode_exit" {
+  bindsym e exec i3-msg exit, mode "default"
+
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+bindsym $mod+Shift+e mode "$mode_exit"
 # lockscreen
 bindsym $mod+z exec scrot /tmp/screen_locked.png && convert /tmp/screen_locked.png -scale 3.125% -resize 3200% /tmp/screen_locked.png && i3lock -i /tmp/screen_locked.png
 # screenshot
