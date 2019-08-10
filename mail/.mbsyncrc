@@ -25,6 +25,11 @@ Master :gmail-remote:INBOX
 Slave :gmail-local:inbox
 SyncState *
 
+Channel gmail-archive
+Master :gmail-remote:"[Gmail]/All Mail"
+Slave :gmail-local:archive
+SyncState *
+
 Channel gmail-sent
 Master :gmail-remote:"[Gmail]/Sent Mail"
 Slave :gmail-local:sent
@@ -47,6 +52,7 @@ SyncState *
 
 Group gmail
 Channel gmail-inbox
+Channel gmail-archive
 Channel gmail-sent
 Channel gmail-drafts
 Channel gmail-trash
