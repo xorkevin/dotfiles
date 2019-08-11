@@ -122,6 +122,10 @@ bind pager ";l" search-toggle
 bind index,pager ";e" change-folder
 bind index,pager,compose ";i" display-toggle-weed
 bind index,pager | pipe-message
+bind index,pager \Cj sidebar-next
+bind index,pager \Ck sidebar-prev
+bind index,pager \Co sidebar-open
+bind index,pager \Cb sidebar-toggle-visible
 
 bind index,pager dd delete-message
 bind index,pager dt delete-thread
