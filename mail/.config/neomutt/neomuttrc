@@ -78,6 +78,7 @@ bind generic,index,pager,alias,attach,postpone d noop
 # generic,pager
 bind generic,pager : enter-command
 bind generic,pager q exit
+bind generic <f1> help
 
 bind generic,pager \Cd half-down
 bind generic,pager \Cu half-up
@@ -99,13 +100,13 @@ bind generic H top-page
 bind generic M middle-page
 bind generic L bottom-page
 
-bind generic j next-entry
-bind generic k previous-entry
-bind generic gg first-entry
-bind generic G last-entry
+bind generic,index j next-entry
+bind generic,index k previous-entry
+bind generic,index gg first-entry
+bind generic,index G last-entry
 
-bind generic <enter> select-entry
-bind generic <return> select-entry
+bind generic,index <enter> select-entry
+bind generic,index <return> select-entry
 
 # pager
 bind pager j next-line
