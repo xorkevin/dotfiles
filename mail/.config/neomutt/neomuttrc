@@ -22,6 +22,7 @@ set thorough_search
 unset confirmappend
 unset beep_new
 unset sig_dashes # config in sig
+set sleep_time=0
 
 # editing
 set use_envelope_from
@@ -32,6 +33,7 @@ set forward_decode
 unset mime_forward
 set edit_headers
 set include
+set fast_reply
 
 # ui
 set date_format="%Y.%m.%d %H:%M"
