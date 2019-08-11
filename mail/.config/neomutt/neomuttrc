@@ -6,6 +6,8 @@ set history_file=~/.cache/mutt/mutthistory
 set certificate_file=/etc/ssl/certs/ca-certificates.crt
 set mailcap_path=~/.config/neomutt/mailcap
 set tmpdir=/tmp/mutt
+set alias_file=~/syncthing/mail/mutt_aliases
+source ~/syncthing/mail/mutt_aliases
 
 # sync
 set delete
@@ -64,27 +66,105 @@ mailboxes =gmail
 mailboxes =gmail/inbox =gmail/archive =gmail/sent =gmail/drafts =gmail/trash =gmail/spam
 
 # keybindings
-bind index,pager k previous-entry
-bind index,pager j next-entry
-bind index,pager \Cu half-up
-bind index,pager \Cd half-down
-bind index,pager g noop
-bind index gg first-entry
-bind pager gg top
-bind index G last-entry
-bind pager G bottom
-bind index,pager \Cj sidebar-next
-bind index,pager \Ck sidebar-prev
-bind index,pager \Cl sidebar-open
-bind index,pager @ compose-to-sender
+#unbind *
+
+# GENERIC
+
+# generic,pager
+bind generic,pager z noop
+bind generic,pager g noop
+
+bind generic,pager : enter-command
+bind generic,pager q exit
+
+bind generic,pager \Cd half-down
+bind generic,pager \Cu half-up
+bind generic,pager gg first-entry
+bind generic,pager G last-entry
+
+bind generic,pager \Ce next-line
+bind generic,pager \Cy previous-line
+
+bind generic,pager / search
+bind generic,pager ? search-reverse
+bind generic,pager n search-next
+bind generic,pager N search-opposite
+
+# generic
+bind generic zt current-top
+bind generic zz current-middle
+bind generic zb current-bottom
+
+bind generic H top-page
+bind generic M middle-page
+bind generic L bottom-page
+
+bind generic j next-entry
+bind generic k previous-entry
+
+bind generic <enter> select-entry
+bind generic <return> select-entry
+
+# pager
+bind pager j next-line
+bind pager k previous-line
+
+bind pager ";l" search-toggle
+
+# INDEX
+
+# index,pager
+bind index,pager ";" noop
+bind index,pager d noop
+
+bind index,pager ";e" change-folder
+bind index,pager,compose ";i" display-toggle-weed
+bind index,pager | pipe-message
+
+bind index,pager dd delete-message
+bind index,pager dt delete-thread
+
+bind index,pager m mail
+bind index,pager f forward-message
+bind index,pager r reply
 bind index,pager R group-reply
-bind index,pager D purge-message
-bind index <tab> sync-mailbox
+bind index,pager a view-attachments
+bind index,pager ";c" create-alias
+bind index,pager p recall-message
+
+# index
 bind index <space> collapse-thread
-macro index,pager \Cb "<pipe-message>urlscan<enter>" "extract message URLs"
-macro index,pager P "<shell-escape>mbsync -a<enter>" "run mbsync"
-bind attach <return> view-mailcap
-bind editor <tab> complete-query
+bind index <enter> display-message
+bind index <return> display-message
+
+bind index u undelete-message
+bind index U undelete-thread
+
+# ALIAS
+
+bind alias,attach,postpone d noop
+bind alias,attach,postpone dd delete-entry
+bind alias,attach,postpone u undelete-entry
+
+# COMPOSE
+
+bind compose a attach-file
+bind compose b edit-bcc
+bind compose c edit-cc
+bind compose t edit-to
+bind compose i edit-description
+bind compose s edit-subject
+bind compose ";s" send-message
+bind compose p postpone-message
+
+# BROWSER
+
+bind browser ";e" change-dir
+
+# MACROS
+
+macro index ";R" "<shell-escape>mbsync -a<enter>" "run mbsync"
+macro index,pager ";b" "<pipe-message>urlscan<enter>" "extract message URLs"
 
 set realname="Kevin Wang"
 source ~/.config/neomutt/account/gmail
