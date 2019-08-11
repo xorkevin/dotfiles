@@ -68,19 +68,19 @@ mailboxes =gmail/inbox =gmail/archive =gmail/sent =gmail/drafts =gmail/trash =gm
 # keybindings
 #unbind *
 
+bind generic,index,pager,alias,attach,postpone ";" noop
+bind generic,index,pager,alias,attach,postpone z noop
+bind generic,index,pager,alias,attach,postpone g noop
+bind generic,index,pager,alias,attach,postpone d noop
+
 # GENERIC
 
 # generic,pager
-bind generic,pager z noop
-bind generic,pager g noop
-
 bind generic,pager : enter-command
 bind generic,pager q exit
 
 bind generic,pager \Cd half-down
 bind generic,pager \Cu half-up
-bind generic,pager gg first-entry
-bind generic,pager G last-entry
 
 bind generic,pager \Ce next-line
 bind generic,pager \Cy previous-line
@@ -101,6 +101,8 @@ bind generic L bottom-page
 
 bind generic j next-entry
 bind generic k previous-entry
+bind generic gg first-entry
+bind generic G last-entry
 
 bind generic <enter> select-entry
 bind generic <return> select-entry
@@ -108,15 +110,14 @@ bind generic <return> select-entry
 # pager
 bind pager j next-line
 bind pager k previous-line
+bind pager gg top
+bind pager G bottom
 
 bind pager ";l" search-toggle
 
 # INDEX
 
 # index,pager
-bind index,pager ";" noop
-bind index,pager d noop
-
 bind index,pager ";e" change-folder
 bind index,pager,compose ";i" display-toggle-weed
 bind index,pager | pipe-message
@@ -142,7 +143,6 @@ bind index U undelete-thread
 
 # ALIAS
 
-bind alias,attach,postpone d noop
 bind alias,attach,postpone dd delete-entry
 bind alias,attach,postpone u undelete-entry
 
