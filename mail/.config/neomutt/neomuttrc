@@ -36,7 +36,7 @@ set include
 set fast_reply
 
 # ui
-set date_format="%Y.%m.%d %H:%M"
+set date_format="%Y-%m-%d %H:%M"
 set sort=threads
 set sort_aux = reverse-last-date-received
 set uncollapse_jump
