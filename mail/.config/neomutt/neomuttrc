@@ -68,10 +68,10 @@ mailboxes =gmail/inbox =gmail/archive =gmail/sent =gmail/drafts =gmail/trash =gm
 # keybindings
 #unbind *
 
-bind generic,index,pager,alias,attach,postpone ";" noop
-bind generic,index,pager,alias,attach,postpone z noop
-bind generic,index,pager,alias,attach,postpone g noop
-bind generic,index,pager,alias,attach,postpone d noop
+bind generic,index,pager,alias,attach,postpone,compose ";" noop
+bind generic,index,pager,alias,attach,postpone,compose z noop
+bind generic,index,pager,alias,attach,postpone,compose g noop
+bind generic,index,pager,alias,attach,postpone,compose d noop
 
 # GENERIC
 
@@ -122,10 +122,10 @@ bind pager ";l" search-toggle
 bind index,pager ";e" change-folder
 bind index,pager,compose ";i" display-toggle-weed
 bind index,pager | pipe-message
-bind index,pager ";j" sidebar-next
-bind index,pager ";k" sidebar-prev
-bind index,pager ";o" sidebar-open
-bind index,pager ";v" sidebar-toggle-visible
+bind index,pager J sidebar-next
+bind index,pager K sidebar-prev
+bind index,pager O sidebar-open
+bind index,pager V sidebar-toggle-visible
 
 bind index,pager dd delete-message
 bind index,pager dt delete-thread
@@ -154,17 +154,18 @@ bind alias,attach,postpone u undelete-entry
 # COMPOSE
 
 bind compose a attach-file
-bind compose b edit-bcc
-bind compose c edit-cc
-bind compose t edit-to
-bind compose i edit-description
-bind compose s edit-subject
+bind compose J move-down
+bind compose K move-up
+bind compose A toggle-disposition
+bind compose i edit-message
+bind compose dd detach-file
 bind compose ";s" send-message
 bind compose p postpone-message
 
 # BROWSER
 
 bind browser ";e" change-dir
+bind browser <space> view-file
 
 # MACROS
 
