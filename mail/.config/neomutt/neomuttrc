@@ -164,8 +164,9 @@ bind browser ";e" change-dir
 
 # MACROS
 
-macro index ";R" "<shell-escape>mbsync -a<enter>" "run mbsync"
-macro index,pager ";b" "<pipe-message>urlscan<enter>" "extract message URLs"
+bind index,pager S sync-mailbox
+macro index,pager ";R" "<shell-escape>mbsync -a<enter>" "run mbsync"
+macro pager ";b" "<pipe-message>urlscan<enter>" "extract message URLs"
 
 set realname="Kevin Wang"
 source ~/.config/neomutt/account/gmail
