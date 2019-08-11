@@ -5,7 +5,7 @@ set spoolfile = "+gmail/inbox"
 set mbox = "+gmail/archive"
 set record = "+gmail/sent"
 set postponed = "+gmail/drafts"
-set trash = "+mailbox/trash"
+set trash = "+gmail/trash"
 
 alternates '^kevin(\+.*)?@xorkevin.com$' '^wangkevin448(\+.*)?@gmail.com$'
 set signature=~/.config/neomutt/sig/gmail
