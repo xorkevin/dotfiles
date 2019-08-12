@@ -1,0 +1,181 @@
+set folder=~/mail
+set mbox_type=Maildir
+set header_cache=~/.cache/mutt/headers
+set message_cachedir=~/.cache/mutt/bodies
+set history_file=~/.cache/mutt/mutthistory
+set certificate_file=/etc/ssl/certs/ca-certificates.crt
+set mailcap_path=~/.config/neomutt/mailcap
+set tmpdir=/tmp/mutt
+set alias_file=~/syncthing/mail/mutt_aliases
+source ~/syncthing/mail/mutt_aliases
+
+# sync
+set delete
+set quit
+unset wait_key
+set timeout=4
+unset mark_old
+unset move
+set mail_check=0
+set mail_check_stats
+set thorough_search
+unset confirmappend
+unset beep_new
+unset sig_dashes # config in sig
+set sleep_time=0
+
+# editing
+set use_envelope_from
+set fcc_attach
+set text_flowed
+set forward_quote
+set forward_decode
+unset mime_forward
+set edit_headers
+set include
+set fast_reply
+
+# ui
+set date_format="%Y-%m-%d %H:%M"
+set sort=threads
+set sort_aux = reverse-last-date-received
+set uncollapse_jump
+set sort_re
+set pager_index_lines=8
+set pager_context=4
+set menu_scroll
+set tilde
+unset markers
+
+# pager
+ignore *
+unignore from: to: cc: bcc: date: subject:
+unhdr_order *
+hdr_order from: to: cc: bcc: date: subject:
+alternative_order text/plain text/enriched text/html
+auto_view text/html
+
+# sidebar
+set sidebar_visible
+set sidebar_short_path
+set sidebar_folder_indent
+set sidebar_indent_string = "  "
+set sidebar_width=32
+set sidebar_divider_char = "| "
+
+# mailboxes
+mailboxes =gmail
+mailboxes =gmail/inbox =gmail/archive =gmail/sent =gmail/drafts =gmail/trash =gmail/spam
+
+# keybindings
+#unbind *
+
+bind generic,index,pager,alias,attach,postpone,compose ";" noop
+bind generic,index,pager,alias,attach,postpone,compose z noop
+bind generic,index,pager,alias,attach,postpone,compose g noop
+bind generic,index,pager,alias,attach,postpone,compose d noop
+
+# GENERIC
+
+# generic,pager
+bind generic,pager : enter-command
+bind generic,pager q exit
+bind generic <f1> help
+
+bind generic,pager \Cd half-down
+bind generic,pager \Cu half-up
+
+bind generic,pager \Ce next-line
+bind generic,pager \Cy previous-line
+
+bind generic,pager / search
+bind generic,pager ? search-reverse
+bind generic,pager n search-next
+bind generic,pager N search-opposite
+
+# generic
+bind generic zt current-top
+bind generic zz current-middle
+bind generic zb current-bottom
+
+bind generic H top-page
+bind generic M middle-page
+bind generic L bottom-page
+
+bind generic,index j next-entry
+bind generic,index k previous-entry
+bind generic,index gg first-entry
+bind generic,index G last-entry
+
+bind generic,index <enter> select-entry
+bind generic,index <return> select-entry
+
+# pager
+bind pager j next-line
+bind pager k previous-line
+bind pager gg top
+bind pager G bottom
+
+bind pager ";l" search-toggle
+
+# INDEX
+
+# index,pager
+bind index,pager ";e" change-folder
+bind index,pager,compose ";i" display-toggle-weed
+bind index,pager | pipe-message
+bind index,pager J sidebar-next
+bind index,pager K sidebar-prev
+bind index,pager O sidebar-open
+bind index,pager V sidebar-toggle-visible
+
+bind index,pager dd delete-message
+bind index,pager dt delete-thread
+
+bind index,pager m mail
+bind index,pager f forward-message
+bind index,pager r reply
+bind index,pager R group-reply
+bind index,pager a view-attachments
+bind index,pager ";c" create-alias
+bind index,pager p recall-message
+
+# index
+bind index <space> collapse-thread
+bind index <enter> display-message
+bind index <return> display-message
+
+bind index u undelete-message
+bind index U undelete-thread
+
+# ALIAS
+
+bind alias,attach,postpone dd delete-entry
+bind alias,attach,postpone u undelete-entry
+
+# COMPOSE
+
+bind compose a attach-file
+bind compose J move-down
+bind compose K move-up
+bind compose A toggle-disposition
+bind compose i edit-message
+bind compose dd detach-file
+bind compose ";s" send-message
+bind compose p postpone-message
+
+# BROWSER
+
+bind browser ";e" change-dir
+bind browser <space> view-file
+
+# MACROS
+
+bind index,pager S sync-mailbox
+macro index,pager ";R" "<shell-escape>mbsync -a<enter>" "run mbsync"
+macro pager ";b" "<pipe-message>urlscan<enter>" "extract message URLs"
+
+set realname="Kevin Wang"
+source ~/.config/neomutt/account/gmail
+
+folder-hook gmail/* source ~/.config/neomutt/account/gmail

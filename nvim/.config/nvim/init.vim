@@ -92,6 +92,9 @@ let g:netrw_fastbrowse=0
 
 set tags=.tags;
 
+set diffopt+=internal
+set diffopt+=algorithm:histogram
+
 set completeopt=menu,menuone,noinsert,noselect
 set shortmess+=c
 
