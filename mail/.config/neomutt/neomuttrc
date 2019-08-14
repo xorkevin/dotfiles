@@ -43,6 +43,7 @@ set uncollapse_jump
 set sort_re
 set pager_index_lines=8
 set pager_context=4
+set pager_stop
 set menu_scroll
 set tilde
 unset markers
