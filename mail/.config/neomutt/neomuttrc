@@ -171,7 +171,7 @@ bind browser <space> view-file
 
 # MACROS
 
-bind index,pager S sync-mailbox
+bind index,pager ";s" sync-mailbox
 macro index,pager ";R" "<shell-escape>mbsync -a<enter>" "run mbsync"
 macro pager ";b" "<pipe-message>urlscan<enter>" "extract message URLs"
 
