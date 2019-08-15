@@ -144,6 +144,19 @@ bindsym $mod+z exec rm -f /tmp/i3/screen_locked.png && mkdir -p /tmp/i3 && maim 
 bindsym $mod+x exec maim -u -s ~/screenshot.png
 bindsym $mod+c exec maim -u ~/screenshot.png
 
+for_window [instance="scripts_quickpass"] floating enable, sticky enable, focus
+for_window [instance="scripts_musicvis"] floating enable, sticky enable, focus
+
+set $mode_scripts (p)ass (m)usicvis
+mode "$mode_scripts" {
+  bindsym p exec urxvt -name scripts_quickpass -e $HOME/scripts/quickpass.sh, mode "default"
+  bindsym m exec urxvt -name scripts_musicvis -e cava, mode "default"
+
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+bindsym $mod+semicolon mode "$mode_scripts"
+
 # resize window (you can also use the mouse for that)
 mode "resize" {
   # These bindings trigger as soon as you enter the resize mode
