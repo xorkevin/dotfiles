@@ -43,6 +43,7 @@ set uncollapse_jump
 set sort_re
 set pager_index_lines=8
 set pager_context=4
+set pager_stop
 set menu_scroll
 set tilde
 unset markers
@@ -171,7 +172,7 @@ bind browser <space> view-file
 
 # MACROS
 
-bind index,pager S sync-mailbox
+bind index,pager ";s" sync-mailbox
 macro index,pager ";R" "<shell-escape>mbsync -a<enter>" "run mbsync"
 macro pager ";b" "<pipe-message>urlscan<enter>" "extract message URLs"
 
