@@ -5,6 +5,10 @@ export PURE_GIT_PULL=0
 
 source $HOME/.zsh_plugins.sh
 
+if (( $+commands[starship] )); then
+  eval "$(starship init zsh)"
+fi
+
 # Treat the '!' character specially during expansion.
 setopt BANG_HIST
 # Write the history file in the ':start:elapsed;command' format.
