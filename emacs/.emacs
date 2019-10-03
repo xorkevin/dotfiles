@@ -11,10 +11,6 @@
 (eval-when-compile
   (require 'use-package))
 
-(use-package helm
-             :ensure t
-             :bind ("M-x" . helm-M-x))
-
 (use-package evil
              :ensure t
              :config (evil-mode t))
