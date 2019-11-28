@@ -255,6 +255,8 @@ alias checksyu="curl -s https://www.archlinux.org/feeds/news/ | xmllint --xpath 
 # observe
 observe() { while inotifywait --exclude .git -e modify -r -qq .; do $@; done; }
 
+latexgenpdf() { latexmk -pdf -bibtex -pdflatex='pdflatex -interaction=nonstopmode' $@ }
+
 export GPG_TTY=$(tty)
 
 # password store

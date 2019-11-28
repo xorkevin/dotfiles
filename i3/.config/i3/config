@@ -139,7 +139,7 @@ mode "$mode_exit" {
 }
 bindsym $mod+Shift+e mode "$mode_exit"
 # lockscreen
-bindsym $mod+z exec rm -f /tmp/i3/screen_locked.png && mkdir -p /tmp/i3 && maim -u /tmp/i3/screen_locked.png && convert /tmp/i3/screen_locked.png -scale 3.125% -resize 3200% /tmp/i3/screen_locked.png && i3lock -i /tmp/i3/screen_locked.png
+bindsym $mod+z exec rm -f /tmp/i3/screen_locked.png && mkdir -p /tmp/i3 && maim -u /tmp/i3/screen_locked.png && convert /tmp/i3/screen_locked.png -scale 3.125% -scale 3200% /tmp/i3/screen_locked.png && i3lock -i /tmp/i3/screen_locked.png
 # screenshot
 bindsym $mod+x exec maim -u -s ~/screenshot.png
 bindsym $mod+c exec maim -u ~/screenshot.png
