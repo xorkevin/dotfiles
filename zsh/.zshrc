@@ -257,8 +257,6 @@ observe() { while inotifywait --exclude .git -e modify -r -qq .; do $@; done; }
 
 latexgenpdf() { latexmk -pdf -bibtex -pdflatex='pdflatex -interaction=nonstopmode' $@ }
 
-presentpdf() { pdfpc --windowed --notes=right right $@ }
-
 export GPG_TTY=$(tty)
 
 # password store
