@@ -22,3 +22,12 @@
 	path = .config/git.d/urls
 [commit]
 	gpgsign = true
+[sendemail]
+	smtpserver = /usr/bin/msmtp
+	smtpserveroption = -a
+	smtpserveroption = gmail
+	annotate = true
+	confirm = always
+	multiEdit = true
+	aliasesFile = ~/syncthing/mail/mutt_aliases
+	aliasFileType = mutt

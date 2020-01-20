@@ -1,9 +1,10 @@
 set from="kevin@xorkevin.com"
-set sendmail="/bin/msmtp -a gmail"
+set sendmail="/usr/bin/msmtp -a gmail"
 
 set spoolfile = "+gmail/inbox"
 set mbox = "+gmail/archive"
 set record = "+gmail/sent"
+set copy = no
 set postponed = "+gmail/drafts"
 set trash = "+gmail/trash"
 
