@@ -31,3 +31,5 @@
 	multiEdit = true
 	aliasesFile = ~/syncthing/mail/mutt_aliases
 	aliasFileType = mutt
+[push]
+	followTags = true
