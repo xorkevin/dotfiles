@@ -140,8 +140,8 @@ user_pref('browser.zoom.updateBackgroundTabs', true);
 // fonts
 user_pref('font.default.x-western', 'sans-serif');
 user_pref('font.name.monospace.x-western', 'Hack');
-user_pref('font.name.sans-serif.x-western', 'Lato');
-user_pref('font.name.serif.x-western', 'Source Serif Pro');
+user_pref('font.name.sans-serif.x-western', 'Inter');
+user_pref('font.name.serif.x-western', 'Merriweather');
 user_pref('font.size.variable.x-western', 14);
 
 // downloads
