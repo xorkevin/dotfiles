@@ -1,11 +1,12 @@
 #!/bin/sh
 
 xrdb -merge "${HOME}/.Xresources"
-xrandr --output DisplayPort-2 --auto --primary --pos 1920x0 --output HDMI-0 --auto --pos 0x360
+#xrandr --output DisplayPort-2 --auto --primary --pos 1920x0 --output HDMI-0 --auto --pos 0x360
 #xmodmap "${HOME}/.xmodmap"
 xbindkeys
 xset m 1 0
 xset s 3600 3600
 xset dpms 3600 3600 3600
 feh --bg-fill "${HOME}/Pictures/bg"
+/usr/bin/lxqt-policykit-agent &
 exec i3
