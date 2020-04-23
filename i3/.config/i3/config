@@ -176,8 +176,11 @@ mode "resize" {
   bindsym Return mode "default"
   bindsym Escape mode "default"
 }
-
 bindsym $mod+r mode "resize"
+
+# prevent border window resizing
+bindsym --border button1 nop
+bindsym --border button3 nop
 
 focus_wrapping no
 focus_on_window_activation urgent
