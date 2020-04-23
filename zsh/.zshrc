@@ -279,4 +279,6 @@ export FZF_ALT_C_OPTS="--reverse"
 # opam configuration
 test -r $HOME/.opam/opam-init/init.zsh && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
-source <(kubectl completion zsh)
+if (( $+commands[kubectl] )); then
+  source <(kubectl completion zsh)
+fi
