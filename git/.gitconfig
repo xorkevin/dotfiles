@@ -33,3 +33,5 @@
 	aliasFileType = mutt
 [push]
 	followTags = true
+[pull]
+	rebase = false
