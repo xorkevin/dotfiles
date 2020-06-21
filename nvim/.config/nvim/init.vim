@@ -100,7 +100,7 @@ set shortmess+=c
 
 "Language client
 let g:LanguageClient_serverCommands = {
-  \ 'rust': ['rls'],
+  \ 'rust': ['rust-analyzer'],
   \ 'go': ['gopls'],
   \ 'python': ['pyls'],
   \ }
