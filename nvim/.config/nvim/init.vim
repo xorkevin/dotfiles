@@ -102,7 +102,10 @@ set shortmess+=c
 let g:LanguageClient_serverCommands = {
   \ 'rust': ['rust-analyzer'],
   \ 'go': ['gopls'],
+  \ 'cpp': ['clangd'],
+  \ 'c': ['clangd'],
   \ 'python': ['pyls'],
+  \ 'tex': ['texlab'],
   \ }
 let g:LanguageClient_hoverPreview = 'Never'
 
