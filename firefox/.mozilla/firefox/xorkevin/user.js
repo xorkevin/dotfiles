@@ -167,6 +167,7 @@ user_pref('signon.rememberSignons', false);
 
 // performance
 user_pref('browser.tabs.unloadOnLowMemory', false);
+user_pref('browser.sessionstore.interval', 3600000);
 
 // bookmarks
 user_pref('browser.bookmarks.autoExportHTML', false);
