@@ -1,3 +1,5 @@
+#!/bin/sh
+
 TMPDIR=/tmp/i3
 TMPFILE=$TMPDIR/screen_locked.png
 rm -f $TMPFILE \
