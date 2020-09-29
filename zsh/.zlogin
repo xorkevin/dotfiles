@@ -1,6 +1,6 @@
 {
   zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
-  if [ -s "$zcompdump" ] && [ ( ! -s "${zcompdump}.zwc" ) -o ( "$zcompdump" -nt "${zcompdump}.zwc" ) ]; then
+  if [ -s "$zcompdump" ] && [ \( ! -s "${zcompdump}.zwc" \) -o \( "$zcompdump" -nt "${zcompdump}.zwc" \) ]; then
     zcompile "$zcompdump"
   fi
 } &!
