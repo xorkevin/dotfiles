@@ -1,11 +1,6 @@
-# Executes commands at the start of an interactive session.
+. $HOME/.zsh_plugins.sh
 
-# pure prompt
-export PURE_GIT_PULL=0
-
-source $HOME/.zsh_plugins.sh
-
-if (( $+commands[starship] )); then
+if command -v starship > /dev/null; then
   eval "$(starship init zsh)"
 fi
 
@@ -223,8 +218,6 @@ alias grep="${aliases[grep]:-grep} --color=auto"
 alias get='wget --continue --progress=bar --timestamping'
 
 alias clip="xclip -selection c"
-alias sx="maim -s ~/screenshot.png"
-alias sc="scrot -c -d 5 ~/screenshot.png"
 
 # Neovim
 alias vim="nvim"
@@ -273,12 +266,12 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_R_OPTS="--reverse"
 export FZF_CTRL_T_OPTS="--reverse --preview '[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --color=always -r :\$FZF_PREVIEW_LINES {} || head -\$FZF_PREVIEW_LINES {}) 2> /dev/null'"
 export FZF_ALT_C_OPTS="--reverse"
-[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
-[ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
+[ -f /usr/share/fzf/key-bindings.zsh ] && . /usr/share/fzf/key-bindings.zsh
+[ -f /usr/share/fzf/completion.zsh ] && . /usr/share/fzf/completion.zsh
 
 # opam configuration
-test -r $HOME/.opam/opam-init/init.zsh && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+[ -r $HOME/.opam/opam-init/init.zsh ] && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
-if (( $+commands[kubectl] )); then
-  source <(kubectl completion zsh)
+if command -v kubectl > /dev/null; then
+  kubectl completion zsh | . /dev/fd/0
 fi

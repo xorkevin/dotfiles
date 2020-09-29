@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 out=gpgkeys
 fileout=$out.tar.gz

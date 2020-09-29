@@ -1,3 +1,5 @@
+#!/bin/sh
+
 selected_password=$(pass git ls-files '*.gpg' | sed 's/.gpg$//' | fzf --reverse --header="Select pass:")
 if [ -z "${selected_password}" ]; then
   exit
