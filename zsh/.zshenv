@@ -42,3 +42,5 @@ if [ ! -d "$TMPDIR" ]; then
 fi
 
 TMPPREFIX="${TMPDIR%/}/zsh"
+
+MOZ_X11_EGL=1
