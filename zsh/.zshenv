@@ -41,8 +41,8 @@ if [ ! -d "$TMPDIR" ]; then
   mkdir -p -m 700 "$TMPDIR"
 fi
 
-TMPPREFIX="${TMPDIR%/}/zsh"
+export TMPPREFIX="${TMPDIR%/}/zsh"
 
 export QT_AUTO_SCREEN_SCALE_FACTOR=0
 
-MOZ_X11_EGL=1
+export MOZ_X11_EGL=1
