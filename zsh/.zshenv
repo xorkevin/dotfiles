@@ -41,6 +41,6 @@ if [ ! -d "$TMPDIR" ]; then
   mkdir -p -m 700 "$TMPDIR"
 fi
 
-TMPPREFIX="${TMPDIR%/}/zsh"
+export TMPPREFIX="${TMPDIR%/}/zsh"
 
-MOZ_X11_EGL=1
+export MOZ_X11_EGL=1
