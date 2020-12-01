@@ -28,8 +28,8 @@ setopt HIST_SAVE_NO_DUPS
 setopt HIST_VERIFY
 
 HISTFILE="${ZDOTDIR:-$HOME}/.zhistory"  # The path to the history file.
-HISTSIZE=10000                   # The maximum number of events to save in the internal history.
-SAVEHIST=10000
+HISTSIZE=20000                   # The maximum number of events to save in the internal history.
+SAVEHIST=20000
 
 alias history-stat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head"
 
@@ -249,6 +249,11 @@ alias checksyu="curl -s https://www.archlinux.org/feeds/news/ | xmllint --xpath 
 observe() { while inotifywait --exclude .git -e modify -r -qq .; do $@; done; }
 
 latexgenpdf() { latexmk -pdf -bibtex -pdflatex='pdflatex -interaction=nonstopmode' $@ }
+
+npmpkglatest() {
+  local file=${1:-package.json}
+  cat $file | jq -r '(.dependencies // {}, .devDependencies // {}) | keys[]' | xargs -I{} sh -c 'printf " {}@latest"'
+}
 
 export GPG_TTY=$(tty)
 
