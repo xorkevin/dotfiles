@@ -250,6 +250,11 @@ observe() { while inotifywait --exclude .git -e modify -r -qq .; do $@; done; }
 
 latexgenpdf() { latexmk -pdf -bibtex -pdflatex='pdflatex -interaction=nonstopmode' $@ }
 
+npmpkglatest() {
+  local file=${1:-package.json}
+  cat $file | jq -r '(.dependencies // {}, .devDependencies // {}) | keys[]' | xargs -I{} sh -c 'printf " {}@latest"'
+}
+
 export GPG_TTY=$(tty)
 
 # password store
