@@ -6,6 +6,8 @@
 user_pref('browser.uidensity', 1);
 // do not automatically change to touch mode
 user_pref('browser.touchmode.auto', false);
+// system dark mode
+user_pref('ui.systemUsesDarkTheme', 1);
 
 user_pref('gfx.use_text_smoothing_setting', true);
 user_pref('toolkit.cosmeticAnimations.enabled', false);
