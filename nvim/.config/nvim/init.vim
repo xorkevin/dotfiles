@@ -40,6 +40,9 @@ Plug 'rust-lang/rust.vim', { 'for': ['rust'] }
 Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'vue', 'yaml'] }
 "Python
 Plug 'psf/black', { 'for': ['python'] }
+"Elixir
+Plug 'elixir-editors/vim-elixir', { 'for': ['elixir'] }
+Plug 'mhinz/vim-mix-format', { 'for': ['elixir'] }
 
 "Writing
 Plug 'junegunn/goyo.vim'
@@ -105,6 +108,7 @@ let g:LanguageClient_serverCommands = {
   \ 'cpp': ['clangd'],
   \ 'c': ['clangd'],
   \ 'python': ['pyls'],
+  \ 'elixir': ['elixir-ls'],
   \ 'tex': ['texlab'],
   \ }
 let g:LanguageClient_hoverPreview = 'Never'
@@ -139,11 +143,15 @@ augroup filetype_js
   autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue,*.yaml Prettier
 augroup END
 
+"Python
 augroup filetype_python
   autocmd!
   "Black
   autocmd BufWritePre *.py Black
 augroup END
+
+"Elixir
+let g:mix_format_on_save = 1
 
 let g:fzf_files_options = "--preview '[[ $(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --color=always -r :$FZF_PREVIEW_LINES {} || head -$FZF_PREVIEW_LINES {}) 2> /dev/null'"
 
