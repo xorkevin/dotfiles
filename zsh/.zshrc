@@ -78,7 +78,7 @@ _comp_path="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
 if [[ $_comp_path(#qNmh-20) ]]; then
   compinit -C -d "$_comp_path"
 else
-  mkdir -p "$_comp_path:h"
+  mkdir -p "${_comp_path%/*}"
   compinit -i -d "$_comp_path"
 fi
 unset _comp_path
@@ -282,7 +282,7 @@ export FZF_ALT_C_OPTS="--reverse"
 if command -v kubectl > /dev/null; then
   __KUBECTL_COMPLETION_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/completion/kubectl_completion"
   if [ ! -f $__KUBECTL_COMPLETION_FILE ] || [ ! -s $__KUBECTL_COMPLETION_FILE ]; then
-      mkdir -p "$__KUBECTL_COMPLETION_FILE:h"
+      mkdir -p "${__KUBECTL_COMPLETION_FILE%/*}"
       kubectl completion zsh >| $__KUBECTL_COMPLETION_FILE
   fi
   [ -f $__KUBECTL_COMPLETION_FILE ] && . $__KUBECTL_COMPLETION_FILE
