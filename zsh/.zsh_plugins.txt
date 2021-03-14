@@ -1,4 +1,3 @@
-chriskempson/base16-shell
 zsh-users/zsh-completions
 xorkevin/code-review-zsh
 xorkevin/launchcpx
