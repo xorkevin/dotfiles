@@ -12,7 +12,7 @@
 	dark = true
 	line-numbers = true
 	side-by-side = true
-	navigate = true
+	navigate = false
 	syntax-theme = base16
 	minus-style = syntax 52
 	minus-non-emph-style = syntax 52
