@@ -11,7 +11,7 @@
 [delta]
 	dark = true
 	line-numbers = true
-	side-by-side = true
+	side-by-side = false
 	navigate = false
 	syntax-theme = base16
 	minus-style = syntax 52
