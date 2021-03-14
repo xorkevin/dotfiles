@@ -1,5 +1,9 @@
 . $HOME/.zsh_plugins.sh
 
+if [ -f "$HOME/.base16_theme" ]; then
+  . "$HOME/.base16_theme"
+fi
+
 if command -v starship > /dev/null; then
   eval "$(starship init zsh)"
 fi

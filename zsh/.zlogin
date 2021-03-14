@@ -1,5 +1,5 @@
 {
-  zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
+  zcompdump="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
   if [ -s "$zcompdump" ] && [ \( ! -s "${zcompdump}.zwc" \) -o \( "$zcompdump" -nt "${zcompdump}.zwc" \) ]; then
     zcompile "$zcompdump"
   fi
