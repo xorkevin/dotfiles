@@ -4,8 +4,27 @@
 	signingkey = FD1892910AAE75C98DFA3FC92E42FF4C895D00AB!
 [alias]
 	fire = !git checkout -b fire-branch-emergency && git add -A && git commit --no-gpg-sign -m \"emergency commit: fire\" && git push origin fire-branch-emergency
+[core]
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	dark = true
+	line-numbers = true
+	side-by-side = true
+	navigate = true
+	syntax-theme = base16
+	minus-style = syntax 52
+	minus-non-emph-style = syntax 52
+	minus-emph-style = syntax 124
+	minus-empty-line-marker-style = normal 52
+	plus-style = syntax 22
+	plus-non-emph-style = syntax 22
+	plus-emph-style = syntax 28
+	plus-empty-line-marker-style = normal 22
 [diff]
 	algorithm = histogram
+	colorMoved = default
 	tool = vimdiff
 [difftool]
 	prompt = true
