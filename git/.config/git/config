@@ -41,6 +41,8 @@
 	path = .config/git.d/urls
 [commit]
 	gpgsign = true
+[tag]
+	gpgSign = true
 [sendemail]
 	smtpserver = /usr/bin/msmtp
 	smtpserveroption = -a
