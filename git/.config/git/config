@@ -5,6 +5,7 @@
 [alias]
 	fire = !git checkout -b fire-branch-emergency && git add -A && git commit --no-gpg-sign -m \"emergency commit: fire\" && git push origin fire-branch-emergency
 	fixup = !git commit --fixup $(git log -n 64 --no-merges --pretty='tformat:%h | [%an <%ae> %ad] %s' | fzf | cut -d '|' -f 1)
+	rbi = !git rebase -i $(git log -n 64 --no-merges --pretty='tformat:%h | [%an <%ae> %ad] %s' | fzf | cut -d '|' -f 1)
 [core]
 	pager = delta
 [interactive]
