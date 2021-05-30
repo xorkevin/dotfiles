@@ -1,5 +1,9 @@
 . $HOME/.zsh_plugins.sh
 
+if [ -f "$HOME/.base16_theme" ]; then
+  . "$HOME/.base16_theme"
+fi
+
 if command -v starship > /dev/null; then
   eval "$(starship init zsh)"
 fi
@@ -72,9 +76,20 @@ unsetopt MENU_COMPLETE
 # Disable start/stop characters in shell editor.
 unsetopt FLOW_CONTROL
 
+autoload -Uz compinit
+_comp_path="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
+# #q expands globs in conditional expressions
+if [[ $_comp_path(#qNmh-20) ]]; then
+  compinit -C -d "$_comp_path"
+else
+  mkdir -p "${_comp_path%/*}"
+  compinit -i -d "$_comp_path"
+fi
+unset _comp_path
+
 # Use caching to make completion for commands such as dpkg and apt usable.
 zstyle ':completion::complete:*' use-cache on
-zstyle ':completion::complete:*' cache-path "${ZDOTDIR:-$HOME}/.zcompcache"
+zstyle ':completion::complete:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompcache"
 
 # Group matches and describe.
 zstyle ':completion:*:*:*:*:*' menu select
@@ -121,8 +136,7 @@ zstyle ':completion:*:history-words' menu yes
 # Environment Variables
 zstyle ':completion::*:(-command-|export):*' fake-parameters ${${${_comps[(I)-value-*]#*,}%%,*}:#-*-}
 
-# Populate hostname completion. But allow ignoring custom entries from static
-# */etc/hosts* which might be uninteresting.
+# Populate hostname completion.
 zstyle -e ':completion:*:hosts' hosts 'reply=(
   ${=${=${=${${(f)"$(cat {/etc/ssh/ssh_,~/.ssh/}known_hosts(|2)(N) 2> /dev/null)"}%%[#| ]*}//\]:[0-9]*/ }//,/ }//\[/ }
   ${=${(f)"$(cat /etc/hosts(|)(N) <<(ypcat hosts 2> /dev/null))"}%%(\#${_etc_host_ignores:+|${(j:|:)~_etc_host_ignores}})*}
@@ -157,15 +171,6 @@ zstyle ':completion:*:ssh:*' group-order users hosts-domain hosts-host users hos
 zstyle ':completion:*:(ssh|scp|rsync):*:hosts-host' ignored-patterns '*(.|:)*' loopback ip6-loopback localhost ip6-localhost broadcasthost
 zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.<->.<->' '^[-[:alnum:]]##(.[-[:alnum:]]##)##' '*@*'
 zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
-
-autoload -Uz compinit
-_comp_files=(${ZDOTDIR:-$HOME}/.zcompdump(Nm-20))
-if (( $#_comp_files )); then
-  compinit -i -C
-else
-  compinit -i
-fi
-unset _comp_files
 
 export WORDCHARS='*?.[]~&;!#$%^(){}<>'
 
@@ -260,6 +265,7 @@ export GPG_TTY=$(tty)
 # password store
 export PASSWORD_STORE_DIR=$HOME/.password-store
 export PASSWORD_STORE_GENERATED_LENGTH=32
+export PASSWORD_STORE_SIGNING_KEY=E3F7F98150B8366CE19D0F0B3920F75DE27E4A5B
 
 export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
@@ -278,5 +284,17 @@ export FZF_ALT_C_OPTS="--reverse"
 [ -r $HOME/.opam/opam-init/init.zsh ] && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
 if command -v kubectl > /dev/null; then
-  kubectl completion zsh | . /dev/fd/0
+  __KUBECTL_COMPLETION_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/completion/kubectl_completion"
+  if [ ! -f $__KUBECTL_COMPLETION_FILE ] || [ ! -s $__KUBECTL_COMPLETION_FILE ]; then
+      mkdir -p "${__KUBECTL_COMPLETION_FILE%/*}"
+      kubectl completion zsh >| $__KUBECTL_COMPLETION_FILE
+  fi
+  [ -f $__KUBECTL_COMPLETION_FILE ] && . $__KUBECTL_COMPLETION_FILE
+  unset __KUBECTL_COMPLETION_FILE
+fi
+
+if [ -d $HOME/.zsh.d ]; then
+  for file in $HOME/.zsh.d/*(N.); do
+    . "$file"
+  done
 fi
