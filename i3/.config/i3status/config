@@ -16,8 +16,8 @@ order += "wireless _first_"
 order += "ethernet _first_"
 order += "battery all"
 # order += "disk /"
+order += "cpu_temperature 0"
 order += "load"
-# order += "cpu_temperature 0"
 order += "volume master"
 order += "tztime unix"
 order += "tztime utc"
@@ -51,17 +51,17 @@ tztime utc {
         timezone = "UTC"
 }
 
+cpu_temperature 0 {
+        format = "%degrees°C"
+        path = "/sys/class/hwmon/hwmon0/temp2_input"
+}
+
 load {
         format = "%1min"
 }
 
 # disk "/" {
 #         format = "%avail"
-# }
-
-# cpu_temperature 0 {
-#         format = "%degrees°C"
-#         path = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp1_input"
 # }
 
 volume master {
