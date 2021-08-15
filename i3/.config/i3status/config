@@ -18,6 +18,7 @@ order += "battery all"
 # order += "disk /"
 order += "cpu_temperature 0"
 order += "load"
+order += "read_file brightness"
 order += "volume master"
 order += "tztime unix"
 order += "tztime utc"
@@ -68,4 +69,10 @@ volume master {
         format = "♪:%volume"
         format_muted = "♪:muted(%volume)"
         device = "pulse:combined"
+}
+
+read_file brightness {
+        format = ":%content"
+        path = "/sys/class/backlight/intel_backlight/brightness"
+        max_characters = "5"
 }
