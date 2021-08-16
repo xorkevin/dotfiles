@@ -10,6 +10,14 @@
 "$HOME/scripts/audio/mutetoggle.sh"
    XF86AudioMute
 
+# Increase brightness
+"$HOME/scripts/display/brightnessup.sh"
+   XF86MonBrightnessUp
+
+# Decrease brightness
+"$HOME/scripts/display/brightnessdown.sh"
+   XF86MonBrightnessDown
+
 # Set Output Headphones
 "$HOME/scripts/audio/toheadphones.sh"
    XF86AudioPrev
