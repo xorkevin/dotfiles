@@ -54,7 +54,7 @@ tztime utc {
 
 cpu_temperature 0 {
         format = "%degrees°C"
-        path = "/sys/class/hwmon/hwmon8/temp1_input"
+        path = "/sys/devices/platform/coretemp.0/hwmon/hwmon*/temp1_input"
 }
 
 load {
