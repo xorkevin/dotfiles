@@ -44,5 +44,3 @@ fi
 export TMPPREFIX="${TMPDIR%/}/zsh"
 
 export QT_AUTO_SCREEN_SCALE_FACTOR=0
-
-export MOZ_X11_EGL=1
