@@ -88,6 +88,9 @@ bind generic,pager : enter-command
 bind generic,pager q exit
 bind generic <f1> help
 
+bind generic,pager \Cn next-entry
+bind generic,pager \Cp previous-entry
+
 bind generic,pager \Cd half-down
 bind generic,pager \Cu half-up
 
