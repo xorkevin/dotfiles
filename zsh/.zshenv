@@ -42,5 +42,3 @@ if [ ! -d "$TMPDIR" ]; then
 fi
 
 export TMPPREFIX="${TMPDIR%/}/zsh"
-
-export MOZ_X11_EGL=1
