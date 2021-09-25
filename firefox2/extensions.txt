@@ -1,5 +1,8 @@
-ublock
-vimium
-greasemonkey
-account container
-instapaper
+uBlock Origin
+Vimium
+Instapaper
+Bitwarden
+Dark Reader
+User-Agent Switcher and Manager
+SoundFixer
+Greasemonkey
