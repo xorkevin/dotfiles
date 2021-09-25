@@ -10,67 +10,73 @@ set alias_file=~/syncthing/mail/mutt_aliases
 source ~/syncthing/mail/mutt_aliases
 
 # sync
-set delete
-set quit
-unset wait_key
-set timeout=4
-unset mark_old
-unset move
-set mail_check=0
-set mail_check_stats
-set thorough_search
-unset confirmappend
-unset beep_new
-unset sig_dashes # config in sig
-set sleep_time=0
+set quit=yes # do not ask for confirmation on quit
+set delete=ask-no # ask before deleting messages
+set wait_key=no # do not ask for confirmation before executing scripts
+set timeout=600 # wait for 10min before timing out input
+set mark_old=no # do not auto-mark read on quit
+set move=no # do not auto-archive messages on read
+set mail_check=0 # do not look for new mail
+set mail_check_stats=no # do not calculate mail stats on new mail
+set confirmappend=no # do not ask before appending messages to existing mailbox
+set confirmcreate=yes # confirm before saving messages to new mailbox
+set beep=no # do not beep on error
+set beep_new=no # do not beep on new messages
+set sleep_time=1
 
-# editing
-set use_envelope_from
-set fcc_attach
-set text_flowed
-set forward_quote
-set forward_decode
-unset mime_forward
-set edit_headers
-set include
-set fast_reply
+# composing
+set use_envelope_from=yes # use custom smtp envelope from
+set use_from=yes # generate from header when sending
+set text_flowed=yes # send with content type format=flowed
+set fcc_attach=yes # save attachments with body
+set sig_dashes=no # sig config in account
+set edit_headers=yes # edit headers while composing
+set reply_to=yes # reply to Reply-to header if available
+set attribution='On %d, %n wrote:' # set attribution when replying
+set include=yes # include body when replying
+set forward_quote=yes # include message in forwards
+set forward_decode=yes # decode message to text/plain when forwarding
+set mime_forward=no # do not forward as separate mime message part
+set autoedit=no # do not skip initial prompt for subject and recipients
+set fast_reply=yes # skip to compose when replying
+set askcc=no # do not ask for cc
+set askbcc=no # do not ask for bcc
 
 # ui
-set date_format="%Y-%m-%d %H:%M"
-set sort=threads
-set sort_aux = reverse-last-date-received
-set uncollapse_jump
-set sort_re
+set status_on_top=yes # move status bar to top
+set status_format="[ Folder: %f ] [%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]%>─%?p?( %p postponed )?"
+set sort=threads # group sort by threads
+set sort_aux=reverse-last-date-received # sort by latest message
+set uncollapse_jump=no # do not jump when toggling thread collapse
+set date_format='%Y-%m-%d %H:%M' # set index date format
+set sort_re=yes
 set pager_index_lines=8
 set pager_context=4
-set pager_stop
-set menu_scroll
-set tilde
-unset markers
+set pager_stop=yes # do not scroll to next message at end
+set menu_scroll=yes # scroll menus line by line
+set tilde=yes # show tilde instead of blank lines after end of message
+set markers=no # do not show markers for line wrap
+set thorough_search=yes # decode headers and body when searching
+set pipe_decode=yes # decode headers and body when piping message
 
 # pager
-ignore *
-unignore from: to: cc: bcc: date: subject:
-unhdr_order *
-hdr_order from: to: cc: bcc: date: subject:
-alternative_order text/plain text/enriched text/html
-auto_view text/html
+alternative_order text/plain text/enriched text/html text/* # set mime type preference
+auto_view text/html # convert html to plain
 
 # sidebar
-set sidebar_visible
-set sidebar_short_path
-set sidebar_folder_indent
-set sidebar_indent_string = "  "
+set sidebar_visible=yes
+set sidebar_short_path=no
+set sidebar_folder_indent=no
+set sidebar_indent_string='  '
 set sidebar_width=32
-set sidebar_divider_char = "| "
-
-# mailboxes
-mailboxes =gmail/inbox =gmail/archive =gmail/sent =gmail/drafts =gmail/trash =gmail/spam
+set sidebar_divider_char='| '
 
 # keybindings
-#unbind *
+unbind *
 
-bind generic,index,pager,alias,attach,postpone,compose ";" noop
+set abort_key='<Esc>'
+
+bind generic,index,pager,alias,attach,postpone,compose ';' noop
 bind generic,index,pager,alias,attach,postpone,compose z noop
 bind generic,index,pager,alias,attach,postpone,compose g noop
 bind generic,index,pager,alias,attach,postpone,compose d noop
@@ -81,6 +87,9 @@ bind generic,index,pager,alias,attach,postpone,compose d noop
 bind generic,pager : enter-command
 bind generic,pager q exit
 bind generic <f1> help
+
+bind generic,pager \Cn next-entry
+bind generic,pager \Cp previous-entry
 
 bind generic,pager \Cd half-down
 bind generic,pager \Cu half-up
@@ -116,13 +125,13 @@ bind pager k previous-line
 bind pager gg top
 bind pager G bottom
 
-bind pager ";l" search-toggle
+bind pager ';l' search-toggle
 
 # INDEX
 
 # index,pager
-bind index,pager ";e" change-folder
-bind index,pager,compose ";i" display-toggle-weed
+bind index,pager ';e' change-folder
+bind index,pager,compose ';i' display-toggle-weed
 bind index,pager | pipe-message
 bind index,pager J sidebar-next
 bind index,pager K sidebar-prev
@@ -130,28 +139,35 @@ bind index,pager O sidebar-open
 bind index,pager V sidebar-toggle-visible
 
 bind index,pager dd delete-message
-bind index,pager dt delete-thread
+bind index,pager dT delete-thread
+bind index,pager dt delete-subthread
 
 bind index,pager m mail
 bind index,pager f forward-message
 bind index,pager r reply
 bind index,pager R group-reply
 bind index,pager a view-attachments
-bind index,pager ";c" create-alias
+bind index,pager ';c' create-alias
 bind index,pager p recall-message
 
+bind pager,index gt  next-thread
+bind pager,index gT  previous-thread
+
 # index
-bind index <space> collapse-thread
+bind index za  collapse-thread
 bind index <enter> display-message
 bind index <return> display-message
 
 bind index u undelete-message
 bind index U undelete-thread
 
-# ALIAS
+# ATTACH
 
 bind alias,attach,postpone dd delete-entry
 bind alias,attach,postpone u undelete-entry
+bind attach,compose <enter> view-attach
+bind attach,compose <return> view-attach
+bind attach a view-mailcap
 
 # COMPOSE
 
@@ -161,21 +177,94 @@ bind compose K move-up
 bind compose A toggle-disposition
 bind compose i edit-message
 bind compose dd detach-file
-bind compose ";s" send-message
+bind compose ';s' send-message
 bind compose p postpone-message
 
 # BROWSER
 
-bind browser ";e" change-dir
+bind browser ';e' change-dir
 bind browser <space> view-file
 
 # MACROS
 
-bind index,pager ";s" sync-mailbox
-macro index,pager ";R" "<shell-escape>mbsync -a<enter>" "run mbsync"
-macro pager ";b" "<pipe-message>urlscan<enter>" "extract message URLs"
+bind index,pager ';s' sync-mailbox
+macro index,pager ';R' '<shell-escape>mbsync -a<enter>' 'run mbsync'
+macro pager ';b' '<pipe-message>urlscan<enter>' 'extract message URLs'
 
-set realname="Kevin Wang"
-source ~/.config/neomutt/account/gmail
+# colors
 
-folder-hook gmail/* source ~/.config/neomutt/account/gmail
+# base16-mutt: base16-shell support for mutt
+#
+# These depend on mutt compiled with s-lang, not ncurses. Check by running `mutt -v`
+# Details this configuration may be found in the mutt manual:
+# §3 Patterns <http://www.mutt.org/doc/manual/#patterns>
+# §9 Using color and mono video attributes <http://www.mutt.org/doc/manual/#color>
+
+# https://www.neomutt.org/guide/configuration.html#color
+# base00 : color00 - Default Background
+# base01 : color18 - Lighter Background (Used for status bars)
+# base02 : color19 - Selection Background
+# base03 : color08 - Comments, Invisibles, Line Highlighting
+
+# base04 : color20 - Dark Foreground (Used for status bars)
+# base05 : color07 - Default Foreground, Caret, Delimiters, Operators
+# base06 : color21 - Light Foreground (Not often used)
+# base07 : color15 - Light Background (Not often used)
+
+# base08 : color01 - Index Item: Deleted.
+# base0A : color03 - Search Text Background. Message: Bold.
+# base0F : color17 - Deprecated, Opening/Closing Embedded Language Tags e.g.
+
+## Base
+color normal      color07  color00 # softer, bold
+
+## Weak
+color tilde       color08  color00  # `~` padding at the end of pager
+color attachment  color08  color00
+color tree        color08  color00  # arrow in threads
+color signature   color08  color00
+color markers     color08  color00  # `+` wrap indicator in pager
+
+## Strong
+color bold        color21  color00
+color underline   color21  color00
+
+## Highlight
+color error       color01  color00
+color message     color04  color00  # informational messages
+color search      color08  color03
+color status      color20  color19
+color indicator   color21  color19  # inverse, brighter
+
+
+# Message Index ----------------------------------------------------------------
+
+## Weak
+color index  color08  color00  "~R"        # read messages
+color index  color08  color00  "~d >45d"   # older than 45 days
+color index  color08  color00  "~v~(!~N)"  # collapsed thread with no unread
+color index  color08  color00  "~Q"        # messages that have been replied to
+
+## Strong
+color index  color21  color00  "(~U|~N|~O)"     # unread, new, old messages
+color index  color21  color00  "~v~(~U|~N|~O)"  # collapsed thread with unread
+
+## Highlight
+### Odd
+color index  color01  color00  "~E"  # past Expires: header date
+color index  color01  color00  "~="  # duplicated
+color index  color01  color00  "~S"  # marked by Supersedes: header
+### Flagged
+color index  color05  color00  "~F"       # flagged messages
+color index  color02  color00  "~v~(~F)"  # collapsed thread with flagged inside
+
+# Selection
+color index  color02  color18   "~T"  # tagged messages
+color index  color01  color18   "~D"  # deleted messages
+
+# accounts
+
+set realname='Kevin Wang'
+
+source '~/.config/neomutt/account/gmail'
+folder-hook 'gmail/' source '~/.config/neomutt/account/gmail'
