@@ -44,6 +44,7 @@ set askbcc=no # do not ask for bcc
 
 # ui
 set status_on_top=yes # move status bar to top
+set status_format="[ Folder: %f ] [%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]%>─%?p?( %p postponed )?"
 set sort=threads # group sort by threads
 set sort_aux=reverse-last-date-received # sort by latest message
 set uncollapse_jump=no # do not jump when toggling thread collapse
@@ -69,9 +70,6 @@ set sidebar_folder_indent=no
 set sidebar_indent_string='  '
 set sidebar_width=32
 set sidebar_divider_char='| '
-
-# mailboxes
-mailboxes =gmail/inbox =gmail/archive =gmail/sent =gmail/drafts =gmail/trash =gmail/spam
 
 # keybindings
 unbind *
@@ -264,6 +262,6 @@ color index  color01  color18   "~D"  # deleted messages
 # accounts
 
 set realname='Kevin Wang'
-source '~/.config/neomutt/account/gmail'
 
-folder-hook 'gmail/.*' source '~/.config/neomutt/account/gmail'
+source '~/.config/neomutt/account/gmail'
+folder-hook 'gmail/' source '~/.config/neomutt/account/gmail'
