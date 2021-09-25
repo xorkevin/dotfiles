@@ -9,10 +9,10 @@ set copy=no
 set postponed='+gmail/drafts'
 set trash='+gmail/trash'
 
-mailboxes '+gmail/inbox' '+gmail/archive' '+gmail/sent' '+gmail/drafts' '+gmail/trash' '+gmail/spam'
+mailboxes $spoolfile $mbox $record $postponed $trash '+gmail/spam'
 
 alternates '^kevin(\+.*)?@xorkevin.com$' '^wangkevin448(\+.*)?@gmail.com$'
 set signature='~/.config/neomutt/sig/gmail'
 
 macro index,pager ';r' '<shell-escape>mbsync gmail<enter>' 'run mbsync'
-macro index,pager ';a' '<save-message>+gmail/archive<enter>' 'archive mail'
+macro index,pager ';a' "<tag-prefix-cond><save-message>$mbox<enter>" 'archive mail'
