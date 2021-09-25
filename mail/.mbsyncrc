@@ -17,37 +17,47 @@ SubFolders Verbatim
 Path ~/mail/gmail/
 Inbox ~/mail/gmail/inbox
 
-Create Slave
-Expunge Both
 
 Channel gmail-inbox
-Master :gmail-remote:INBOX
-Slave :gmail-local:inbox
+Far :gmail-remote:INBOX
+Near :gmail-local:inbox
+Create Near
+Expunge Both
 SyncState *
 
 Channel gmail-archive
-Master :gmail-remote:"[Gmail]/All Mail"
-Slave :gmail-local:archive
+Far :gmail-remote:"[Gmail]/All Mail"
+Near :gmail-local:archive
+Create Near
+Expunge Both
 SyncState *
 
 Channel gmail-sent
-Master :gmail-remote:"[Gmail]/Sent Mail"
-Slave :gmail-local:sent
+Far :gmail-remote:"[Gmail]/Sent Mail"
+Near :gmail-local:sent
+Create Near
+Expunge Both
 SyncState *
 
 Channel gmail-drafts
-Master :gmail-remote:"[Gmail]/Drafts"
-Slave :gmail-local:drafts
+Far :gmail-remote:"[Gmail]/Drafts"
+Near :gmail-local:drafts
+Create Near
+Expunge Both
 SyncState *
 
 Channel gmail-trash
-Master :gmail-remote:"[Gmail]/Trash"
-Slave :gmail-local:trash
+Far :gmail-remote:"[Gmail]/Trash"
+Near :gmail-local:trash
+Create Near
+Expunge Both
 SyncState *
 
 Channel gmail-spam
-Master :gmail-remote:"[Gmail]/Spam"
-Slave :gmail-local:spam
+Far :gmail-remote:"[Gmail]/Spam"
+Near :gmail-local:spam
+Create Near
+Expunge Both
 SyncState *
 
 Group gmail
