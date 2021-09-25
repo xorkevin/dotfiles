@@ -10,53 +10,37 @@ set alias_file=~/syncthing/mail/mutt_aliases
 source ~/syncthing/mail/mutt_aliases
 
 # sync
-set quit=yes # do not ask for confirmation on quit
 set delete=ask-no # ask before deleting messages
-set wait_key=no # do not ask for confirmation before executing scripts
-set timeout=600 # wait for 10min before timing out input
 set mark_old=no # do not auto-mark read on quit
-set move=no # do not auto-archive messages on read
 set mail_check=0 # do not look for new mail
-set mail_check_stats=no # do not calculate mail stats on new mail
+set mail_check_stats_interval=0 # do not calculate mail stats on new mail
 set confirmappend=no # do not ask before appending messages to existing mailbox
 set confirmcreate=yes # confirm before saving messages to new mailbox
 set beep=no # do not beep on error
 set beep_new=no # do not beep on new messages
-set sleep_time=1
 
 # composing
 set use_envelope_from=yes # use custom smtp envelope from
-set use_from=yes # generate from header when sending
 set text_flowed=yes # send with content type format=flowed
-set fcc_attach=yes # save attachments with body
 set sig_dashes=no # sig config in account
 set edit_headers=yes # edit headers while composing
 set reply_to=yes # reply to Reply-to header if available
-set attribution='On %d, %n wrote:' # set attribution when replying
 set include=yes # include body when replying
 set forward_quote=yes # include message in forwards
-set forward_decode=yes # decode message to text/plain when forwarding
-set mime_forward=no # do not forward as separate mime message part
-set autoedit=no # do not skip initial prompt for subject and recipients
 set fast_reply=yes # skip to compose when replying
-set askcc=no # do not ask for cc
-set askbcc=no # do not ask for bcc
 
 # ui
 set status_on_top=yes # move status bar to top
-set status_format="[ Folder: %f ] [%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]%>─%?p?( %p postponed )?"
+set status_format="[%f] [%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]%>─%?p?( %p postponed )?"
 set sort=threads # group sort by threads
 set sort_aux=reverse-last-date-received # sort by latest message
-set uncollapse_jump=no # do not jump when toggling thread collapse
 set date_format='%Y-%m-%d %H:%M' # set index date format
-set sort_re=yes
 set pager_index_lines=8
 set pager_context=4
 set pager_stop=yes # do not scroll to next message at end
 set menu_scroll=yes # scroll menus line by line
 set tilde=yes # show tilde instead of blank lines after end of message
 set markers=no # do not show markers for line wrap
-set thorough_search=yes # decode headers and body when searching
 set pipe_decode=yes # decode headers and body when piping message
 
 # pager
@@ -80,12 +64,14 @@ bind generic,index,pager,alias,attach,postpone,compose ';' noop
 bind generic,index,pager,alias,attach,postpone,compose z noop
 bind generic,index,pager,alias,attach,postpone,compose g noop
 bind generic,index,pager,alias,attach,postpone,compose d noop
+bind generic,index,pager,alias,attach,postpone,compose t noop
+bind generic,index,pager,alias,attach,postpone,compose Z noop
 
 # GENERIC
 
 # generic,pager
 bind generic,pager : enter-command
-bind generic,pager q exit
+bind generic,pager ZZ exit
 bind generic <f1> help
 
 bind generic,pager \Cn next-entry
@@ -98,7 +84,6 @@ bind generic,pager \Ce next-line
 bind generic,pager \Cy previous-line
 
 bind generic,pager / search
-bind generic,pager ? search-reverse
 bind generic,pager n search-next
 bind generic,pager N search-opposite
 
@@ -124,6 +109,7 @@ bind pager j next-line
 bind pager k previous-line
 bind pager gg top
 bind pager G bottom
+bind pager tm tag-message
 
 bind pager ';l' search-toggle
 
@@ -136,7 +122,7 @@ bind index,pager | pipe-message
 bind index,pager J sidebar-next
 bind index,pager K sidebar-prev
 bind index,pager O sidebar-open
-bind index,pager V sidebar-toggle-visible
+bind index,pager ';v' sidebar-toggle-visible
 
 bind index,pager dd delete-message
 bind index,pager dT delete-thread
@@ -150,14 +136,16 @@ bind index,pager a view-attachments
 bind index,pager ';c' create-alias
 bind index,pager p recall-message
 
-bind pager,index gt  next-thread
-bind pager,index gT  previous-thread
+bind index,pager gt next-thread
+bind index,pager gT previous-thread
 
 # index
-bind index za  collapse-thread
+bind index za collapse-thread
 bind index <enter> display-message
 bind index <return> display-message
 
+bind index tt tag-subthread
+bind index tT tag-thread
 bind index u undelete-message
 bind index U undelete-thread
 
@@ -212,7 +200,12 @@ macro pager ';b' '<pipe-message>urlscan<enter>' 'extract message URLs'
 # base07 : color15 - Light Background (Not often used)
 
 # base08 : color01 - Index Item: Deleted.
+# base09 : color16 - Message: URL.
 # base0A : color03 - Search Text Background. Message: Bold.
+# base0B : color02 - Message: Code. Index Item: Tagged.
+# base0C : color06 - Message: Subject, Quotes. Index Item: Trusted.
+# base0D : color04 - Message: Headings.
+# base0E : color05 - Message: Italic, Underline. Index Item: Flagged.
 # base0F : color17 - Deprecated, Opening/Closing Embedded Language Tags e.g.
 
 ## Base
@@ -250,6 +243,9 @@ color index  color21  color00  "(~U|~N|~O)"     # unread, new, old messages
 color index  color21  color00  "~v~(~U|~N|~O)"  # collapsed thread with unread
 
 ## Highlight
+### Trusted
+color index  color06  color00  "~g"  # PGP signed messages
+color index  color06  color00  "~G"  # PGP encrypted messages
 ### Odd
 color index  color01  color00  "~E"  # past Expires: header date
 color index  color01  color00  "~="  # duplicated
@@ -261,6 +257,60 @@ color index  color02  color00  "~v~(~F)"  # collapsed thread with flagged inside
 # Selection
 color index  color02  color18   "~T"  # tagged messages
 color index  color01  color18   "~D"  # deleted messages
+
+### Message Headers ----------------------------------------------------
+
+# Base
+color hdrdefault  color07  color00
+color header      color07  color00  "^"
+# Strong
+color header      color21  color00  "^(From)"
+# Highlight
+color header      color04  color00  "^(Subject)"
+
+### Message Body -------------------------------------------------------
+# When possible, these regular expressions attempt to match http://spec.commonmark.org/
+## Weak
+# ~~~ Horizontal rules ~~~
+color body  color08  color00  "([[:space:]]*[-+=#*~_]){3,}[[:space:]]*"
+## Strong
+# *Bold* span
+color body  color03  color00  "(^|[[:space:][:punct:]])\\*[^*]+\\*([[:space:][:punct:]]|$)"
+# _Underline_ span
+color body  color05  color00  "(^|[[:space:][:punct:]])_[^_]+_([[:space:][:punct:]]|$)"
+# /Italic/ span (Sometimes gets directory names)
+color body  color05  color00  "(^|[[:space:][:punct:]])/[^/]+/([[:space:][:punct:]]|$)"
+# ATX headers
+color body  color04  color00  "^[[:space:]]{0,3}#+[[:space:]].*$"
+## Highlight
+# `Code` span
+color body  color02  color00  "(^|[[:space:][:punct:]])\`[^\`]+\`([[:space:][:punct:]]|$)"
+# Indented code block
+color body  color02  color00  "^[[:space:]]{4,}.*$"
+# URLs
+color body  color16 color00  "([a-z][a-z0-9+-]*://(((([a-z0-9_.!~*'();:&=+$,-]|%[0-9a-f][0-9a-f])*@)?((([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?|[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)(:[0-9]+)?)|([a-z0-9_.!~*'()$,;:@&=+-]|%[0-9a-f][0-9a-f])+)(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?(#([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?|(www|ftp)\\.(([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?(:[0-9]+)?(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?(#([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?)[^].,:;!)? \t\r\n<>\"]"
+# Email addresses
+color body  color16 color00  "((@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]),)*@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]):)?[0-9a-z_.+%$-]+@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\])"
+# Emoticons ;-P
+color body  black   yellow   "[;:][-o]?[})>{(<|P]"
+
+# PGP
+color body  color21  color01   "(BAD signature)"
+color body  color21  color01   "^gpg: BAD signature from.*"
+color body  color21  color04   "(Good signature)"
+color body  color21  color04   "^gpg: Good signature .*"
+color body  color04  color00  "^gpg: "
+
+
+## Quotation blocks
+color quoted   color06  color00
+color quoted1  color02  color00
+color quoted2  color03  color00
+color quoted3  color16  color00
+color quoted4  color01  color00
+color quoted5  color17  color00
+color quoted6  color05  color00
+color quoted7  color04  color00
 
 # accounts
 
