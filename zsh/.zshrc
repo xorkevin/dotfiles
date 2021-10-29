@@ -69,8 +69,6 @@ setopt AUTO_MENU
 setopt AUTO_LIST
 # If completed parameter is a directory, add a trailing slash.
 setopt AUTO_PARAM_SLASH
-# Needed for file modification glob modifiers with compinit
-setopt EXTENDED_GLOB
 # Do not autoselect the first completion entry.
 unsetopt MENU_COMPLETE
 # Disable start/stop characters in shell editor.
@@ -285,12 +283,34 @@ export FZF_ALT_C_OPTS="--reverse"
 
 if command -v kubectl > /dev/null; then
   __KUBECTL_COMPLETION_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/completion/kubectl_completion"
-  if [ ! -f $__KUBECTL_COMPLETION_FILE ] || [ ! -s $__KUBECTL_COMPLETION_FILE ]; then
-      mkdir -p "${__KUBECTL_COMPLETION_FILE%/*}"
-      kubectl completion zsh >| $__KUBECTL_COMPLETION_FILE
+  if [ ! -f $__KUBECTL_COMPLETION_FILE ] || [ ! -s $__KUBECTL_COMPLETION_FILE ] || [[ ! $__KUBECTL_COMPLETION_FILE(#qNmh-20) ]]; then
+    mkdir -p "${__KUBECTL_COMPLETION_FILE%/*}"
+    kubectl completion zsh >| $__KUBECTL_COMPLETION_FILE
   fi
   [ -f $__KUBECTL_COMPLETION_FILE ] && . $__KUBECTL_COMPLETION_FILE
   unset __KUBECTL_COMPLETION_FILE
+fi
+
+if command -v forge > /dev/null; then
+  __FORGE_COMPLETION_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/completion/forge_completion"
+  if [ ! -f $__FORGE_COMPLETION_FILE ] || [ ! -s $__FORGE_COMPLETION_FILE ] || [[ ! $__FORGE_COMPLETION_FILE(#qNmh-20) ]]; then
+    mkdir -p "${__FORGE_COMPLETION_FILE%/*}"
+    printf 'compdef _forge forge\n' >| $__FORGE_COMPLETION_FILE
+    forge completion zsh >> $__FORGE_COMPLETION_FILE
+  fi
+  [ -f $__FORGE_COMPLETION_FILE ] && . $__FORGE_COMPLETION_FILE
+  unset __FORGE_COMPLETION_FILE
+fi
+
+if command -v anvil > /dev/null; then
+  __ANVIL_COMPLETION_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/completion/anvil_completion"
+  if [ ! -f $__ANVIL_COMPLETION_FILE ] || [ ! -s $__ANVIL_COMPLETION_FILE ] || [[ ! $__ANVIL_COMPLETION_FILE(#qNmh-20) ]]; then
+    mkdir -p "${__ANVIL_COMPLETION_FILE%/*}"
+    printf 'compdef _anvil anvil\n' >| $__ANVIL_COMPLETION_FILE
+    anvil completion zsh >> $__ANVIL_COMPLETION_FILE
+  fi
+  [ -f $__ANVIL_COMPLETION_FILE ] && . $__ANVIL_COMPLETION_FILE
+  unset __ANVIL_COMPLETION_FILE
 fi
 
 if [ -d $HOME/.zsh.d ]; then
