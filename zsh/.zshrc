@@ -313,6 +313,17 @@ if command -v anvil > /dev/null; then
   unset __ANVIL_COMPLETION_FILE
 fi
 
+if command -v interchange > /dev/null; then
+  __INTERCHANGE_COMPLETION_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/completion/interchange_completion"
+  if [ ! -f $__INTERCHANGE_COMPLETION_FILE ] || [ ! -s $__INTERCHANGE_COMPLETION_FILE ] || [[ ! $__INTERCHANGE_COMPLETION_FILE(#qNmh-20) ]]; then
+    mkdir -p "${__INTERCHANGE_COMPLETION_FILE%/*}"
+    printf 'compdef _interchange interchange\n' >| $__INTERCHANGE_COMPLETION_FILE
+    interchange completion zsh >> $__INTERCHANGE_COMPLETION_FILE
+  fi
+  [ -f $__INTERCHANGE_COMPLETION_FILE ] && . $__INTERCHANGE_COMPLETION_FILE
+  unset __INTERCHANGE_COMPLETION_FILE
+fi
+
 if [ -d $HOME/.zsh.d ]; then
   for file in $HOME/.zsh.d/*(N.); do
     . "$file"
