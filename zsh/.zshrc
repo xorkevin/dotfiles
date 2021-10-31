@@ -255,7 +255,11 @@ latexgenpdf() { latexmk -pdf -bibtex -pdflatex='pdflatex -interaction=nonstopmod
 
 npmpkglatest() {
   local file=${1:-package.json}
-  cat $file | jq -r '(.dependencies // {}, .devDependencies // {}) | keys[]' | xargs -I{} sh -c 'printf " {}@latest"'
+  cat $file | jq -j '(.dependencies // {}, .devDependencies // {}) | keys[] | " \(.)@latest"'
+}
+
+gopkglatest() {
+  go list -m -json all | jq -j 'select(.Indirect != true and .Main != true) | " \(.Path)@latest"'
 }
 
 export GPG_TTY=$(tty)
