@@ -328,6 +328,17 @@ if command -v interchange > /dev/null; then
   unset __INTERCHANGE_COMPLETION_FILE
 fi
 
+if command -v fsserve > /dev/null; then
+  __FSSERVE_COMPLETION_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/completion/fsserve_completion"
+  if [ ! -f $__FSSERVE_COMPLETION_FILE ] || [ ! -s $__FSSERVE_COMPLETION_FILE ] || [[ ! $__FSSERVE_COMPLETION_FILE(#qNmh-20) ]]; then
+    mkdir -p "${__FSSERVE_COMPLETION_FILE%/*}"
+    printf 'compdef _fsserve fsserve\n' >| $__FSSERVE_COMPLETION_FILE
+    fsserve completion zsh >> $__FSSERVE_COMPLETION_FILE
+  fi
+  [ -f $__FSSERVE_COMPLETION_FILE ] && . $__FSSERVE_COMPLETION_FILE
+  unset __FSSERVE_COMPLETION_FILE
+fi
+
 if [ -d $HOME/.zsh.d ]; then
   for file in $HOME/.zsh.d/*(N.); do
     . "$file"
