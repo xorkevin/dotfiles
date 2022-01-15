@@ -1,4 +1,6 @@
-. $HOME/.zsh_plugins.sh
+if [ -f "$HOME/.zsh_plugins.sh" ]; then
+  . "$HOME/.zsh_plugins.sh"
+fi
 
 if [ -f "$HOME/.base16_theme" ]; then
   . "$HOME/.base16_theme"
