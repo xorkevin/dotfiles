@@ -264,6 +264,12 @@ gopkglatest() {
   go list -m -json all | jq -j 'select(.Indirect != true and .Main != true) | " \(.Path)@latest"'
 }
 
+dockeranonvolumes() {
+  docker volume ls --filter dangling=true --format '{{.Name}}|{{if .Label "com.docker.compose.project"}}ok{{else}}null{{end}}' \
+    | grep '|null$' \
+    | cut -d '|' -f 1
+}
+
 export GPG_TTY=$(tty)
 
 # password store
