@@ -107,7 +107,7 @@ let g:LanguageClient_serverCommands = {
   \ 'go': ['gopls'],
   \ 'cpp': ['clangd'],
   \ 'c': ['clangd'],
-  \ 'python': ['pyls'],
+  \ 'python': ['pylsp'],
   \ 'elixir': ['elixir-ls'],
   \ 'tex': ['texlab'],
   \ }
@@ -153,7 +153,7 @@ augroup END
 "Elixir
 let g:mix_format_on_save = 1
 
-let g:fzf_files_options = "--preview '[[ $(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --color=always -r :$FZF_PREVIEW_LINES {} || head -$FZF_PREVIEW_LINES {}) 2> /dev/null'"
+let g:fzf_files_options = "--layout default --preview '[[ $(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --color=always -r :$FZF_PREVIEW_LINES {} || head -$FZF_PREVIEW_LINES {}) 2> /dev/null'"
 
 augroup goyo_event
   autocmd!
