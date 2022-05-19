@@ -107,7 +107,7 @@ let g:LanguageClient_serverCommands = {
   \ 'go': ['gopls'],
   \ 'cpp': ['clangd'],
   \ 'c': ['clangd'],
-  \ 'python': ['pyls'],
+  \ 'python': ['pylsp'],
   \ 'elixir': ['elixir-ls'],
   \ 'tex': ['texlab'],
   \ }
