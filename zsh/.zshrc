@@ -272,6 +272,8 @@ dockeranonvolumes() {
 
 export GPG_TTY=$(tty)
 
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
 # password store
 export PASSWORD_STORE_DIR=$HOME/.password-store
 export PASSWORD_STORE_GENERATED_LENGTH=32
