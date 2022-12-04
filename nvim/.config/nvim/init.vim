@@ -82,10 +82,7 @@ augroup resize_event
 augroup END
 
 "Visual
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
-endif
+let base16colorspace=256
 
 colorscheme base16-tomorrow-night
 
