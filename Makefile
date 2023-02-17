@@ -7,3 +7,6 @@ zsh:
 
 gpgbackup:
 	./gpgbackup.sh
+
+clonetmuxressurect:
+	git clone --depth=1 https://github.com/xorkevin/tmux-ressurect.git ~/.tmux/plugins/tmux-resurrect
