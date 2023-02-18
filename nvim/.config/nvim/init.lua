@@ -9,7 +9,7 @@ require('packer').startup(function(use)
   use 'junegunn/fzf.vim'
 
   -- theme
-  use 'chriskempson/base16-vim'
+  use 'RRethy/nvim-base16'
 
   use {
     'nvim-lualine/lualine.nvim',
@@ -63,7 +63,6 @@ vim.keymap.set('n', '<leader>f', ':Files<CR>')
 vim.keymap.set('n', '<leader>b', ':Buffers<CR>')
 
 -- base16 theme
-vim.g.base16colorspace = 256
 vim.cmd('colorscheme base16-tomorrow-night')
 
 -- lualine
