@@ -1,13 +1,3 @@
-" "Text manipulation
-" Plug 'junegunn/vim-easy-align'
-" Plug 'tpope/vim-repeat'
-" Plug 'tpope/vim-surround'
-" Plug 'bronson/vim-visual-star-search'
-"
-" "Git
-" Plug 'tpope/vim-fugitive'
-" Plug 'airblade/vim-gitgutter'
-"
 " "Autocomplete
 " Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -22,14 +12,6 @@
 " Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'vue', 'yaml'] }
 " "Python
 " Plug 'psf/black', { 'for': ['python'] }
-"
-" "Writing
-" Plug 'junegunn/goyo.vim'
-" Plug 'junegunn/limelight.vim'
-"
-" "Visual
-" Plug 'tpope/vim-vinegar'
-
 
 " "Language client
 " let g:LanguageClient_serverCommands = {
@@ -83,15 +65,3 @@
 "   "Black
 "   autocmd BufWritePre *.py Black
 " augroup END
-
-" augroup goyo_event
-"   autocmd!
-"   "Goyo
-"   autocmd User GoyoEnter Limelight
-"   autocmd User GoyoLeave Limelight!
-" augroup END
-" nnoremap <leader>g :Goyo<CR>
-
-"Keybindings
-
-" xmap ga <Plug>(EasyAlign)
