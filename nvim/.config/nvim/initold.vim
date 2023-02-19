@@ -1,6 +1,4 @@
 " "Autocomplete
-" Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'Shougo/echodoc.vim'
 "
 " "Autoformat
@@ -15,8 +13,6 @@
 
 " "Language client
 " let g:LanguageClient_serverCommands = {
-"   \ 'rust': ['rust-analyzer'],
-"   \ 'go': ['gopls'],
 "   \ 'cpp': ['clangd'],
 "   \ 'c': ['clangd'],
 "   \ 'python': ['pylsp'],
