@@ -42,12 +42,12 @@ require('packer').startup(function(use)
     requires = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       local fzf = require('fzf-lua')
-      local fzf_opts = { fzf_opts = { ['--layout'] = 'default' } }
+      local opts = { fzf_opts = { ['--layout'] = 'default' } }
       vim.keymap.set('n', '<leader>f', function()
-        fzf.files(fzf_opts)
+        fzf.files(opts)
       end)
       vim.keymap.set('n', '<leader>b', function()
-        fzf.buffers(fzf_opts)
+        fzf.buffers(opts)
       end)
     end,
   }
@@ -73,26 +73,17 @@ require('packer').startup(function(use)
     end,
   }
 
-  -- autocomplete
-  use 'neovim/nvim-lspconfig'
-  use 'L3MON4D3/LuaSnip'
-  use {
-    'saadparwaiz1/cmp_luasnip',
-    requires = { 'L3MON4D3/LuaSnip' },
-  }
+  -- lsp
   use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-buffer'
   use {
-    'hrsh7th/nvim-cmp',
-    requires = {
-     'neovim/nvim-lspconfig',
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-buffer',
-    },
+    'ray-x/lsp_signature.nvim',
+    config = function()
+      require('lsp_signature').setup()
+    end
+  }
+  use {
+    'neovim/nvim-lspconfig',
+    requires = { 'hrsh7th/cmp-nvim-lsp', 'ray-x/lsp_signature.nvim', 'ibhagwan/fzf-lua' },
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lspconfig = require('lspconfig')
@@ -104,6 +95,172 @@ require('packer').startup(function(use)
         })
       end
 
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = 'rounded',
+      })
+      vim.diagnostic.config({
+        float = { border = 'rounded' },
+      })
+
+      vim.keymap.set('n', 'K', function()
+        vim.lsp.buf.hover()
+      end)
+      vim.keymap.set('n', '<leader>e', function()
+        vim.diagnostic.open_float()
+      end)
+
+      local fzf = require('fzf-lua')
+
+      local refactor_options = {
+        {
+          label = 'List references',
+          action = function()
+            fzf.lsp_references()
+          end,
+        },
+        {
+          label = 'Go to definition',
+          action = function()
+            vim.lsp.buf.definition()
+          end,
+        },
+        {
+          label = 'List definitions',
+          action = function()
+            fzf.lsp_definitions()
+          end,
+        },
+        {
+          label = 'Go to typedefinition',
+          action = function()
+            vim.lsp.buf.type_definition()
+          end,
+        },
+        {
+          label = 'List typedefinitions',
+          action = function()
+            fzf.lsp_typedefs()
+          end,
+        },
+        {
+          label = 'Go to declaration',
+          action = function()
+            vim.lsp.buf.declaration()
+          end,
+        },
+        {
+          label = 'List implementations',
+          action = function()
+            fzf.lsp_implementations()
+          end,
+        },
+        {
+          label = 'Incoming calls',
+          action = function()
+            fzf.lsp_incoming_calls()
+          end,
+        },
+        {
+          label = 'Outgoing calls',
+          action = function()
+            fzf.lsp_outgoing_calls()
+          end,
+        },
+        {
+          label = 'List document symbols',
+          action = function()
+            fzf.lsp_document_symbols()
+          end,
+        },
+        {
+          label = 'List workspace symbols',
+          action = function()
+            fzf.lsp_workspace_symbols()
+          end,
+        },
+        {
+          label = 'List document diagnostics',
+          action = function()
+            fzf.diagnostics_document()
+          end,
+        },
+        {
+          label = 'List workspace diagnostics',
+          action = function()
+            fzf.diagnostics_workspace()
+          end,
+        },
+        {
+          label = 'Code actions',
+          action = function()
+            fzf.lsp_code_actions()
+          end,
+        },
+        {
+          label = 'Rename',
+          action = function()
+            vim.lsp.buf.rename()
+          end,
+        },
+        {
+          label = 'List workspace folders',
+          action = function()
+            vim.notify('LSP workspaces: ' .. vim.inspect({ workspace_folders = vim.lsp.buf.list_workspace_folders() }),  vim.log.levels.INFO)
+          end,
+        },
+        -- TODO document_highlight
+        -- TODO format
+        -- TODO server_ready
+      }
+      local refactor_choices = {}
+      local refactor_actions = {}
+      for _, choice in ipairs(refactor_options) do
+        table.insert(refactor_choices, choice.label)
+        refactor_actions[choice.label] = choice.action
+      end
+
+      vim.keymap.set('n', '<leader>r', function()
+        fzf.fzf_exec(refactor_choices, {
+          prompt = 'LSP> ',
+          actions = {
+            ['default'] = function(selected)
+              if not selected or not selected[1] then
+                return
+              end
+              local action = refactor_actions[selected[1]]
+              if action then
+                action()
+              end
+            end,
+            ['ctrl-y'] = function(selected, opts)
+              vim.notify('LSP menu: ' .. vim.inspect({ selected = selected }), vim.log.levels.INFO)
+            end,
+          },
+          fzf_opts = { ['--layout'] = 'reverse' },
+        })
+      end)
+    end
+  }
+
+  -- autocomplete
+  use 'L3MON4D3/LuaSnip'
+  use {
+    'saadparwaiz1/cmp_luasnip',
+    requires = { 'L3MON4D3/LuaSnip' },
+  }
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-buffer'
+  use {
+    'hrsh7th/nvim-cmp',
+    requires = {
+      'neovim/nvim-lspconfig',
+      'L3MON4D3/LuaSnip',
+      'saadparwaiz1/cmp_luasnip',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-buffer',
+    },
+    config = function()
       local luasnip = require('luasnip')
 
       local cmp = require('cmp')
