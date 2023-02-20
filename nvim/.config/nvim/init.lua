@@ -1,9 +1,52 @@
 -- leader
 vim.g.mapleader = ';'
 
+-- core options
+vim.opt.lazyredraw = true
+vim.opt.updatetime = 500
+
+vim.opt.relativenumber = true
+vim.opt.number = true
+vim.opt.signcolumn = 'yes'
+
+vim.opt.listchars = { tab = '| ', trail = '.', extends = '>', precedes = '<', nbsp = '␣' }
+vim.opt.list = true
+
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+
+vim.opt.conceallevel = 2
+
+vim.opt.showmode = false
+
+vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'noselect' }
+vim.opt.shortmess:append('c')
+
+vim.opt.diffopt:append('algorithm:histogram')
+
+-- base keybinds
+vim.keymap.set('n', '<leader>e', '<cmd>edit .<CR>')
+vim.keymap.set('n', '<leader>d', '<cmd>bd<CR>')
+vim.keymap.set('n', '<leader>s', '<cmd>w<CR>')
+vim.keymap.set('n', '<leader>l', '<cmd>nohlsearch<CR>')
+
+-- base autocmds
+local resize_window_equal_group = vim.api.nvim_create_augroup('k_resize_window_equal', { clear = true })
+vim.api.nvim_create_autocmd('VimResized', {
+  group = resize_window_equal_group,
+  pattern = '*',
+  command = 'wincmd =',
+})
+
 -- packer
 require('packer').startup(function(use)
-  use 'wbthomason/packer.nvim'
+  use {
+    'wbthomason/packer.nvim',
+    config = function()
+      vim.keymap.set('n', '<leader>z', '<cmd>source $MYVIMRC<CR><cmd>PackerCompile<CR>')
+    end,
+  }
 
   -- theme
   use {
@@ -218,33 +261,57 @@ require('packer').startup(function(use)
         },
       }
 
-      local on_attach = function(client, bufnr)
+      local base_on_attach = function(opts, client, bufnr)
         if client.server_capabilities.documentHighlightProvider then
-          vim.cmd([[
-            augroup lsp_document_highlight
-              autocmd! * <buffer>
-              autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
-              autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-            augroup END
-          ]])
+          local lsp_doc_hl_group = vim.api.nvim_create_augroup('k_lsp_document_highlight', { clear = false })
+          vim.api.nvim_clear_autocmds({
+            group = lsp_doc_hl_group,
+            buffer = 0,
+          })
+          vim.api.nvim_create_autocmd('CursorHold', {
+            group = lsp_doc_hl_group,
+            buffer = 0,
+            callback = function()
+              vim.lsp.buf.document_highlight()
+            end,
+          })
+          vim.api.nvim_create_autocmd('CursorMoved', {
+            group = lsp_doc_hl_group,
+            buffer = 0,
+            callback = function()
+              vim.lsp.buf.clear_references()
+            end,
+          })
         end
 
         if client.server_capabilities.codeLensProvider then
-          vim.cmd([[
-            augroup lsp_code_lens
-              autocmd! * <buffer>
-              autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()
-            augroup END
-          ]])
+          local lsp_codelens = vim.api.nvim_create_augroup('k_lsp_codelens', { clear = false })
+          vim.api.nvim_clear_autocmds({
+            group = lsp_codelens,
+            buffer = 0,
+          })
+          vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
+            group = lsp_codelens,
+            buffer = 0,
+            callback = function()
+              vim.lsp.codelens.refresh()
+            end,
+          })
         end
 
         if client.server_capabilities.documentFormattingProvider then
-          vim.cmd([[
-            augroup lsp_document_formatting
-              autocmd! * <buffer>
-              autocmd BufWritePre <buffer> lua vim.lsp.buf.format()
-            augroup END
-          ]])
+          local lsp_doc_format = vim.api.nvim_create_augroup('k_lsp_document_formatting', { clear = false })
+          vim.api.nvim_clear_autocmds({
+            group = lsp_doc_format,
+            buffer = 0,
+          })
+          vim.api.nvim_create_autocmd('BufWritePre', {
+            group = lsp_doc_format,
+            buffer = 0,
+            callback = function()
+              vim.lsp.buf.format()
+            end,
+          })
         end
 
         -- TODO formatting override
@@ -284,14 +351,45 @@ require('packer').startup(function(use)
               end,
             },
             fzf_opts = { ['--layout'] = 'reverse' },
+            winopts_fn = function()
+              local winopts = {
+                width = 0.5,
+                height = 0.5,
+              }
+              if vim.o.columns > 120 then
+                winopts.width = 0.25
+              end
+              return winopts
+            end,
           })
         end, { buffer = true })
       end
 
-      local servers = { 'gopls', 'rust_analyzer' }
+      local on_attach = function(opts)
+        return function(client, bufnr)
+          base_on_attach(opts, client, bufnr)
+        end
+      end
+
+      local on_attach_opts_defaults = {
+        providerOverride = {},
+      }
+
+      local servers = {
+        {
+          name = 'gopls',
+          opts = {
+            providerOverride = {
+              documentFormattingProvider = function()
+              end,
+            },
+          },
+        },
+        { name = 'rust_analyzer' },
+      }
       for _, lsp in ipairs(servers) do
-        lspconfig[lsp].setup({
-          on_attach = on_attach,
+        lspconfig[lsp.name].setup({
+          on_attach = on_attach(vim.tbl_deep_extend('force', on_attach_opts_defaults, lsp.opts or {})),
           capabilities = capabilities,
         })
       end
@@ -404,42 +502,3 @@ require('packer').startup(function(use)
     end,
   }
 end)
-
--- core options
-vim.opt.lazyredraw = true
-vim.opt.updatetime = 500
-
-vim.opt.relativenumber = true
-vim.opt.number = true
-vim.opt.signcolumn = 'yes'
-
-vim.opt.listchars = { tab = '| ', trail = '.', extends = '>', precedes = '<', nbsp = '␣' }
-vim.opt.list = true
-
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.expandtab = true
-
-vim.opt.conceallevel = 2
-
-vim.opt.showmode = false
-
-vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'noselect' }
-vim.opt.shortmess:append('c')
-
-vim.opt.diffopt:append('algorithm:histogram')
-
--- base keybinds
-vim.keymap.set('n', '<leader>e', '<cmd>edit .<CR>')
-vim.keymap.set('n', '<leader>d', '<cmd>bd<CR>')
-vim.keymap.set('n', '<leader>s', '<cmd>w<CR>')
-vim.keymap.set('n', '<leader>l', '<cmd>nohlsearch<CR>')
-vim.keymap.set('n', '<leader>z', '<cmd>source $MYVIMRC<CR><cmd>PackerCompile<CR>')
-
--- base autocmds
-local resize_window_equal_group = vim.api.nvim_create_augroup('resize_window_equal', { clear = true })
-vim.api.nvim_create_autocmd('VimResized', {
-  group = resize_window_equal_group,
-  pattern = '*',
-  command = 'wincmd =',
-})
