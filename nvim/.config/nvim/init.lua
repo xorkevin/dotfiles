@@ -87,112 +87,82 @@ require('packer').startup(function(use)
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lspconfig = require('lspconfig')
-
-      local on_attach = function(client, bufnr)
-        -- :lua =vim.lsp.get_active_clients()[1].server_capabilities
-
-        if client.server_capabilities.documentHighlightProvider then
-          vim.cmd([[
-            augroup lsp_document_highlight
-              autocmd! * <buffer>
-              autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
-              autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
-              autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-            augroup END
-          ]])
-        end
-
-        if client.server_capabilities.hoverProvider then
-          vim.keymap.set('n', 'K', function()
-            vim.lsp.buf.hover()
-          end, { buffer = true })
-        end
-      end
-
-      local servers = { 'gopls', 'rust_analyzer' }
-      for _, lsp in ipairs(servers) do
-        lspconfig[lsp].setup({
-          on_attach = on_attach,
-          capabilities = capabilities,
-        })
-      end
-
-      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = 'rounded',
-      })
-      vim.diagnostic.config({
-        float = { border = 'rounded' },
-      })
-
-      vim.keymap.set('n', '<leader>e', function()
-        vim.diagnostic.open_float()
-      end)
-
       local fzf = require('fzf-lua')
 
-      local refactor_options = {
+      local lsp_menu_options = {
         {
           label = 'List references',
+          capability = 'referencesProvider',
           action = function()
             fzf.lsp_references()
           end,
         },
         {
           label = 'Go to definition',
+          capability = 'definitionProvider',
           action = function()
             vim.lsp.buf.definition()
           end,
         },
         {
           label = 'List definitions',
+          capability = 'definitionProvider',
           action = function()
             fzf.lsp_definitions()
           end,
         },
         {
           label = 'Go to typedefinition',
+          capability = 'typeDefinitionProvider',
           action = function()
             vim.lsp.buf.type_definition()
           end,
         },
         {
           label = 'List typedefinitions',
+          capability = 'typeDefinitionProvider',
           action = function()
             fzf.lsp_typedefs()
           end,
         },
         {
           label = 'Go to declaration',
+          capability = 'declarationProvider',
           action = function()
             vim.lsp.buf.declaration()
           end,
         },
         {
           label = 'List implementations',
+          capability = 'implementationProvider',
           action = function()
             fzf.lsp_implementations()
           end,
         },
         {
           label = 'Incoming calls',
+          capability = 'callHierarchyProvider',
           action = function()
             fzf.lsp_incoming_calls()
           end,
         },
         {
           label = 'Outgoing calls',
+          capability = 'callHierarchyProvider',
           action = function()
             fzf.lsp_outgoing_calls()
           end,
         },
         {
           label = 'List document symbols',
+          capability = 'documentSymbolProvider',
           action = function()
             fzf.lsp_document_symbols()
           end,
         },
         {
           label = 'List workspace symbols',
+          capability = 'workspaceSymbolProvider',
           action = function()
             fzf.lsp_workspace_symbols()
           end,
@@ -211,14 +181,23 @@ require('packer').startup(function(use)
         },
         {
           label = 'Code actions',
+          capability = 'codeActionProvider',
           action = function()
             fzf.lsp_code_actions()
           end,
         },
         {
           label = 'Rename',
+          capability = 'renameProvider',
           action = function()
             vim.lsp.buf.rename()
+          end,
+        },
+        {
+          label = 'Run codelens',
+          capability = 'codeLensProvider',
+          action = function()
+            vim.lsp.codelens.run()
           end,
         },
         {
@@ -227,34 +206,108 @@ require('packer').startup(function(use)
             vim.notify('LSP workspaces: ' .. vim.inspect({ workspace_folders = vim.lsp.buf.list_workspace_folders() }),  vim.log.levels.INFO)
           end,
         },
-        -- TODO format
+        {
+          label = 'Show server capabilities',
+          action = function(opts)
+            if opts.client then
+              vim.notify('Server ' .. opts.client.name .. ' capabilities (id ' .. opts.client.id .. '): ' .. vim.inspect({ capabilities = opts.client.server_capabilities }),  vim.log.levels.INFO)
+            else
+              vim.notify('No lsp', vim.log.levels.INFO)
+            end
+          end,
+        },
       }
-      local refactor_choices = {}
-      local refactor_actions = {}
-      for _, choice in ipairs(refactor_options) do
-        table.insert(refactor_choices, choice.label)
-        refactor_actions[choice.label] = choice.action
+
+      local on_attach = function(client, bufnr)
+        if client.server_capabilities.documentHighlightProvider then
+          vim.cmd([[
+            augroup lsp_document_highlight
+              autocmd! * <buffer>
+              autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
+              autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+            augroup END
+          ]])
+        end
+
+        if client.server_capabilities.codeLensProvider then
+          vim.cmd([[
+            augroup lsp_code_lens
+              autocmd! * <buffer>
+              autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()
+            augroup END
+          ]])
+        end
+
+        if client.server_capabilities.documentFormattingProvider then
+          vim.cmd([[
+            augroup lsp_document_formatting
+              autocmd! * <buffer>
+              autocmd BufWritePre <buffer> lua vim.lsp.buf.format()
+            augroup END
+          ]])
+        end
+
+        -- TODO formatting override
+
+        if client.server_capabilities.hoverProvider then
+          vim.keymap.set('n', 'K', function()
+            vim.lsp.buf.hover()
+          end, { buffer = true })
+        end
+
+        local lsp_menu_choices = {}
+        local lsp_menu_actions = {}
+        for _, choice in ipairs(lsp_menu_options) do
+          if not choice.capability or client.server_capabilities[choice.capability] then
+            table.insert(lsp_menu_choices, choice.label)
+            lsp_menu_actions[choice.label] = choice.action
+          end
+        end
+
+        vim.keymap.set('n', '<leader>r', function()
+          fzf.fzf_exec(lsp_menu_choices, {
+            prompt = 'LSP> ',
+            actions = {
+              ['default'] = function(selected, opts)
+                if not selected or #selected ~= 1 or not selected[1] then
+                  return
+                end
+                local action = lsp_menu_actions[selected[1]]
+                if action then
+                  action({
+                    client = client,
+                  })
+                end
+              end,
+              ['ctrl-y'] = function(selected, opts)
+                vim.notify('LSP menu: ' .. vim.inspect({ selected = selected }), vim.log.levels.INFO)
+              end,
+            },
+            fzf_opts = { ['--layout'] = 'reverse' },
+          })
+        end, { buffer = true })
       end
 
-      vim.keymap.set('n', '<leader>r', function()
-        fzf.fzf_exec(refactor_choices, {
-          prompt = 'LSP> ',
-          actions = {
-            ['default'] = function(selected)
-              if not selected or not selected[1] then
-                return
-              end
-              local action = refactor_actions[selected[1]]
-              if action then
-                action()
-              end
-            end,
-            ['ctrl-y'] = function(selected, opts)
-              vim.notify('LSP menu: ' .. vim.inspect({ selected = selected }), vim.log.levels.INFO)
-            end,
-          },
-          fzf_opts = { ['--layout'] = 'reverse' },
+      local servers = { 'gopls', 'rust_analyzer' }
+      for _, lsp in ipairs(servers) do
+        lspconfig[lsp].setup({
+          on_attach = on_attach,
+          capabilities = capabilities,
         })
+      end
+
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = 'rounded',
+      })
+      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+        border = 'rounded',
+      })
+      vim.diagnostic.config({
+        float = { border = 'rounded' },
+      })
+
+      vim.keymap.set('n', '<leader>e', function()
+        vim.diagnostic.open_float()
       end)
     end
   }
