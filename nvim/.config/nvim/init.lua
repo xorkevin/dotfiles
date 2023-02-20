@@ -88,9 +88,31 @@ require('packer').startup(function(use)
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lspconfig = require('lspconfig')
 
+      local on_attach = function(client, bufnr)
+        -- :lua =vim.lsp.get_active_clients()[1].server_capabilities
+
+        if client.server_capabilities.documentHighlightProvider then
+          vim.cmd([[
+            augroup lsp_document_highlight
+              autocmd! * <buffer>
+              autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
+              autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
+              autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+            augroup END
+          ]])
+        end
+
+        if client.server_capabilities.hoverProvider then
+          vim.keymap.set('n', 'K', function()
+            vim.lsp.buf.hover()
+          end, { buffer = true })
+        end
+      end
+
       local servers = { 'gopls', 'rust_analyzer' }
       for _, lsp in ipairs(servers) do
         lspconfig[lsp].setup({
+          on_attach = on_attach,
           capabilities = capabilities,
         })
       end
@@ -102,9 +124,6 @@ require('packer').startup(function(use)
         float = { border = 'rounded' },
       })
 
-      vim.keymap.set('n', 'K', function()
-        vim.lsp.buf.hover()
-      end)
       vim.keymap.set('n', '<leader>e', function()
         vim.diagnostic.open_float()
       end)
@@ -208,9 +227,7 @@ require('packer').startup(function(use)
             vim.notify('LSP workspaces: ' .. vim.inspect({ workspace_folders = vim.lsp.buf.list_workspace_folders() }),  vim.log.levels.INFO)
           end,
         },
-        -- TODO document_highlight
         -- TODO format
-        -- TODO server_ready
       }
       local refactor_choices = {}
       local refactor_actions = {}

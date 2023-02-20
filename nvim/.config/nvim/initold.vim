@@ -1,6 +1,3 @@
-" "Autocomplete
-" Plug 'Shougo/echodoc.vim'
-"
 " "Autoformat
 " "Go
 " Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries', 'for': ['go'] }
@@ -20,16 +17,6 @@
 "   \ 'tex': ['texlab'],
 "   \ }
 " let g:LanguageClient_hoverPreview = 'Never'
-"
-" nnoremap <leader>r :call LanguageClient_contextMenu()<CR>
-"
-" "Deoplete
-" let g:deoplete#enable_at_startup = 1
-" call deoplete#custom#option('camel_case', 1)
-"
-" "Echodoc
-" let g:echodoc#enable_at_startup = 1
-" let g:echodoc#type = 'floating'
 "
 " "Rustfmt
 " let g:rustfmt_autosave = 1
