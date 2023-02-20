@@ -113,36 +113,65 @@ require('packer').startup(function(use)
             luasnip.lsp_expand(args.body)
           end,
         },
+        preselect = cmp.PreselectMode.None,
         mapping = {
-          ['<C-n>'] = cmp.mapping.select_next_item(),
-          ['<C-p>'] = cmp.mapping.select_prev_item(),
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),
-          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-Space>'] = cmp.mapping.complete(),
-          ['<CR>'] = cmp.mapping.confirm({
-            behavior = cmp.ConfirmBehavior.Replace,
-            select = true,
-          }),
+          ['<C-n>'] = {
+            i = cmp.mapping.select_next_item({
+              behavior = cmp.SelectBehavior.Insert,
+            }),
+          },
+          ['<C-p>'] = {
+            i = cmp.mapping.select_prev_item({
+              behavior = cmp.SelectBehavior.Insert,
+            }),
+          },
+          ['<C-f>'] = {
+            i = cmp.mapping.scroll_docs(4),
+          },
+          ['<C-b>'] = {
+            i = cmp.mapping.scroll_docs(-4),
+          },
+          ['<C-Space>'] = {
+            i = cmp.mapping.complete(),
+          },
+          ['<CR>'] = {
+            i = cmp.mapping.confirm({
+              behavior = cmp.ConfirmBehavior.Replace,
+              select = false,
+            }),
+          },
+          ['<C-y>'] = {
+            i = cmp.mapping.confirm({
+              behavior = cmp.ConfirmBehavior.Insert,
+              select = false,
+            }),
+          },
+          ['<C-e>'] = {
+            i = cmp.mapping.abort(),
+          },
           ['<Tab>'] = cmp.mapping(function(fallback)
             if luasnip.expand_or_jumpable() then
               luasnip.expand_or_jump()
             else
               fallback()
             end
-          end, { 'i', 's' }),
+          end, { 'i' }),
           ['<S-Tab>'] = cmp.mapping(function(fallback)
             if luasnip.jumpable(-1) then
               luasnip.jump(-1)
             else
               fallback()
             end
-          end, { 'i', 's' }),
+          end, { 'i' }),
         },
         sources = {
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
           { name = 'buffer' },
+        },
+        window = {
+          documentation = cmp.config.window.bordered(),
         },
       })
     end,
@@ -178,6 +207,7 @@ vim.keymap.set('n', '<leader>e', '<cmd>edit .<CR>')
 vim.keymap.set('n', '<leader>d', '<cmd>bd<CR>')
 vim.keymap.set('n', '<leader>s', '<cmd>w<CR>')
 vim.keymap.set('n', '<leader>l', '<cmd>nohlsearch<CR>')
+vim.keymap.set('n', '<leader>z', '<cmd>source $MYVIMRC<CR><cmd>PackerCompile<CR>')
 
 -- base autocmds
 local resize_window_equal_group = vim.api.nvim_create_augroup('resize_window_equal', { clear = true })
