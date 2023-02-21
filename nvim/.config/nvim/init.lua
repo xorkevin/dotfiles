@@ -70,9 +70,15 @@ require('packer').startup(function(use)
 
   -- text editing
   use {
-    'echasnovski/mini.nvim',
+    'echasnovski/mini.align',
     config = function()
       require('mini.align').setup()
+    end,
+  }
+
+  use {
+    'echasnovski/mini.surround',
+    config = function()
       require('mini.surround').setup()
     end,
   }
@@ -122,11 +128,15 @@ require('packer').startup(function(use)
     'ray-x/lsp_signature.nvim',
     config = function()
       require('lsp_signature').setup()
-    end
+    end,
   }
   use {
     'neovim/nvim-lspconfig',
-    requires = { 'hrsh7th/cmp-nvim-lsp', 'ray-x/lsp_signature.nvim', 'ibhagwan/fzf-lua' },
+    requires = {
+      'hrsh7th/cmp-nvim-lsp',
+      'ray-x/lsp_signature.nvim',
+      'ibhagwan/fzf-lua',
+    },
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lspconfig = require('lspconfig')
@@ -244,6 +254,13 @@ require('packer').startup(function(use)
           end,
         },
         {
+          label = 'Format document',
+          capability = 'documentFormattingProvider',
+          action = function()
+            vim.lsp.buf.format()
+          end,
+        },
+        {
           label = 'List workspace folders',
           action = function()
             vim.notify('LSP workspaces: ' .. vim.inspect({ workspace_folders = vim.lsp.buf.list_workspace_folders() }),  vim.log.levels.INFO)
@@ -251,12 +268,8 @@ require('packer').startup(function(use)
         },
         {
           label = 'Show server capabilities',
-          action = function(opts)
-            if opts.client then
-              vim.notify('Server ' .. opts.client.name .. ' capabilities (id ' .. opts.client.id .. '): ' .. vim.inspect({ capabilities = opts.client.server_capabilities }),  vim.log.levels.INFO)
-            else
-              vim.notify('No lsp', vim.log.levels.INFO)
-            end
+          action = function(opts, client, bufnr)
+            vim.notify('Server ' .. client.name .. ' capabilities (id ' .. client.id .. '): ' .. vim.inspect({ capabilities = client.server_capabilities, providerOverrides = opts.providerOverrides }),  vim.log.levels.INFO)
           end,
         },
       }
@@ -299,7 +312,7 @@ require('packer').startup(function(use)
           })
         end
 
-        if client.server_capabilities.documentFormattingProvider then
+        if not opts.providerOverrides.documentFormattingProvider and client.server_capabilities.documentFormattingProvider then
           local lsp_doc_format = vim.api.nvim_create_augroup('k_lsp_document_formatting', { clear = false })
           vim.api.nvim_clear_autocmds({
             group = lsp_doc_format,
@@ -313,8 +326,6 @@ require('packer').startup(function(use)
             end,
           })
         end
-
-        -- TODO formatting override
 
         if client.server_capabilities.hoverProvider then
           vim.keymap.set('n', 'K', function()
@@ -335,18 +346,16 @@ require('packer').startup(function(use)
           fzf.fzf_exec(lsp_menu_choices, {
             prompt = 'LSP> ',
             actions = {
-              ['default'] = function(selected, opts)
+              ['default'] = function(selected, selected_opts)
                 if not selected or #selected ~= 1 or not selected[1] then
                   return
                 end
                 local action = lsp_menu_actions[selected[1]]
                 if action then
-                  action({
-                    client = client,
-                  })
+                  action(opts, client, bufnr)
                 end
               end,
-              ['ctrl-y'] = function(selected, opts)
+              ['ctrl-y'] = function(selected, selected_opts)
                 vim.notify('LSP menu: ' .. vim.inspect({ selected = selected }), vim.log.levels.INFO)
               end,
             },
@@ -372,16 +381,15 @@ require('packer').startup(function(use)
       end
 
       local on_attach_opts_defaults = {
-        providerOverride = {},
+        providerOverrides = {},
       }
 
       local servers = {
         {
           name = 'gopls',
           opts = {
-            providerOverride = {
-              documentFormattingProvider = function()
-              end,
+            providerOverrides = {
+              documentFormattingProvider = true,
             },
           },
         },
@@ -407,7 +415,7 @@ require('packer').startup(function(use)
       vim.keymap.set('n', '<leader>e', function()
         vim.diagnostic.open_float()
       end)
-    end
+    end,
   }
 
   -- autocomplete
@@ -498,6 +506,25 @@ require('packer').startup(function(use)
         window = {
           documentation = cmp.config.window.bordered(),
         },
+      })
+    end,
+  }
+
+  -- go
+  use {
+    'ray-x/go.nvim',
+    config = function()
+      require('go').setup()
+
+      local goformat = require('go.format')
+
+      local go_doc_format = vim.api.nvim_create_augroup('k_go_document_format', { clear = true })
+      vim.api.nvim_create_autocmd('BufWritePre', {
+        group = go_doc_format,
+        pattern = '*.go',
+        callback = function()
+          goformat.goimport()
+        end,
       })
     end,
   }
