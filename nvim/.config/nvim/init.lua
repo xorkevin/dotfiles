@@ -325,13 +325,18 @@ require('packer').startup(function(use)
         {
           label = 'List workspace folders',
           action = function()
-            vim.notify('LSP workspaces: ' .. vim.inspect({ workspace_folders = vim.lsp.buf.list_workspace_folders() }),  vim.log.levels.INFO)
+            vim.notify('LSP workspaces: ' .. vim.inspect({ workspace_folders = vim.lsp.buf.list_workspace_folders() }),
+              vim.log.levels.INFO)
           end,
         },
         {
           label = 'Show server capabilities',
           action = function(client, bufnr)
-            vim.notify('Server ' .. client.name .. ' capabilities (id ' .. client.id .. '): ' .. vim.inspect({ capabilities = client.server_capabilities }),  vim.log.levels.INFO)
+            vim.notify(
+              'Server ' ..
+              client.name ..
+              ' capabilities (id ' .. client.id .. '): ' .. vim.inspect({ capabilities = client.server_capabilities }),
+              vim.log.levels.INFO)
           end,
         },
       }
@@ -447,6 +452,36 @@ require('packer').startup(function(use)
           },
         },
         { name = 'rust_analyzer' },
+        { name = 'tsserver' },
+        {
+          name = 'pylsp',
+          settings = {
+            pylsp = {
+              plugins = {
+                black = {
+                  enabled = true,
+                },
+              },
+            },
+          },
+        },
+        {
+          name = 'lua_ls',
+          -- settings = {
+          --   Lua = {
+          --     workspace = {
+          --       library = vim.api.nvim_get_runtime_file("", true),
+          --     },
+          --   },
+          -- },
+        },
+        { name = 'clangd' },
+        { name = 'bashls' },
+        { name = 'html' },
+        { name = 'cssls' },
+        { name = 'jsonls' },
+        { name = 'yamlls' },
+        { name = 'texlab' },
       }
       for _, lsp in ipairs(servers) do
         lspconfig[lsp.name].setup({
@@ -515,7 +550,7 @@ require('packer').startup(function(use)
             i = cmp.mapping.scroll_docs(4),
           },
           ['<C-b>'] = {
-            i = cmp.mapping.scroll_docs(-4),
+            i = cmp.mapping.scroll_docs( -4),
           },
           ['<C-Space>'] = {
             i = cmp.mapping.complete(),
@@ -543,8 +578,8 @@ require('packer').startup(function(use)
             end
           end, { 'i' }),
           ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if luasnip.jumpable(-1) then
-              luasnip.jump(-1)
+            if luasnip.jumpable( -1) then
+              luasnip.jump( -1)
             else
               fallback()
             end

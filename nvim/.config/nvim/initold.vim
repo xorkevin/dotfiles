@@ -1,18 +1,7 @@
 " "Autoformat
 " "JS
 " Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'vue', 'yaml'] }
-" "Python
-" Plug 'psf/black', { 'for': ['python'] }
 
-" "Language client
-" let g:LanguageClient_serverCommands = {
-"   \ 'cpp': ['clangd'],
-"   \ 'c': ['clangd'],
-"   \ 'python': ['pylsp'],
-"   \ 'elixir': ['elixir-ls'],
-"   \ 'tex': ['texlab'],
-"   \ }
-"
 " let g:prettier#autoformat = 0
 " let g:prettier#config#config_precedence = 'prefer-file'
 " let g:prettier#config#arrow_parens = 'always'
@@ -32,11 +21,4 @@
 "   autocmd!
 "   "Prettier
 "   autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.gql,*.vue,*.yml,*.yaml,*.html noautocmd call prettier#Autoformat()
-" augroup END
-"
-" "Python
-" augroup filetype_python
-"   autocmd!
-"   "Black
-"   autocmd BufWritePre *.py Black
 " augroup END
