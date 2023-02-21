@@ -1,8 +1,4 @@
 " "Autoformat
-" "Go
-" Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries', 'for': ['go'] }
-" "Rust
-" Plug 'rust-lang/rust.vim', { 'for': ['rust'] }
 " "JS
 " Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'vue', 'yaml'] }
 " "Python
@@ -16,10 +12,6 @@
 "   \ 'elixir': ['elixir-ls'],
 "   \ 'tex': ['texlab'],
 "   \ }
-" let g:LanguageClient_hoverPreview = 'Never'
-"
-" "Rustfmt
-" let g:rustfmt_autosave = 1
 "
 " let g:prettier#autoformat = 0
 " let g:prettier#config#config_precedence = 'prefer-file'

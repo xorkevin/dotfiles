@@ -39,12 +39,87 @@ vim.api.nvim_create_autocmd('VimResized', {
   command = 'wincmd =',
 })
 
+-- filetype
+vim.filetype.add({
+  extension = {
+    tmpl = 'gotmpl',
+  },
+})
+
 -- packer
 require('packer').startup(function(use)
   use {
     'wbthomason/packer.nvim',
     config = function()
       vim.keymap.set('n', '<leader>z', '<cmd>source $MYVIMRC<CR><cmd>PackerCompile<CR>')
+    end,
+  }
+
+  -- syntax
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = function()
+      require('nvim-treesitter.install').update({ with_sync = true })()
+    end,
+    config = function()
+      require('nvim-treesitter.configs').setup({
+        ensure_installed = {
+          'bash',
+          'c',
+          'comment',
+          'commonlisp',
+          'cpp',
+          'css',
+          'diff',
+          'dockerfile',
+          'dot',
+          'gitattributes',
+          'gitcommit',
+          'gitignore',
+          'git_rebase',
+          'go',
+          'gomod',
+          'gosum',
+          'gowork',
+          'hcl',
+          'help',
+          'html',
+          'ini',
+          'java',
+          'javascript',
+          'json',
+          'jsonnet',
+          'latex',
+          'lua',
+          'make',
+          'markdown',
+          'markdown_inline',
+          'ocaml',
+          'ocaml_interface',
+          'ocamllex',
+          'perl',
+          'proto',
+          'python',
+          'regex',
+          'rust',
+          'scheme',
+          'scss',
+          'sql',
+          'terraform',
+          'tlaplus',
+          'toml',
+          'tsx',
+          'typescript',
+          'vhs',
+          'vim',
+          'yaml',
+        },
+        sync_install = false,
+        auto_install = false,
+        highlight = {
+          enable = true,
+        },
+      })
     end,
   }
 
@@ -60,7 +135,6 @@ require('packer').startup(function(use)
 
   use {
     'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', 'RRethy/nvim-base16' },
     config = function()
       require('lualine').setup({
         options = { theme = 'base16' },
@@ -88,7 +162,6 @@ require('packer').startup(function(use)
   -- file management
   use {
     'ibhagwan/fzf-lua',
-    requires = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       local fzf = require('fzf-lua')
       local opts = { fzf_opts = { ['--layout'] = 'default' } }
@@ -123,20 +196,9 @@ require('packer').startup(function(use)
   }
 
   -- lsp
-  use 'hrsh7th/cmp-nvim-lsp'
-  use {
-    'ray-x/lsp_signature.nvim',
-    config = function()
-      require('lsp_signature').setup()
-    end,
-  }
   use {
     'neovim/nvim-lspconfig',
-    requires = {
-      'hrsh7th/cmp-nvim-lsp',
-      'ray-x/lsp_signature.nvim',
-      'ibhagwan/fzf-lua',
-    },
+    requires = { 'hrsh7th/cmp-nvim-lsp' },
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lspconfig = require('lspconfig')
@@ -268,13 +330,13 @@ require('packer').startup(function(use)
         },
         {
           label = 'Show server capabilities',
-          action = function(opts, client, bufnr)
-            vim.notify('Server ' .. client.name .. ' capabilities (id ' .. client.id .. '): ' .. vim.inspect({ capabilities = client.server_capabilities, providerOverrides = opts.providerOverrides }),  vim.log.levels.INFO)
+          action = function(client, bufnr)
+            vim.notify('Server ' .. client.name .. ' capabilities (id ' .. client.id .. '): ' .. vim.inspect({ capabilities = client.server_capabilities }),  vim.log.levels.INFO)
           end,
         },
       }
 
-      local base_on_attach = function(opts, client, bufnr)
+      local on_attach = function(client, bufnr)
         if client.server_capabilities.documentHighlightProvider then
           local lsp_doc_hl_group = vim.api.nvim_create_augroup('k_lsp_document_highlight', { clear = false })
           vim.api.nvim_clear_autocmds({
@@ -312,7 +374,7 @@ require('packer').startup(function(use)
           })
         end
 
-        if not opts.providerOverrides.documentFormattingProvider and client.server_capabilities.documentFormattingProvider then
+        if client.server_capabilities.documentFormattingProvider then
           local lsp_doc_format = vim.api.nvim_create_augroup('k_lsp_document_formatting', { clear = false })
           vim.api.nvim_clear_autocmds({
             group = lsp_doc_format,
@@ -346,16 +408,16 @@ require('packer').startup(function(use)
           fzf.fzf_exec(lsp_menu_choices, {
             prompt = 'LSP> ',
             actions = {
-              ['default'] = function(selected, selected_opts)
+              ['default'] = function(selected, opts)
                 if not selected or #selected ~= 1 or not selected[1] then
                   return
                 end
                 local action = lsp_menu_actions[selected[1]]
                 if action then
-                  action(opts, client, bufnr)
+                  action(client, bufnr)
                 end
               end,
-              ['ctrl-y'] = function(selected, selected_opts)
+              ['ctrl-y'] = function(selected, opts)
                 vim.notify('LSP menu: ' .. vim.inspect({ selected = selected }), vim.log.levels.INFO)
               end,
             },
@@ -374,22 +436,13 @@ require('packer').startup(function(use)
         end, { buffer = true })
       end
 
-      local on_attach = function(opts)
-        return function(client, bufnr)
-          base_on_attach(opts, client, bufnr)
-        end
-      end
-
-      local on_attach_opts_defaults = {
-        providerOverrides = {},
-      }
-
       local servers = {
         {
           name = 'gopls',
-          opts = {
-            providerOverrides = {
-              documentFormattingProvider = true,
+          settings = {
+            gopls = {
+              gofumpt = true,
+              templateExtensions = { 'tmpl' },
             },
           },
         },
@@ -397,8 +450,9 @@ require('packer').startup(function(use)
       }
       for _, lsp in ipairs(servers) do
         lspconfig[lsp.name].setup({
-          on_attach = on_attach(vim.tbl_deep_extend('force', on_attach_opts_defaults, lsp.opts or {})),
+          on_attach = on_attach,
           capabilities = capabilities,
+          settings = lsp.settings or {},
         })
       end
 
@@ -418,18 +472,17 @@ require('packer').startup(function(use)
     end,
   }
 
-  -- autocomplete
-  use 'L3MON4D3/LuaSnip'
   use {
-    'saadparwaiz1/cmp_luasnip',
-    requires = { 'L3MON4D3/LuaSnip' },
+    'ray-x/lsp_signature.nvim',
+    config = function()
+      require('lsp_signature').setup()
+    end,
   }
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-buffer'
+
+  -- autocomplete
   use {
     'hrsh7th/nvim-cmp',
     requires = {
-      'neovim/nvim-lspconfig',
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lsp',
@@ -506,25 +559,6 @@ require('packer').startup(function(use)
         window = {
           documentation = cmp.config.window.bordered(),
         },
-      })
-    end,
-  }
-
-  -- go
-  use {
-    'ray-x/go.nvim',
-    config = function()
-      require('go').setup()
-
-      local goformat = require('go.format')
-
-      local go_doc_format = vim.api.nvim_create_augroup('k_go_document_format', { clear = true })
-      vim.api.nvim_create_autocmd('BufWritePre', {
-        group = go_doc_format,
-        pattern = '*.go',
-        callback = function()
-          goformat.goimport()
-        end,
       })
     end,
   }
