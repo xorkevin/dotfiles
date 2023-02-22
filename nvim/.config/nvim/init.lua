@@ -476,8 +476,6 @@ require('packer').startup(function(use)
           -- },
           --
           -- :put = execute('lua =vim.api.nvim_list_runtime_paths()')
-
-
         },
         { name = 'clangd' },
         { name = 'bashls' },
