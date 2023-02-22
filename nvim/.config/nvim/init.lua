@@ -331,17 +331,18 @@ require('packer').startup(function(use)
         },
         {
           label = 'Show server capabilities',
-          action = function(client)
+          action = function(overrides, client)
             vim.notify(
               'Server ' ..
               client.name ..
-              ' capabilities (id ' .. client.id .. '): ' .. vim.inspect({ capabilities = client.server_capabilities }),
+              ' capabilities (id ' ..
+              client.id .. '): ' .. vim.inspect({ capabilities = client.server_capabilities, overrides = overrides }),
               vim.log.levels.INFO)
           end,
         },
       }
 
-      local on_attach = function(client, bufnr)
+      local base_on_attach = function(overrides, client, bufnr)
         if client.server_capabilities.documentHighlightProvider then
           local lsp_doc_hl_group = vim.api.nvim_create_augroup('k_lsp_document_highlight', { clear = false })
           vim.api.nvim_clear_autocmds({
@@ -379,7 +380,7 @@ require('packer').startup(function(use)
           })
         end
 
-        if client.server_capabilities.documentFormattingProvider then
+        if not overrides.autoDocumentFormatDisable and client.server_capabilities.documentFormattingProvider then
           local lsp_doc_format = vim.api.nvim_create_augroup('k_lsp_document_formatting', { clear = false })
           vim.api.nvim_clear_autocmds({
             group = lsp_doc_format,
@@ -419,7 +420,7 @@ require('packer').startup(function(use)
                 end
                 local action = lsp_menu_actions[selected[1]]
                 if action then
-                  action(client, bufnr)
+                  action(overrides, client, bufnr)
                 end
               end,
               ['ctrl-y'] = function(selected)
@@ -441,6 +442,16 @@ require('packer').startup(function(use)
         end, { buffer = true })
       end
 
+      local base_on_attach_overrides_defaults = {
+        autoDocumentFormatDisable = nil
+      }
+
+      local on_attach = function(overrides)
+        return function(client, bufnr)
+          base_on_attach(vim.tbl_deep_extend('force', base_on_attach_overrides_defaults, overrides or {}), client, bufnr)
+        end
+      end
+
       local servers = {
         {
           name = 'gopls',
@@ -452,7 +463,12 @@ require('packer').startup(function(use)
           },
         },
         { name = 'rust_analyzer' },
-        { name = 'tsserver' },
+        {
+          name = 'tsserver',
+          overrides = {
+            autoDocumentFormatDisable = true,
+          },
+        },
         {
           name = 'pylsp',
           settings = {
@@ -487,7 +503,7 @@ require('packer').startup(function(use)
       }
       for _, lsp in ipairs(servers) do
         lspconfig[lsp.name].setup({
-          on_attach = on_attach,
+          on_attach = on_attach(lsp.overrides),
           capabilities = capabilities,
           settings = lsp.settings or {},
         })
