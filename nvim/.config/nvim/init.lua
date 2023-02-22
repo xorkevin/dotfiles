@@ -331,7 +331,7 @@ require('packer').startup(function(use)
         },
         {
           label = 'Show server capabilities',
-          action = function(client, bufnr)
+          action = function(client)
             vim.notify(
               'Server ' ..
               client.name ..
@@ -413,7 +413,7 @@ require('packer').startup(function(use)
           fzf.fzf_exec(lsp_menu_choices, {
             prompt = 'LSP> ',
             actions = {
-              ['default'] = function(selected, opts)
+              ['default'] = function(selected)
                 if not selected or #selected ~= 1 or not selected[1] then
                   return
                 end
@@ -422,7 +422,7 @@ require('packer').startup(function(use)
                   action(client, bufnr)
                 end
               end,
-              ['ctrl-y'] = function(selected, opts)
+              ['ctrl-y'] = function(selected)
                 vim.notify('LSP menu: ' .. vim.inspect({ selected = selected }), vim.log.levels.INFO)
               end,
             },
@@ -470,10 +470,14 @@ require('packer').startup(function(use)
           -- settings = {
           --   Lua = {
           --     workspace = {
-          --       library = vim.api.nvim_get_runtime_file("", true),
+          --       library = vim.api.nvim_list_runtime_paths(),
           --     },
           --   },
           -- },
+          --
+          -- :put = execute('lua =vim.api.nvim_list_runtime_paths()')
+
+
         },
         { name = 'clangd' },
         { name = 'bashls' },
