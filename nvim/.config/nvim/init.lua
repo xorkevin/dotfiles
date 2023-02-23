@@ -214,6 +214,155 @@ require('packer').startup(function(use)
       local lspconfig = require('lspconfig')
       local fzf = require('fzf-lua')
 
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = 'rounded',
+      })
+      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+        border = 'rounded',
+      })
+      vim.diagnostic.config({
+        float = { border = 'rounded' },
+      })
+
+      local base_on_attach_overrides_defaults = {
+        autoDocumentFormatDisable = nil
+      }
+
+      local servers = {
+        {
+          name = 'gopls',
+          settings = {
+            gopls = {
+              gofumpt = true,
+              templateExtensions = { 'tmpl' },
+            },
+          },
+        },
+        { name = 'rust_analyzer' },
+        {
+          name = 'tsserver',
+          overrides = {
+            autoDocumentFormatDisable = true,
+          },
+        },
+        {
+          name = 'pylsp',
+          settings = {
+            pylsp = {
+              plugins = {
+                black = {
+                  enabled = true,
+                },
+              },
+            },
+          },
+        },
+        {
+          name = 'lua_ls',
+          -- settings = {
+          --   Lua = {
+          --     workspace = {
+          --       library = vim.api.nvim_list_runtime_paths(),
+          --     },
+          --   },
+          -- },
+          --
+          -- :put = execute('lua =vim.api.nvim_list_runtime_paths()')
+        },
+        { name = 'clangd' },
+        { name = 'bashls' },
+        { name = 'html' },
+        { name = 'cssls' },
+        { name = 'jsonls' },
+        { name = 'yamlls' },
+        { name = 'texlab' },
+      }
+      local server_overrides = {}
+      for _, lsp in ipairs(servers) do
+        server_overrides[lsp.name] = vim.tbl_deep_extend('force', base_on_attach_overrides_defaults,
+          server_overrides[lsp.name] or {}, lsp.overrides or {})
+        lspconfig[lsp.name].setup({
+          capabilities = capabilities,
+          settings = lsp.settings or {},
+        })
+      end
+
+      local buf_has_lsp_capability = function(bufnr, capability, filter_fn)
+        for _, client in ipairs(vim.lsp.get_active_clients({ bufnr = bufnr })) do
+          if client.server_capabilities[capability] and (not filter_fn or filter_fn(client)) then
+            return true
+          end
+        end
+        return false
+      end
+
+      local lsp_doc_hl_group = vim.api.nvim_create_augroup('k_lsp_document_highlight', { clear = true })
+      vim.api.nvim_create_autocmd('CursorHold', {
+        group = lsp_doc_hl_group,
+        pattern = '*',
+        callback = function()
+          if buf_has_lsp_capability(0, 'documentHighlightProvider') then
+            vim.lsp.buf.document_highlight()
+          end
+        end,
+      })
+      vim.api.nvim_create_autocmd('CursorMoved', {
+        group = lsp_doc_hl_group,
+        pattern = '*',
+        callback = function()
+          if buf_has_lsp_capability(0, 'documentHighlightProvider') then
+            vim.lsp.buf.clear_references()
+          end
+        end,
+      })
+
+      local lsp_codelens_group = vim.api.nvim_create_augroup('k_lsp_codelens', { clear = true })
+      vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
+        group = lsp_codelens_group,
+        pattern = '*',
+        callback = function()
+          if buf_has_lsp_capability(0, 'codeLensProvider') then
+            vim.lsp.codelens.refresh()
+          end
+        end,
+      })
+
+      local lsp_doc_format_group = vim.api.nvim_create_augroup('k_lsp_document_formatting', { clear = true })
+      vim.api.nvim_create_autocmd('BufWritePre', {
+        group = lsp_doc_format_group,
+        pattern = '*',
+        callback = function()
+          if buf_has_lsp_capability(0, 'documentFormattingProvider', function(client)
+                return not server_overrides[client.name].autoDocumentFormatDisable
+              end) then
+            vim.lsp.buf.format()
+          end
+        end,
+      })
+
+      vim.keymap.set('n', 'K', function()
+        if buf_has_lsp_capability(0, 'hoverProvider') then
+          vim.lsp.buf.hover()
+        else
+          vim.cmd('normal! K')
+        end
+      end)
+
+      vim.keymap.set('n', '<leader>e', function()
+        vim.diagnostic.open_float()
+      end)
+
+      local menu_winopts_fn = function()
+        local winopts = {
+          width = 0.5,
+          height = 0.5,
+        }
+        if vim.o.columns > 120 then
+          winopts.width = 0.25
+        end
+        return winopts
+      end
+
       local lsp_menu_options = {
         {
           label = 'List references',
@@ -335,202 +484,83 @@ require('packer').startup(function(use)
         {
           label = 'List workspace folders',
           action = function()
-            vim.notify('LSP workspaces: ' .. vim.inspect({ workspace_folders = vim.lsp.buf.list_workspace_folders() }),
+            vim.notify(
+              string.format('LSP workspaces: %s',
+                vim.inspect({ workspace_folders = vim.lsp.buf.list_workspace_folders() })),
               vim.log.levels.INFO)
           end,
         },
         {
           label = 'Show server capabilities',
-          action = function(overrides, client)
-            vim.notify(
-              'Server ' ..
-              client.name ..
-              ' capabilities (id ' ..
-              client.id .. '): ' .. vim.inspect({ capabilities = client.server_capabilities, overrides = overrides }),
-              vim.log.levels.INFO)
+          action = function()
+            local clients = {}
+            fzf.fzf_exec(function(fzf_cb)
+              for _, client in ipairs(vim.lsp.get_active_clients()) do
+                local label = string.format('%s (id: %d)', client.name, client.id)
+                clients[label] = client
+                fzf_cb(label)
+              end
+              fzf_cb(nil)
+            end, {
+              prompt = 'Clients>',
+              actions = {
+                ['default'] = function(selected)
+                  if not selected or #selected ~= 1 or not selected[1] then
+                    return
+                  end
+                  local client = clients[selected[1]]
+                  if client then
+                    vim.notify(
+                      string.format('Server %s (id: %d): %s', client.name, client.id,
+                        vim.inspect({
+                          capabilities = client.server_capabilities,
+                          overrides = server_overrides[client.name]
+                        })),
+                      vim.log.levels.INFO)
+                  else
+                    vim.notify('No client ' .. selected[1], vim.log.levels.INFO)
+                  end
+                end,
+              },
+              fzf_opts = { ['--layout'] = 'reverse' },
+              winopts_fn = menu_winopts_fn,
+            })
           end,
         },
       }
+      local lsp_menu_actions = {}
+      for _, choice in ipairs(lsp_menu_options) do
+        lsp_menu_actions[choice.label] = choice.action
+      end
 
-      local base_on_attach = function(overrides, client, bufnr)
-        if client.server_capabilities.documentHighlightProvider then
-          local lsp_doc_hl_group = vim.api.nvim_create_augroup('k_lsp_document_highlight', { clear = false })
-          vim.api.nvim_clear_autocmds({
-            group = lsp_doc_hl_group,
-            buffer = 0,
-          })
-          vim.api.nvim_create_autocmd('CursorHold', {
-            group = lsp_doc_hl_group,
-            buffer = 0,
-            callback = function()
-              vim.lsp.buf.document_highlight()
-            end,
-          })
-          vim.api.nvim_create_autocmd('CursorMoved', {
-            group = lsp_doc_hl_group,
-            buffer = 0,
-            callback = function()
-              vim.lsp.buf.clear_references()
-            end,
-          })
-        end
-
-        if client.server_capabilities.codeLensProvider then
-          local lsp_codelens = vim.api.nvim_create_augroup('k_lsp_codelens', { clear = false })
-          vim.api.nvim_clear_autocmds({
-            group = lsp_codelens,
-            buffer = 0,
-          })
-          vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
-            group = lsp_codelens,
-            buffer = 0,
-            callback = function()
-              vim.lsp.codelens.refresh()
-            end,
-          })
-        end
-
-        if not overrides.autoDocumentFormatDisable and client.server_capabilities.documentFormattingProvider then
-          local lsp_doc_format = vim.api.nvim_create_augroup('k_lsp_document_formatting', { clear = false })
-          vim.api.nvim_clear_autocmds({
-            group = lsp_doc_format,
-            buffer = 0,
-          })
-          vim.api.nvim_create_autocmd('BufWritePre', {
-            group = lsp_doc_format,
-            buffer = 0,
-            callback = function()
-              vim.lsp.buf.format()
-            end,
-          })
-        end
-
-        if client.server_capabilities.hoverProvider then
-          vim.keymap.set('n', 'K', function()
-            vim.lsp.buf.hover()
-          end, { buffer = true })
-        end
-
-        local lsp_menu_choices = {}
-        local lsp_menu_actions = {}
-        for _, choice in ipairs(lsp_menu_options) do
-          if not choice.capability or client.server_capabilities[choice.capability] then
-            table.insert(lsp_menu_choices, choice.label)
-            lsp_menu_actions[choice.label] = choice.action
+      vim.keymap.set('n', '<leader>r', function()
+        local bufnr = vim.api.nvim_get_current_buf()
+        fzf.fzf_exec(function(fzf_cb)
+          for _, choice in ipairs(lsp_menu_options) do
+            if choice.label and (not choice.capability or buf_has_lsp_capability(bufnr, choice.capability)) then
+              fzf_cb(choice.label)
+            end
           end
-        end
-
-        vim.keymap.set('n', '<leader>r', function()
-          fzf.fzf_exec(lsp_menu_choices, {
-            prompt = 'LSP> ',
-            actions = {
-              ['default'] = function(selected)
-                if not selected or #selected ~= 1 or not selected[1] then
-                  return
-                end
-                local action = lsp_menu_actions[selected[1]]
-                if action then
-                  action(overrides, client, bufnr)
-                end
-              end,
-              ['ctrl-y'] = function(selected)
-                vim.notify('LSP menu: ' .. vim.inspect({ selected = selected }), vim.log.levels.INFO)
-              end,
-            },
-            fzf_opts = { ['--layout'] = 'reverse' },
-            winopts_fn = function()
-              local winopts = {
-                width = 0.5,
-                height = 0.5,
-              }
-              if vim.o.columns > 120 then
-                winopts.width = 0.25
+          fzf_cb(nil)
+        end, {
+          prompt = 'LSP> ',
+          actions = {
+            ['default'] = function(selected)
+              if not selected or #selected ~= 1 or not selected[1] then
+                return
               end
-              return winopts
+              local action = lsp_menu_actions[selected[1]]
+              if action then
+                action()
+              end
             end,
-          })
-        end, { buffer = true })
-      end
-
-      local base_on_attach_overrides_defaults = {
-        autoDocumentFormatDisable = nil
-      }
-
-      local on_attach = function(overrides)
-        return function(client, bufnr)
-          base_on_attach(vim.tbl_deep_extend('force', base_on_attach_overrides_defaults, overrides or {}), client, bufnr)
-        end
-      end
-
-      local servers = {
-        {
-          name = 'gopls',
-          settings = {
-            gopls = {
-              gofumpt = true,
-              templateExtensions = { 'tmpl' },
-            },
+            ['ctrl-y'] = function(selected)
+              vim.notify('LSP menu: ' .. vim.inspect({ selected = selected }), vim.log.levels.INFO)
+            end,
           },
-        },
-        { name = 'rust_analyzer' },
-        {
-          name = 'tsserver',
-          overrides = {
-            autoDocumentFormatDisable = true,
-          },
-        },
-        {
-          name = 'pylsp',
-          settings = {
-            pylsp = {
-              plugins = {
-                black = {
-                  enabled = true,
-                },
-              },
-            },
-          },
-        },
-        {
-          name = 'lua_ls',
-          -- settings = {
-          --   Lua = {
-          --     workspace = {
-          --       library = vim.api.nvim_list_runtime_paths(),
-          --     },
-          --   },
-          -- },
-          --
-          -- :put = execute('lua =vim.api.nvim_list_runtime_paths()')
-        },
-        { name = 'clangd' },
-        { name = 'bashls' },
-        { name = 'html' },
-        { name = 'cssls' },
-        { name = 'jsonls' },
-        { name = 'yamlls' },
-        { name = 'texlab' },
-      }
-      for _, lsp in ipairs(servers) do
-        lspconfig[lsp.name].setup({
-          on_attach = on_attach(lsp.overrides),
-          capabilities = capabilities,
-          settings = lsp.settings or {},
+          fzf_opts = { ['--layout'] = 'reverse' },
+          winopts_fn = menu_winopts_fn,
         })
-      end
-
-      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = 'rounded',
-      })
-      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = 'rounded',
-      })
-      vim.diagnostic.config({
-        float = { border = 'rounded' },
-      })
-
-      vim.keymap.set('n', '<leader>e', function()
-        vim.diagnostic.open_float()
       end)
     end,
   }
@@ -581,7 +611,7 @@ require('packer').startup(function(use)
             i = cmp.mapping.scroll_docs( -4),
           },
           ['<C-Space>'] = {
-            i = cmp.mapping.complete(),
+            i = cmp.mapping.complete({}),
           },
           ['<CR>'] = {
             i = cmp.mapping.confirm({
