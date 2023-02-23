@@ -137,7 +137,17 @@ require('packer').startup(function(use)
     'nvim-lualine/lualine.nvim',
     config = function()
       require('lualine').setup({
-        options = { theme = 'base16' },
+        options = {
+          theme = 'base16',
+        },
+        sections = {
+          lualine_c = {
+            {
+              'filename',
+              path = 1,
+            },
+          }
+        }
       })
     end,
   }
