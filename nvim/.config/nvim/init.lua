@@ -555,16 +555,6 @@ require('packer').startup(function(use)
     end,
   }
 
-  use {
-    'rcarriga/nvim-notify',
-    config = function()
-      local notify = require('notify')
-      notify.setup()
-      vim.notify = notify
-    end
-  }
-
-
   use 'tpope/vim-vinegar'
 
   -- text editing
