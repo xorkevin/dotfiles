@@ -1,3 +1,7 @@
+local function call_fn(fn)
+  fn()
+end
+
 local deps = require('deps').singleton
 deps:add_reqs({ 'fzf' })
 
@@ -50,10 +54,10 @@ vim.filetype.add({
 })
 
 -- lsp
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
   border = 'rounded',
 })
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
   border = 'rounded',
 })
 vim.diagnostic.config({
@@ -62,6 +66,10 @@ vim.diagnostic.config({
 
 local lsp_servers = require('lspservers').singleton
 lsp_servers:add_servers({
+  {
+    name = 'null-ls',
+    cfg_reader = 'null-ls',
+  },
   {
     name = 'gopls',
     settings = {
@@ -120,7 +128,22 @@ local function buf_has_lsp_capability(bufnr, capability, filter_fn)
   return false
 end
 
-(function()
+local function buf_prio_client_lsp_capability(bufnr, capability, filter_fn)
+  local name = nil
+  local priority = lsp_servers.max_prio + 1
+  for _, client in ipairs(vim.lsp.get_active_clients({ bufnr = bufnr })) do
+    if client.server_capabilities[capability] and (not filter_fn or filter_fn(client)) then
+      local prio = lsp_servers.priority[client.name]
+      if prio < priority then
+        name = client.name
+        priority = prio
+      end
+    end
+  end
+  return name
+end
+
+call_fn(function()
   local lsp_doc_hl_group = vim.api.nvim_create_augroup('k_lsp_document_highlight', { clear = true })
   vim.api.nvim_create_autocmd('CursorHold', {
     group = lsp_doc_hl_group,
@@ -157,14 +180,18 @@ end
     group = lsp_doc_format_group,
     pattern = '*',
     callback = function()
-      if buf_has_lsp_capability(0, 'documentFormattingProvider', function(client)
-            return not lsp_servers.overrides[client.name].autoDocumentFormatDisable
-          end) then
-        vim.lsp.buf.format()
+      local name = buf_prio_client_lsp_capability(0, 'documentFormattingProvider', function(client)
+        return not lsp_servers.overrides[client.name].autoDocumentFormatDisable
+      end)
+      if not name then
+        return
       end
+      vim.lsp.buf.format({
+        name = name,
+      })
     end,
   })
-end)()
+end)
 
 vim.keymap.set('n', 'K', function()
   if buf_has_lsp_capability(0, 'hoverProvider') then
@@ -317,8 +344,31 @@ local lsp_menu = LspMenu:new({
   {
     label = 'Format document',
     capability = 'documentFormattingProvider',
-    action = function()
-      vim.lsp.buf.format()
+    action = function(bufnr)
+      local clients = {}
+      deps.m.fzf.fzf_exec(function(fzf_cb)
+        for _, client in ipairs(vim.lsp.get_active_clients({ bufnr = bufnr })) do
+          local label = string.format('%s (id: %d)', client.name, client.id)
+          clients[label] = client.name
+          fzf_cb(label)
+        end
+        fzf_cb(nil)
+      end, {
+        prompt = 'Clients>',
+        actions = {
+          ['default'] = function(selected)
+            if not selected or #selected ~= 1 or not selected[1] then
+              return
+            end
+            local client = clients[selected[1]]
+            if client then
+              vim.lsp.buf.format({ bufnr = bufnr, name = client })
+            end
+          end,
+        },
+        fzf_opts = { ['--layout'] = 'reverse' },
+        winopts_fn = lsp_menu_winopts_fn,
+      })
     end,
   },
   {
@@ -354,7 +404,8 @@ local lsp_menu = LspMenu:new({
                 string.format('Server %s (id: %d): %s', client.name, client.id,
                   vim.inspect({
                     capabilities = client.server_capabilities,
-                    overrides = lsp_servers.overrides[client.name]
+                    overrides = lsp_servers.overrides[client.name],
+                    priority = lsp_servers.priority[client.name],
                   })),
                 vim.log.levels.INFO)
             else
@@ -391,7 +442,7 @@ vim.keymap.set('n', '<leader>r', function()
         end
         local action = lsp_menu.actions[selected[1]]
         if action then
-          action()
+          action(bufnr)
         end
       end,
       ['ctrl-y'] = function(selected)
@@ -571,14 +622,16 @@ require('packer').startup(function(use)
     requires = { 'hrsh7th/cmp-nvim-lsp' },
     config = function()
       local g_lsp_servers = require('lspservers').singleton
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
       local lspconfig = require('lspconfig')
 
       for _, lsp in ipairs(g_lsp_servers.servers) do
-        lspconfig[lsp.name].setup({
-          capabilities = capabilities,
-          settings = lsp.settings or {},
-        })
+        if lsp.cfg_reader == 'nvim-lspconfig' then
+          lspconfig[lsp.name].setup({
+            capabilities = capabilities,
+            settings = lsp.settings or {},
+          })
+        end
       end
     end,
   }
@@ -586,6 +639,39 @@ require('packer').startup(function(use)
   use {
     'jose-elias-alvarez/null-ls.nvim',
     requires = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      local null_ls = require('null-ls')
+      null_ls.setup({
+        sources = {
+          -- by default both use
+          -- dynamic_command = cmd_resolver.from_node_modules()
+          null_ls.builtins.formatting.prettier.with({
+            extra_args = {
+              '--config-precedence=prefer-file',
+              -- '--print-width=80',
+              -- '--tab-width=2',
+              -- no tabs
+              -- '--semi=true',
+              '--single-quote=true',
+              -- '--quote-props=as-needed',
+              -- '--jsx-single-quote=false',
+              '--trailing-comma=all',
+              '--bracket-spacing=false',
+              -- '--jsx-bracket-same-line=false',
+              -- '--arrow-parens=always',
+              -- '--require-pragma=false',
+              -- '--insert-pragma=false',
+              -- '--prose-wrap=preserve',
+              -- '--html-whitepsace-sensitivity=css',
+              -- '--end-of-line=lf',
+              -- '--embedded-language-formatting=auto',
+              -- '--single-attribute-per-line=false',
+            },
+          }),
+          null_ls.builtins.diagnostics.eslint,
+        },
+      })
+    end,
   }
 
   use {
