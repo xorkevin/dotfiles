@@ -1,6 +1,20 @@
 local deps = require('deps').singleton
 deps:add_reqs({ 'fzf' })
 
+local winfloat = require('winfloat')
+
+-- utils
+local function string_split(str, delimiter, fn)
+  local from                 = 1
+  local delim_from, delim_to = string.find(str, delimiter, from)
+  while delim_from do
+    fn(string.sub(str, from, delim_from - 1))
+    from                 = delim_to + 1
+    delim_from, delim_to = string.find(str, delimiter, from)
+  end
+  fn(string.sub(str, from))
+end
+
 -- leader
 vim.g.mapleader = ';'
 
@@ -27,6 +41,8 @@ vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'noselect' }
 vim.opt.shortmess:append('c')
 
 vim.opt.diffopt:append('algorithm:histogram')
+
+vim.opt.termguicolors = true
 
 -- base keybinds
 vim.keymap.set('n', '<leader>e', '<cmd>edit .<CR>')
@@ -343,10 +359,11 @@ local lsp_menu_options = {
   {
     label = 'List workspace folders',
     action = function()
-      vim.notify(
-        string.format('LSP workspaces: %s',
-          vim.inspect({ workspace_folders = vim.lsp.buf.list_workspace_folders() })),
-        vim.log.levels.INFO)
+      local text_lines = { 'LSP workspaces', '', 'workspace_folders:', '' }
+      for _, v in ipairs(vim.lsp.buf.list_workspace_folders()) do
+        table.insert(text_lines, v)
+      end
+      winfloat.text_window(text_lines)
     end,
   },
   {
@@ -361,17 +378,16 @@ local lsp_menu_options = {
         if not choice then
           return
         end
-        vim.notify(
-          string.format(
-            'Server %s (id: %d): %s',
-            choice.name,
-            choice.id,
-            vim.inspect({
-              capabilities = choice.server_capabilities,
-              overrides = lsp_servers.overrides[choice.name],
-              priority = lsp_servers.priority[choice.name],
-            })),
-          vim.log.levels.INFO)
+
+        local text_lines = { string.format('Server %s (id: %d)', choice.name, choice.id), '' }
+        string_split(vim.inspect({
+          capabilities = choice.server_capabilities,
+          overrides = lsp_servers.overrides[choice.name],
+          priority = lsp_servers.priority[choice.name],
+        }), '\n', function(line)
+          table.insert(text_lines, line)
+        end)
+        winfloat.text_window(text_lines)
       end)
     end,
   },
@@ -498,24 +514,17 @@ require('packer').startup(function(use)
     end,
   }
 
-  -- text editing
+  -- ui
   use {
-    'echasnovski/mini.align',
+    'stevearc/dressing.nvim',
     config = function()
-      require('mini.align').setup()
+      require('dressing').setup({
+        input = { enabled = true },
+        select = { enabled = false },
+      })
     end,
   }
 
-  use {
-    'echasnovski/mini.surround',
-    config = function()
-      require('mini.surround').setup()
-    end,
-  }
-
-  use 'bronson/vim-visual-star-search'
-
-  -- file management
   use {
     'ibhagwan/fzf-lua',
     config = function()
@@ -546,7 +555,34 @@ require('packer').startup(function(use)
     end,
   }
 
+  use {
+    'rcarriga/nvim-notify',
+    config = function()
+      local notify = require('notify')
+      notify.setup()
+      vim.notify = notify
+    end
+  }
+
+
   use 'tpope/vim-vinegar'
+
+  -- text editing
+  use {
+    'echasnovski/mini.align',
+    config = function()
+      require('mini.align').setup()
+    end,
+  }
+
+  use {
+    'echasnovski/mini.surround',
+    config = function()
+      require('mini.surround').setup()
+    end,
+  }
+
+  use 'bronson/vim-visual-star-search'
 
   -- git
   use 'tpope/vim-fugitive'
