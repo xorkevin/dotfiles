@@ -1,7 +1,3 @@
-local function call_fn(fn)
-  fn()
-end
-
 local deps = require('deps').singleton
 deps:add_reqs({ 'fzf' })
 
@@ -143,7 +139,7 @@ local function buf_prio_client_lsp_capability(bufnr, capability, filter_fn)
   return name
 end
 
-call_fn(function()
+do
   local lsp_doc_hl_group = vim.api.nvim_create_augroup('k_lsp_document_highlight', { clear = true })
   vim.api.nvim_create_autocmd('CursorHold', {
     group = lsp_doc_hl_group,
@@ -191,7 +187,7 @@ call_fn(function()
       })
     end,
   })
-end)
+end
 
 vim.keymap.set('n', 'K', function()
   if buf_has_lsp_capability(0, 'hoverProvider') then
@@ -201,41 +197,24 @@ vim.keymap.set('n', 'K', function()
   end
 end)
 
-vim.keymap.set('n', '<leader>e', function()
+vim.keymap.set('n', '<leader>k', function()
   vim.diagnostic.open_float()
 end)
 
-local LspMenu = {}
+vim.keymap.set('n', '<leader>a', function()
+  vim.lsp.buf.code_action()
+end)
 
-function LspMenu.new(self, options)
-  local obj = {
-    options = options,
-    actions = {},
-  }
-  for _, choice in ipairs(options) do
-    obj.actions[choice.label] = choice.action
-  end
-  self.__index = self
-  return setmetatable(obj, self)
-end
-
-local function lsp_menu_winopts_fn()
-  local winopts = {
-    width = 0.5,
-    height = 0.5,
-  }
-  if vim.o.columns > 120 then
-    winopts.width = 0.25
-  end
-  return winopts
-end
-
-local lsp_menu = LspMenu:new({
+local lsp_menu_options = {
   {
     label = 'List references',
     capability = 'referencesProvider',
     action = function()
-      deps.m.fzf.lsp_references()
+      if deps.loaded then
+        deps.m.fzf.lsp_references()
+      else
+        vim.lsp.buf.references({})
+      end
     end,
   },
   {
@@ -246,24 +225,10 @@ local lsp_menu = LspMenu:new({
     end,
   },
   {
-    label = 'List definitions',
-    capability = 'definitionProvider',
-    action = function()
-      deps.m.fzf.lsp_definitions()
-    end,
-  },
-  {
     label = 'Go to typedefinition',
     capability = 'typeDefinitionProvider',
     action = function()
       vim.lsp.buf.type_definition()
-    end,
-  },
-  {
-    label = 'List typedefinitions',
-    capability = 'typeDefinitionProvider',
-    action = function()
-      deps.m.fzf.lsp_typedefs()
     end,
   },
   {
@@ -277,54 +242,71 @@ local lsp_menu = LspMenu:new({
     label = 'List implementations',
     capability = 'implementationProvider',
     action = function()
-      deps.m.fzf.lsp_implementations()
+      if deps.loaded then
+        deps.m.fzf.lsp_implementations()
+      else
+        vim.lsp.buf.implementation()
+      end
     end,
   },
   {
     label = 'Incoming calls',
     capability = 'callHierarchyProvider',
     action = function()
-      deps.m.fzf.lsp_incoming_calls()
+      if deps.loaded then
+        deps.m.fzf.lsp_incoming_calls()
+      else
+        vim.lsp.buf.incoming_calls()
+      end
     end,
   },
   {
     label = 'Outgoing calls',
     capability = 'callHierarchyProvider',
     action = function()
-      deps.m.fzf.lsp_outgoing_calls()
+      if deps.loaded then
+        deps.m.fzf.lsp_outgoing_calls()
+      else
+        vim.lsp.buf.outgoing_calls()
+      end
     end,
   },
   {
     label = 'List document symbols',
     capability = 'documentSymbolProvider',
     action = function()
-      deps.m.fzf.lsp_document_symbols()
+      if deps.loaded then
+        deps.m.fzf.lsp_document_symbols()
+      else
+        vim.lsp.buf.document_symbol()
+      end
     end,
   },
   {
     label = 'List workspace symbols',
     capability = 'workspaceSymbolProvider',
     action = function()
-      deps.m.fzf.lsp_workspace_symbols()
+      if deps.loaded then
+        deps.m.fzf.lsp_workspace_symbols()
+      else
+        vim.lsp.buf.workspace_symbol('')
+      end
     end,
   },
   {
     label = 'List document diagnostics',
     action = function()
-      deps.m.fzf.diagnostics_document()
+      if deps.loaded then
+        deps.m.fzf.diagnostics_document()
+      end
     end,
   },
   {
     label = 'List workspace diagnostics',
     action = function()
-      deps.m.fzf.diagnostics_workspace()
-    end,
-  },
-  {
-    label = 'Code actions',
-    capability = 'codeActionProvider',
-    action = function()
-      deps.m.fzf.lsp_code_actions()
+      if deps.loaded then
+        deps.m.fzf.diagnostics_workspace()
+      end
     end,
   },
   {
@@ -345,30 +327,17 @@ local lsp_menu = LspMenu:new({
     label = 'Format document',
     capability = 'documentFormattingProvider',
     action = function(bufnr)
-      local clients = {}
-      deps.m.fzf.fzf_exec(function(fzf_cb)
-        for _, client in ipairs(vim.lsp.get_active_clients({ bufnr = bufnr })) do
-          local label = string.format('%s (id: %d)', client.name, client.id)
-          clients[label] = client.name
-          fzf_cb(label)
+      vim.ui.select(vim.lsp.get_active_clients({ bufnr = bufnr }), {
+        prompt = 'Clients:',
+        format_item = function(item)
+          return string.format('%s (id: %d)', item.name, item.id)
+        end,
+      }, function(choice)
+        if not choice then
+          return
         end
-        fzf_cb(nil)
-      end, {
-        prompt = 'Clients>',
-        actions = {
-          ['default'] = function(selected)
-            if not selected or #selected ~= 1 or not selected[1] then
-              return
-            end
-            local client = clients[selected[1]]
-            if client then
-              vim.lsp.buf.format({ bufnr = bufnr, name = client })
-            end
-          end,
-        },
-        fzf_opts = { ['--layout'] = 'reverse' },
-        winopts_fn = lsp_menu_winopts_fn,
-      })
+        vim.lsp.buf.format({ bufnr = bufnr, name = choice.name })
+      end)
     end,
   },
   {
@@ -383,75 +352,44 @@ local lsp_menu = LspMenu:new({
   {
     label = 'Show server capabilities',
     action = function()
-      local clients = {}
-      deps.m.fzf.fzf_exec(function(fzf_cb)
-        for _, client in ipairs(vim.lsp.get_active_clients()) do
-          local label = string.format('%s (id: %d)', client.name, client.id)
-          clients[label] = client
-          fzf_cb(label)
-        end
-        fzf_cb(nil)
-      end, {
-        prompt = 'Clients>',
-        actions = {
-          ['default'] = function(selected)
-            if not selected or #selected ~= 1 or not selected[1] then
-              return
-            end
-            local client = clients[selected[1]]
-            if client then
-              vim.notify(
-                string.format('Server %s (id: %d): %s', client.name, client.id,
-                  vim.inspect({
-                    capabilities = client.server_capabilities,
-                    overrides = lsp_servers.overrides[client.name],
-                    priority = lsp_servers.priority[client.name],
-                  })),
-                vim.log.levels.INFO)
-            else
-              vim.notify('No client ' .. selected[1], vim.log.levels.INFO)
-            end
-          end,
-        },
-        fzf_opts = { ['--layout'] = 'reverse' },
-        winopts_fn = lsp_menu_winopts_fn,
-      })
-    end,
-  },
-})
-
-vim.keymap.set('n', '<leader>r', function()
-  if not deps.loaded then
-    vim.notify(string.format('Deps not loaded: %s', vim.inspect(deps:stats())), vim.log.levels.INFO)
-    return
-  end
-  local bufnr = vim.api.nvim_get_current_buf()
-  deps.m.fzf.fzf_exec(function(fzf_cb)
-    for _, choice in ipairs(lsp_menu.options) do
-      if choice.label and (not choice.capability or buf_has_lsp_capability(bufnr, choice.capability)) then
-        fzf_cb(choice.label)
-      end
-    end
-    fzf_cb(nil)
-  end, {
-    prompt = 'LSP> ',
-    actions = {
-      ['default'] = function(selected)
-        if not selected or #selected ~= 1 or not selected[1] then
+      vim.ui.select(vim.lsp.get_active_clients(), {
+        prompt = 'Clients:',
+        format_item = function(item)
+          return string.format('%s (id: %d)', item.name, item.id)
+        end,
+      }, function(choice)
+        if not choice then
           return
         end
-        local action = lsp_menu.actions[selected[1]]
-        if action then
-          action(bufnr)
-        end
-      end,
-      ['ctrl-y'] = function(selected)
-        vim.notify('LSP menu: ' .. vim.inspect({ selected = selected }), vim.log.levels.INFO)
-      end,
-    },
-    fzf_opts = { ['--layout'] = 'reverse' },
-    winopts_fn = lsp_menu_winopts_fn,
-  })
+        vim.notify(
+          string.format(
+            'Server %s (id: %d): %s',
+            choice.name,
+            choice.id,
+            vim.inspect({
+              capabilities = choice.server_capabilities,
+              overrides = lsp_servers.overrides[choice.name],
+              priority = lsp_servers.priority[choice.name],
+            })),
+          vim.log.levels.INFO)
+      end)
+    end,
+  },
+}
+
+vim.keymap.set('n', '<leader>r', function()
+  local bufnr = vim.api.nvim_get_current_buf()
+  vim.ui.select(lsp_menu_options, {
+    prompt = 'LSP:',
+    format_item = function(item)
+      return item.label
+    end,
+  }, function(choice)
+    if not choice then
+      return
+    end
+    choice.action(bufnr)
+  end)
 end)
 
 -- packer
@@ -584,6 +522,19 @@ require('packer').startup(function(use)
       local g_deps = require('deps').singleton
       local fzf = require('fzf-lua')
       g_deps:provide('fzf', fzf)
+
+      fzf.register_ui_select({
+        winopts_fn = function()
+          local winopts = {
+            width = 0.5,
+            height = 0.5,
+          }
+          if vim.o.columns > 120 then
+            winopts.width = 0.25
+          end
+          return winopts
+        end
+      }, true)
 
       local opts = { fzf_opts = { ['--layout'] = 'default' } }
       vim.keymap.set('n', '<leader>f', function()
