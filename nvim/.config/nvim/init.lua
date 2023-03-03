@@ -223,17 +223,6 @@ end)
 
 local lsp_menu_options = {
   {
-    label = 'List references',
-    capability = 'referencesProvider',
-    action = function()
-      if deps.loaded then
-        deps.m.fzf.lsp_references()
-      else
-        vim.lsp.buf.references({})
-      end
-    end,
-  },
-  {
     label = 'Go to definition',
     capability = 'definitionProvider',
     action = function()
@@ -252,6 +241,17 @@ local lsp_menu_options = {
     capability = 'declarationProvider',
     action = function()
       vim.lsp.buf.declaration()
+    end,
+  },
+  {
+    label = 'List references',
+    capability = 'referencesProvider',
+    action = function()
+      if deps.loaded then
+        deps.m.fzf.lsp_references()
+      else
+        vim.lsp.buf.references({})
+      end
     end,
   },
   {
