@@ -217,6 +217,10 @@ vim.keymap.set('n', '<leader>k', function()
   vim.diagnostic.open_float()
 end)
 
+vim.keymap.set('n', '<leader>j', function()
+  vim.diagnostic.goto_next()
+end)
+
 vim.keymap.set('n', '<leader>a', function()
   vim.lsp.buf.code_action()
 end)
