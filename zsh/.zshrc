@@ -202,10 +202,9 @@ bindkey "$terminfo[kcub1]" backward-char
 bindkey "$terminfo[kcuf1]" forward-char
 
 resumejob() {
-  fg
-  local ret=$?
-  zle reset-prompt
-  return $ret
+  zle push-input
+  BUFFER='fg'
+  zle accept-line
 }
 zle -N resumejob
 bindkey "^Z" resumejob
