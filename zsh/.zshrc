@@ -201,6 +201,15 @@ bindkey "^L" clear-screen
 bindkey "$terminfo[kcub1]" backward-char
 bindkey "$terminfo[kcuf1]" forward-char
 
+resumejob() {
+  fg
+  local ret=$?
+  zle reset-prompt
+  return $ret
+}
+zle -N resumejob
+bindkey "^Z" resumejob
+
 # Safe ops. Ask the user before doing anything destructive.
 alias rm="${aliases[rm]:-rm} -i"
 alias mv="${aliases[mv]:-mv} -i"
