@@ -471,6 +471,7 @@ require('packer').startup(function(use)
           'scheme',
           'scss',
           'sql',
+          'starlark',
           'terraform',
           'tlaplus',
           'toml',
@@ -698,7 +699,7 @@ require('packer').startup(function(use)
             i = cmp.mapping.scroll_docs(4),
           },
           ['<C-b>'] = {
-            i = cmp.mapping.scroll_docs( -4),
+            i = cmp.mapping.scroll_docs(-4),
           },
           ['<C-Space>'] = {
             i = cmp.mapping.complete({}),
@@ -726,8 +727,8 @@ require('packer').startup(function(use)
             end
           end, { 'i' }),
           ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if luasnip.jumpable( -1) then
-              luasnip.jump( -1)
+            if luasnip.jumpable(-1) then
+              luasnip.jump(-1)
             else
               fallback()
             end
