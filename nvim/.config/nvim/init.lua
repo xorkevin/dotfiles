@@ -748,4 +748,7 @@ require('packer').startup(function(use)
       })
     end,
   }
+
+  -- jsonnet
+  use 'google/vim-jsonnet'
 end)
