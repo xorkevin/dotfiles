@@ -752,3 +752,11 @@ require('packer').startup(function(use)
   -- jsonnet
   use 'google/vim-jsonnet'
 end)
+
+-- starlark autoformat
+local starlark_format_group = vim.api.nvim_create_augroup('k_starlark_format', { clear = true })
+vim.api.nvim_create_autocmd('BufWritePre', {
+  group = starlark_format_group,
+  pattern = '*.star',
+  command = 'Black',
+})
