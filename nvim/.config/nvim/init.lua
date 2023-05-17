@@ -652,7 +652,7 @@ require('packer').startup(function(use)
               -- '--single-attribute-per-line=false',
             },
           }),
-          -- null_ls.builtins.diagnostics.eslint,
+          null_ls.builtins.diagnostics.eslint,
         },
       })
     end,
