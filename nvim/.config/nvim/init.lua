@@ -450,7 +450,6 @@ require('packer').startup(function(use)
           'gosum',
           'gowork',
           'hcl',
-          'help',
           'html',
           'ini',
           'java',
