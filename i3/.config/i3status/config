@@ -73,7 +73,7 @@ volume master {
 }
 
 read_file brightness {
-        format = ":%content"
+        format = "󰃞:%content"
         path = "/sys/class/backlight/intel_backlight/brightness"
         max_characters = "5"
 }
