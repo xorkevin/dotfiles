@@ -9,8 +9,8 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-set $display1 DisplayPort-2
-set $display2 HDMI-0
+#set $display1 DisplayPort-2
+#set $display2 HDMI-0
 set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -31,6 +31,7 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+grave exec i3-sensible-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -98,10 +99,10 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+b sticky toggle
 
 # focus the parent container
-bindsym $mod+o focus parent
+bindsym $mod+p focus parent
 
 # focus the child container
-bindsym $mod+p focus child
+bindsym $mod+o focus child
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -132,7 +133,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-set $mode_exit (e)xit
+set $mode_exit [e]xit
 mode "$mode_exit" {
   bindsym e exec i3-msg exit, mode "default"
 
@@ -146,11 +147,12 @@ bindsym $mod+z exec $HOME/scripts/lockscreen.sh
 bindsym $mod+x exec maim -u -s ~/screenshot.png
 bindsym $mod+c exec maim -u ~/screenshot.png
 
-for_window [instance="scripts_quickpass"] floating enable, sticky enable, focus
+for_window [instance="scripts_window"] floating enable, sticky enable, focus
 
-set $mode_scripts (p)ass
+set $mode_scripts [p]ass [r]eboot
 mode "$mode_scripts" {
-  bindsym p exec urxvt -name scripts_quickpass -e $HOME/scripts/quickpass.sh, mode "default"
+  bindsym p exec urxvt -name scripts_window -e $HOME/scripts/quickpass.sh, mode "default"
+  bindsym r exec urxvt -name scripts_window -e $HOME/scripts/reboot.sh, mode "default"
 
   bindsym Return mode "default"
   bindsym Escape mode "default"
@@ -183,11 +185,8 @@ bindsym --border button3 nop
 focus_wrapping no
 focus_on_window_activation urgent
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-
-new_window pixel 2 px
-new_float pixel 2 px
+default_border pixel 2
+default_floating_border pixel 2
 hide_edge_borders both
 
 # class                 border  back.   text    indicator child_border
@@ -198,9 +197,17 @@ client.urgent           #cc6666 #1d1f21 #cc6666 #1d1f21   #cc6666
 client.placeholder      #1d1f21 #1d1f21 #c5c8c6 #1d1f21   #c5c8c6
 client.background       #1d1f21
 
+# mouse
+focus_follows_mouse no
+mouse_warping none
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+
 bar {
   status_command i3status
   tray_output primary
+  tray_padding 0
 
   colors {
     #color class       border  back.   text
@@ -212,24 +219,18 @@ bar {
     statusline         #e0e0e0
     separator          #373b41
   }
-
-  tray_padding 0
 }
 
-# mouse
-focus_follows_mouse no
-mouse_warping none
-
 # workspaces
-workspace 1 output $display1
-workspace 2 output $display1
-workspace 3 output $display1
-workspace 4 output $display1
-workspace 5 output $display1
-workspace 6 output $display1
-workspace 7 output $display2
-workspace 8 output $display2
-workspace 9 output $display2
-workspace 10 output $display2
+#workspace 1 output $display1
+#workspace 2 output $display1
+#workspace 3 output $display1
+#workspace 4 output $display1
+#workspace 5 output $display1
+#workspace 6 output $display1
+#workspace 7 output $display2
+#workspace 8 output $display2
+#workspace 9 output $display2
+#workspace 10 output $display2
 
 exec /usr/bin/lxqt-policykit-agent

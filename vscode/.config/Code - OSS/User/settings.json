@@ -1,0 +1,21 @@
+{
+  "tlaplus.tlc.statisticsSharing": "share",
+  "security.workspace.trust.untrustedFiles": "open",
+  "vim.leader": ";",
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<leader>", "s"],
+      "commands": [":w"]
+    }
+  ],
+  "editor.tabSize": 2,
+  "editor.renderWhitespace": "trailing",
+  "workbench.colorTheme": "Tomorrow Night",
+  "editor.codeActionsOnSave": {
+    "source": true
+  },
+  "tlaplus.tlc.modelChecker.optionsPrompt": false,
+  "files.insertFinalNewline": true,
+  "tlaplus.tlc.modelChecker.options": "-dump dot ${modelName}.dot",
+  "editor.fontSize": 12
+}
