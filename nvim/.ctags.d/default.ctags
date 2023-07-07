@@ -1,3 +1,0 @@
--f .tags
---exclude=.tags
---exclude=.git

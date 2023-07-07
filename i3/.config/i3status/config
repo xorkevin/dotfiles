@@ -17,6 +17,7 @@ order += "ethernet _first_"
 # order += "battery all"
 # order += "disk /"
 order += "cpu_temperature 0"
+order += "cpu_temperature 1"
 order += "load"
 # order += "read_file brightness"
 order += "volume master"
@@ -54,7 +55,12 @@ tztime utc {
 
 cpu_temperature 0 {
         format = "%degrees°C"
-        path = "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon*/temp2_input"
+        path = "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon*/temp3_input"
+}
+
+cpu_temperature 1 {
+        format = "%degrees°C"
+        path = "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon*/temp4_input"
 }
 
 load {
