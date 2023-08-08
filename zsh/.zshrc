@@ -1,5 +1,6 @@
-if [ -f "$HOME/.zsh_plugins.sh" ]; then
-  . "$HOME/.zsh_plugins.sh"
+if [ -f "$HOME/.antidote/antidote.zsh" ]; then
+  . "$HOME/.antidote/antidote.zsh"
+  antidote load
 fi
 
 if [ -f "$HOME/.base16_theme" ]; then
