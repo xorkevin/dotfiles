@@ -291,6 +291,8 @@ export PASSWORD_STORE_SIGNING_KEY=E3F7F98150B8366CE19D0F0B3920F75DE27E4A5B
 export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
 
+export PATH="$PATH:$HOME/.cargo/bin"
+
 export BAT_THEME='base16'
 export BAT_STYLE='header,grid,numbers'
 export FZF_DEFAULT_OPTS="--height 40% --reverse"
