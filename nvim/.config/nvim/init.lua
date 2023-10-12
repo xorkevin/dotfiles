@@ -414,19 +414,15 @@ vim.keymap.set('n', '<leader>r', function()
   end)
 end)
 
--- packer
-require('packer').startup(function(use)
-  use {
-    'wbthomason/packer.nvim',
-    config = function()
-      vim.keymap.set('n', '<leader>z', '<cmd>source $MYVIMRC<CR><cmd>PackerCompile<CR>')
-    end,
-  }
+-- lazy
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+vim.opt.rtp:prepend(lazypath)
 
+require('lazy').setup({
   -- syntax
-  use {
+  {
     'nvim-treesitter/nvim-treesitter',
-    run = function()
+    build = function()
       require('nvim-treesitter.install').update({ with_sync = true })()
     end,
     config = function()
@@ -489,19 +485,16 @@ require('packer').startup(function(use)
         },
       })
     end,
-  }
-
+  },
   -- theme
-  use {
+  {
     'RRethy/nvim-base16',
     config = function()
       vim.cmd('colorscheme base16-tomorrow-night')
     end,
-  }
-
-  use 'nvim-tree/nvim-web-devicons'
-
-  use {
+  },
+  { 'nvim-tree/nvim-web-devicons' },
+  {
     'nvim-lualine/lualine.nvim',
     config = function()
       require('lualine').setup({
@@ -518,10 +511,9 @@ require('packer').startup(function(use)
         }
       })
     end,
-  }
-
+  },
   -- ui
-  use {
+  {
     'stevearc/dressing.nvim',
     config = function()
       require('dressing').setup({
@@ -529,9 +521,8 @@ require('packer').startup(function(use)
         select = { enabled = false },
       })
     end,
-  }
-
-  use {
+  },
+  {
     'ibhagwan/fzf-lua',
     config = function()
       local g_deps = require('deps').singleton
@@ -559,31 +550,25 @@ require('packer').startup(function(use)
         fzf.buffers(opts)
       end)
     end,
-  }
-
-  use 'tpope/vim-vinegar'
-
+  },
+  { 'tpope/vim-vinegar' },
   -- text editing
-  use {
+  {
     'echasnovski/mini.align',
     config = function()
       require('mini.align').setup()
     end,
-  }
-
-  use {
+  },
+  {
     'echasnovski/mini.surround',
     config = function()
       require('mini.surround').setup()
     end,
-  }
-
-  use 'bronson/vim-visual-star-search'
-
+  },
+  { 'bronson/vim-visual-star-search' },
   -- git
-  use 'tpope/vim-fugitive'
-
-  use {
+  { 'tpope/vim-fugitive' },
+  {
     'lewis6991/gitsigns.nvim',
     config = function()
       require('gitsigns').setup({
@@ -597,12 +582,11 @@ require('packer').startup(function(use)
         },
       })
     end,
-  }
-
+  },
   -- lsp
-  use {
+  {
     'neovim/nvim-lspconfig',
-    requires = { 'hrsh7th/cmp-nvim-lsp' },
+    dependencies = { 'hrsh7th/cmp-nvim-lsp' },
     config = function()
       local g_lsp_servers = require('lspservers').singleton
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -617,11 +601,10 @@ require('packer').startup(function(use)
         end
       end
     end,
-  }
-
-  use {
+  },
+  {
     'jose-elias-alvarez/null-ls.nvim',
-    requires = { 'nvim-lua/plenary.nvim' },
+    dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
       local null_ls = require('null-ls')
       null_ls.setup({
@@ -651,23 +634,21 @@ require('packer').startup(function(use)
               -- '--single-attribute-per-line=false',
             },
           }),
-          null_ls.builtins.diagnostics.eslint,
+          -- null_ls.builtins.diagnostics.eslint,
         },
       })
     end,
-  }
-
-  use {
+  },
+  {
     'ray-x/lsp_signature.nvim',
     config = function()
       require('lsp_signature').setup()
     end,
-  }
-
+  },
   -- autocomplete
-  use {
+  {
     'hrsh7th/nvim-cmp',
-    requires = {
+    dependencies = {
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lsp',
@@ -746,11 +727,10 @@ require('packer').startup(function(use)
         },
       })
     end,
-  }
-
+  },
   -- jsonnet
-  use 'google/vim-jsonnet'
-end)
+  { 'google/vim-jsonnet' },
+})
 
 -- starlark autoformat
 local starlark_format_group = vim.api.nvim_create_augroup('k_starlark_format', { clear = true })
