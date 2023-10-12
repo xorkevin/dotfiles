@@ -1,5 +1,6 @@
-if [ -f "$HOME/.zsh_plugins.sh" ]; then
-  . "$HOME/.zsh_plugins.sh"
+if [ -f "$HOME/.antidote/antidote.zsh" ]; then
+  . "$HOME/.antidote/antidote.zsh"
+  antidote load
 fi
 
 if [ -f "$HOME/.base16_theme" ]; then
@@ -289,6 +290,8 @@ export PASSWORD_STORE_SIGNING_KEY=E3F7F98150B8366CE19D0F0B3920F75DE27E4A5B
 
 export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
+
+export PATH="$PATH:$HOME/.cargo/bin"
 
 export BAT_THEME='base16'
 export BAT_STYLE='header,grid,numbers'
