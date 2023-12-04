@@ -361,6 +361,17 @@ if command -v fsserve > /dev/null; then
   unset __FSSERVE_COMPLETION_FILE
 fi
 
+if command -v bitcensus > /dev/null; then
+  __BITCENSUS_COMPLETION_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/completion/bitcensus_completion"
+  if [ ! -f $__BITCENSUS_COMPLETION_FILE ] || [ ! -s $__BITCENSUS_COMPLETION_FILE ] || [[ ! $__BITCENSUS_COMPLETION_FILE(#qNmh-20) ]]; then
+    mkdir -p "${__BITCENSUS_COMPLETION_FILE%/*}"
+    printf 'compdef _bitcensus bitcensus\n' >| $__BITCENSUS_COMPLETION_FILE
+    bitcensus completion zsh >> $__BITCENSUS_COMPLETION_FILE
+  fi
+  [ -f $__BITCENSUS_COMPLETION_FILE ] && . $__BITCENSUS_COMPLETION_FILE
+  unset __BITCENSUS_COMPLETION_FILE
+fi
+
 if [ -d $HOME/.zsh.d ]; then
   for file in $HOME/.zsh.d/*(N.); do
     . "$file"

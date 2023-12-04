@@ -8,6 +8,8 @@ zsh:
 gpgbackup:
 	./gpgbackup.sh
 
+.PHONY: clonenvimlazy clonetmuxressurect cloneantidote
+
 clonenvimlazy:
 	git clone --branch=stable https://github.com/folke/lazy.nvim ~/.local/share/nvim/lazy/lazy.nvim
 
