@@ -124,7 +124,10 @@ lsp_servers:add_servers({
     --
     -- :put = execute('lua =vim.api.nvim_list_runtime_paths()')
   },
-  { name = 'clangd' },
+  {
+    name = 'clangd',
+    filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' }
+  },
   { name = 'bashls' },
   { name = 'html' },
   { name = 'cssls' },
@@ -548,7 +551,6 @@ require('lazy').setup({
           'ssh_config',
           'starlark',
           'strace',
-          'svelte',
           'swift',
           'tablegen',
           'tcl',
@@ -692,7 +694,8 @@ require('lazy').setup({
         if lsp.cfg_reader == 'nvim-lspconfig' then
           lspconfig[lsp.name].setup({
             capabilities = capabilities,
-            settings = lsp.settings or {},
+            filetypes = lsp.filetypes,
+            settings = lsp.settings,
           })
         end
       end
