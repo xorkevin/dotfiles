@@ -15,6 +15,9 @@ local function string_split(str, delimiter, fn)
   fn(string.sub(str, from))
 end
 
+-- config constants
+local highlight_file_size_limit = 768 * 1024
+
 -- leader
 vim.g.mapleader = ';'
 
@@ -580,6 +583,12 @@ require('lazy').setup({
         auto_install = false,
         highlight = {
           enable = true,
+          disable = function(lang, bufnr)
+            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(bufnr))
+            if ok and stats and stats.size > highlight_file_size_limit then
+              return true
+            end
+          end
         },
       })
     end,
@@ -640,7 +649,7 @@ require('lazy').setup({
         end
       }, true)
 
-      local opts = { fzf_opts = { ['--layout'] = 'default' } }
+      local opts = { fzf_opts = { ['--layout'] = 'default' }, previewer = { syntax_limit_b = highlight_file_size_limit } }
       vim.keymap.set('n', '<leader>f', function()
         fzf.files(opts)
       end)
