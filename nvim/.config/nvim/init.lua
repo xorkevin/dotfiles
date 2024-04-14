@@ -753,6 +753,7 @@ require('lazy').setup({
       require('lsp_signature').setup()
     end,
   },
+  { 'lbrayner/vim-rzip' },
   -- autocomplete
   {
     'hrsh7th/nvim-cmp',
