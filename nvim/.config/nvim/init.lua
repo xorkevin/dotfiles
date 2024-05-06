@@ -15,6 +15,9 @@ local function string_split(str, delimiter, fn)
   fn(string.sub(str, from))
 end
 
+-- config constants
+local highlight_file_size_limit = 768 * 1024
+
 -- leader
 vim.g.mapleader = ';'
 
@@ -124,7 +127,10 @@ lsp_servers:add_servers({
     --
     -- :put = execute('lua =vim.api.nvim_list_runtime_paths()')
   },
-  { name = 'clangd' },
+  {
+    name = 'clangd',
+    filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' }
+  },
   { name = 'bashls' },
   { name = 'html' },
   { name = 'cssls' },
@@ -422,17 +428,18 @@ require('lazy').setup({
   -- syntax
   {
     'nvim-treesitter/nvim-treesitter',
-    build = function()
-      require('nvim-treesitter.install').update({ with_sync = true })()
-    end,
     config = function()
       require('nvim-treesitter.configs').setup({
         ensure_installed = {
           'awk',
           'bash',
           'bibtex',
+          'blueprint',
           'c',
+          'c_sharp',
           'capnp',
+          'clojure',
+          'cmake',
           'comment',
           'commonlisp',
           'cpp',
@@ -444,11 +451,11 @@ require('lazy').setup({
           'dart',
           'dhall',
           'diff',
+          'disassembly',
           'dockerfile',
           'dot',
           'eex',
           'elixir',
-          'embedded_template',
           'erlang',
           'forth',
           'fortran',
@@ -466,15 +473,17 @@ require('lazy').setup({
           'gowork',
           'gpg',
           'graphql',
+          'groovy',
           'hack',
           'haskell',
           'haskell_persistent',
           'hcl',
           'heex',
-          'hjson',
           'hlsl',
+          'hlsplaylist',
           'html',
           'http',
+          'hurl',
           'ini',
           'java',
           'javascript',
@@ -482,9 +491,11 @@ require('lazy').setup({
           'jsdoc',
           'json',
           'jsonnet',
+          'kconfig',
           'kotlin',
           'latex',
           'ledger',
+          'linkerscript',
           'llvm',
           'lua',
           'luadoc',
@@ -493,26 +504,44 @@ require('lazy').setup({
           'markdown',
           'markdown_inline',
           'mermaid',
+          'meson',
+          'muttrc',
+          'nim',
+          'nim_format_string',
           'ninja',
           'nix',
+          'objc',
+          'objdump',
           'ocaml',
           'ocaml_interface',
           'ocamllex',
           'org',
+          'pascal',
           'passwd',
           'pem',
           'perl',
           'php',
           'phpdoc',
+          'po',
+          'pod',
+          'printf',
+          'properties',
           'promql',
           'proto',
           'psv',
           'puppet',
           'pymanifest',
           'python',
+          'qmldir',
+          'qmljs',
+          'query',
           'r',
           'racket',
+          'rasi',
+          'rbs',
+          'readline',
           'regex',
+          'rego',
           'requirements',
           'ron',
           'rst',
@@ -525,8 +554,9 @@ require('lazy').setup({
           'ssh_config',
           'starlark',
           'strace',
-          'svelte',
           'swift',
+          'tablegen',
+          'tcl',
           'terraform',
           'textproto',
           'thrift',
@@ -535,6 +565,8 @@ require('lazy').setup({
           'tsv',
           'tsx',
           'typescript',
+          'udev',
+          'ungrammar',
           'verilog',
           'vhs',
           'vim',
@@ -542,6 +574,7 @@ require('lazy').setup({
           'vue',
           'wgsl',
           'wgsl_bevy',
+          'xcompose',
           'xml',
           'yaml',
           'zig',
@@ -550,6 +583,12 @@ require('lazy').setup({
         auto_install = false,
         highlight = {
           enable = true,
+          disable = function(lang, bufnr)
+            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(bufnr))
+            if ok and stats and stats.size > highlight_file_size_limit then
+              return true
+            end
+          end
         },
       })
     end,
@@ -610,7 +649,7 @@ require('lazy').setup({
         end
       }, true)
 
-      local opts = { fzf_opts = { ['--layout'] = 'default' } }
+      local opts = { fzf_opts = { ['--layout'] = 'default' }, previewer = { syntax_limit_b = highlight_file_size_limit } }
       vim.keymap.set('n', '<leader>f', function()
         fzf.files(opts)
       end)
@@ -664,7 +703,8 @@ require('lazy').setup({
         if lsp.cfg_reader == 'nvim-lspconfig' then
           lspconfig[lsp.name].setup({
             capabilities = capabilities,
-            settings = lsp.settings or {},
+            filetypes = lsp.filetypes,
+            settings = lsp.settings,
           })
         end
       end
@@ -713,6 +753,7 @@ require('lazy').setup({
       require('lsp_signature').setup()
     end,
   },
+  { 'lbrayner/vim-rzip' },
   -- autocomplete
   {
     'hrsh7th/nvim-cmp',
@@ -720,7 +761,7 @@ require('lazy').setup({
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-path',
+      -- 'hrsh7th/cmp-path'
       'hrsh7th/cmp-buffer',
     },
     config = function()
