@@ -47,8 +47,6 @@ vim.opt.diffopt:append('algorithm:histogram')
 
 vim.opt.termguicolors = true
 
-vim.opt.mouse = ''
-
 -- base keybinds
 vim.keymap.set('n', '<leader>e', '<cmd>edit .<CR>')
 vim.keymap.set('n', '<leader>d', '<cmd>bd<CR>')
@@ -839,6 +837,14 @@ require('lazy').setup({
   },
   -- jsonnet
   { 'google/vim-jsonnet' },
+  -- toy
+  {
+    'rktjmp/playtime.nvim',
+    config = function()
+      local playtime = require('playtime')
+      playtime.setup({})
+    end,
+  },
 })
 
 -- starlark autoformat
