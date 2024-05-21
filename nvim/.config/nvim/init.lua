@@ -591,7 +591,12 @@ require('lazy').setup({
       })
     end,
   },
-  { 'folke/ts-comments.nvim' },
+  {
+    'folke/ts-comments.nvim',
+    config = function()
+      require('ts-comments').setup()
+    end
+  },
   -- theme
   {
     'RRethy/nvim-base16',
