@@ -762,20 +762,16 @@ require('lazy').setup({
   {
     'hrsh7th/nvim-cmp',
     dependencies = {
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lsp',
       -- 'hrsh7th/cmp-path'
       'hrsh7th/cmp-buffer',
     },
     config = function()
-      local luasnip = require('luasnip')
-
       local cmp = require('cmp')
       cmp.setup({
         snippet = {
           expand = function(args)
-            luasnip.lsp_expand(args.body)
+            vim.snippet.expand(args.body)
           end,
         },
         preselect = cmp.PreselectMode.None,
@@ -815,15 +811,15 @@ require('lazy').setup({
             i = cmp.mapping.abort(),
           },
           ['<Tab>'] = cmp.mapping(function(fallback)
-            if luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
+            if vim.snippet.active({ direction = 1 }) then
+              vim.snippet.jump(1)
             else
               fallback()
             end
           end, { 'i' }),
           ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if luasnip.jumpable(-1) then
-              luasnip.jump(-1)
+            if vim.snippet.active({ direction = -1 }) then
+              vim.snippet.jump(-1)
             else
               fallback()
             end
@@ -831,7 +827,6 @@ require('lazy').setup({
         },
         sources = {
           { name = 'nvim_lsp' },
-          { name = 'luasnip' },
           { name = 'path' },
           { name = 'buffer' },
         },
