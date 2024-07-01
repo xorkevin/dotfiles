@@ -188,7 +188,7 @@ do
     pattern = '*',
     callback = function()
       if buf_has_lsp_capability(0, 'codeLensProvider') then
-        vim.lsp.codelens.refresh()
+        vim.lsp.codelens.refresh({ bufnr = 0 })
       end
     end,
   })
