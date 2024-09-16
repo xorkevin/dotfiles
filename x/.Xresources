@@ -1,4 +1,5 @@
 URxvt.font: xft:Hack Nerd Font Mono:size=8
+URxvt.letterSpace: 2
 URxvt.scrollBar: false
 URxvt.iso14755: false
 URxvt.iso14755_52: false
@@ -17,7 +18,7 @@ Xft.dpi: 96
 Xft.antialias: true
 Xft.autohint: 0
 Xft.hinting: true
-Xft.hintstyle: hintslight
+Xft.hintstyle: hintfull
 Xft.lcdfilter: lcddefault
 Xft.rgba: rgb
 
