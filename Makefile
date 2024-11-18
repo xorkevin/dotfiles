@@ -1,9 +1,6 @@
-.PHONY: all zsh gpgbackup
+.PHONY: all
 
 all:
-
-gpgbackup:
-	./gpgbackup.sh
 
 .PHONY: clonenvimlazy clonetmuxressurect cloneantidote
 
