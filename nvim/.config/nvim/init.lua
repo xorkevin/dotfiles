@@ -47,8 +47,6 @@ vim.opt.diffopt:append('algorithm:histogram')
 
 vim.opt.termguicolors = true
 
-vim.opt.mouse = ''
-
 -- base keybinds
 vim.keymap.set('n', '<leader>e', '<cmd>edit .<CR>')
 vim.keymap.set('n', '<leader>d', '<cmd>bd<CR>')
@@ -140,7 +138,7 @@ lsp_servers:add_servers({
 })
 
 local function buf_has_lsp_capability(bufnr, capability, filter_fn)
-  for _, client in ipairs(vim.lsp.get_active_clients({ bufnr = bufnr })) do
+  for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
     if client.server_capabilities[capability] and (not filter_fn or filter_fn(client)) then
       return true
     end
@@ -151,7 +149,7 @@ end
 local function buf_prio_client_lsp_capability(bufnr, capability, filter_fn)
   local name = nil
   local priority = lsp_servers.max_prio + 1
-  for _, client in ipairs(vim.lsp.get_active_clients({ bufnr = bufnr })) do
+  for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
     if client.server_capabilities[capability] and (not filter_fn or filter_fn(client)) then
       local prio = lsp_servers.priority[client.name]
       if prio < priority then
@@ -190,7 +188,7 @@ do
     pattern = '*',
     callback = function()
       if buf_has_lsp_capability(0, 'codeLensProvider') then
-        vim.lsp.codelens.refresh()
+        vim.lsp.codelens.refresh({ bufnr = 0 })
       end
     end,
   })
@@ -355,7 +353,7 @@ local lsp_menu_options = {
     label = 'Format document',
     capability = 'documentFormattingProvider',
     action = function(bufnr)
-      vim.ui.select(vim.lsp.get_active_clients({ bufnr = bufnr }), {
+      vim.ui.select(vim.lsp.get_clients({ bufnr = bufnr }), {
         prompt = 'Clients:',
         format_item = function(item)
           return string.format('%s (id: %d)', item.name, item.id)
@@ -381,7 +379,7 @@ local lsp_menu_options = {
   {
     label = 'Show server capabilities',
     action = function()
-      vim.ui.select(vim.lsp.get_active_clients(), {
+      vim.ui.select(vim.lsp.get_clients(), {
         prompt = 'Clients:',
         format_item = function(item)
           return string.format('%s (id: %d)', item.name, item.id)
@@ -584,7 +582,7 @@ require('lazy').setup({
         highlight = {
           enable = true,
           disable = function(lang, bufnr)
-            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(bufnr))
+            local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(bufnr))
             if ok and stats and stats.size > highlight_file_size_limit then
               return true
             end
@@ -592,6 +590,12 @@ require('lazy').setup({
         },
       })
     end,
+  },
+  {
+    'folke/ts-comments.nvim',
+    config = function()
+      require('ts-comments').setup()
+    end
   },
   -- theme
   {
@@ -758,20 +762,16 @@ require('lazy').setup({
   {
     'hrsh7th/nvim-cmp',
     dependencies = {
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-path',
+      -- 'hrsh7th/cmp-path'
       'hrsh7th/cmp-buffer',
     },
     config = function()
-      local luasnip = require('luasnip')
-
       local cmp = require('cmp')
       cmp.setup({
         snippet = {
           expand = function(args)
-            luasnip.lsp_expand(args.body)
+            vim.snippet.expand(args.body)
           end,
         },
         preselect = cmp.PreselectMode.None,
@@ -811,15 +811,15 @@ require('lazy').setup({
             i = cmp.mapping.abort(),
           },
           ['<Tab>'] = cmp.mapping(function(fallback)
-            if luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
+            if vim.snippet.active({ direction = 1 }) then
+              vim.snippet.jump(1)
             else
               fallback()
             end
           end, { 'i' }),
           ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if luasnip.jumpable(-1) then
-              luasnip.jump(-1)
+            if vim.snippet.active({ direction = -1 }) then
+              vim.snippet.jump(-1)
             else
               fallback()
             end
@@ -827,7 +827,6 @@ require('lazy').setup({
         },
         sources = {
           { name = 'nvim_lsp' },
-          { name = 'luasnip' },
           { name = 'path' },
           { name = 'buffer' },
         },
@@ -839,6 +838,14 @@ require('lazy').setup({
   },
   -- jsonnet
   { 'google/vim-jsonnet' },
+  -- toy
+  {
+    'rktjmp/playtime.nvim',
+    config = function()
+      local playtime = require('playtime')
+      playtime.setup({})
+    end,
+  },
 })
 
 -- starlark autoformat

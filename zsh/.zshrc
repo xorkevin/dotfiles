@@ -293,6 +293,8 @@ export PATH="$PATH:$GOPATH/bin"
 
 export PATH="$PATH:$HOME/.cargo/bin"
 
+export YARN_GLOBAL_FOLDER="${XDG_DATA_HOME:-$HOME/.local/share}/yarn/berry"
+
 export BAT_THEME='base16'
 export BAT_STYLE='header,grid,numbers'
 export FZF_DEFAULT_OPTS="--height 40% --reverse"
