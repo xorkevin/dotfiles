@@ -12,12 +12,11 @@ general {
 order += "ipv6"
 order += "wireless _first_"
 order += "ethernet _first_"
-# order += "battery all"
+order += "battery all"
 # order += "disk /"
 order += "cpu_temperature 0"
-order += "cpu_temperature 1"
 order += "load"
-# order += "read_file brightness"
+order += "read_file brightness"
 order += "volume master"
 order += "tztime unix"
 order += "tztime utc"
@@ -34,9 +33,9 @@ ethernet _first_ {
         format_down = "E: down"
 }
 
-# battery all {
-#         format = "%status %percentage %remaining"
-# }
+battery all {
+        format = "%status %percentage %remaining"
+}
 
 tztime local {
         format = "local: [%Z%z] %a, %b %e %Y %T"
@@ -53,12 +52,7 @@ tztime utc {
 
 cpu_temperature 0 {
         format = "%degrees°C"
-        path = "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon*/temp3_input"
-}
-
-cpu_temperature 1 {
-        format = "%degrees°C"
-        path = "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon*/temp4_input"
+        path = "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon*/temp1_input"
 }
 
 load {
@@ -75,8 +69,8 @@ volume master {
         device = "pulse:combined"
 }
 
-# read_file brightness {
-#         format = "󰃞:%content"
-#         path = "/sys/class/backlight/intel_backlight/brightness"
-#         max_characters = "5"
-# }
+read_file brightness {
+        format = "󰃞:%content"
+        path = "/sys/class/backlight/amdgpu_bl1/brightness"
+        max_characters = "5"
+}
