@@ -1,5 +1,5 @@
 URxvt.font: xft:Hack Nerd Font Mono:size=8
-URxvt.letterSpace: 2
+URxvt.letterSpace: 0
 URxvt.scrollBar: false
 URxvt.iso14755: false
 URxvt.iso14755_52: false
