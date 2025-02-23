@@ -3,10 +3,6 @@ if [ -f "$HOME/.antidote/antidote.zsh" ]; then
   antidote load
 fi
 
-if [ -f "$HOME/.base16_theme" ]; then
-  . "$HOME/.base16_theme"
-fi
-
 if command -v starship > /dev/null; then
   eval "$(starship init zsh)"
 fi

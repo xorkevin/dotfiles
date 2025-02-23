@@ -599,9 +599,9 @@ require('lazy').setup({
   },
   -- theme
   {
-    'RRethy/nvim-base16',
+    'folke/tokyonight.nvim',
     config = function()
-      vim.cmd('colorscheme base16-tomorrow-night')
+      vim.cmd('colorscheme tokyonight-night')
     end,
   },
   { 'nvim-tree/nvim-web-devicons' },
@@ -610,7 +610,7 @@ require('lazy').setup({
     config = function()
       require('lualine').setup({
         options = {
-          theme = 'base16',
+          theme = 'tokyonight',
         },
         sections = {
           lualine_c = {
@@ -625,11 +625,10 @@ require('lazy').setup({
   },
   -- ui
   {
-    'stevearc/dressing.nvim',
+    'folke/snacks.nvim',
     config = function()
-      require('dressing').setup({
+      require('snacks').setup({
         input = { enabled = true },
-        select = { enabled = false },
       })
     end,
   },
@@ -665,14 +664,9 @@ require('lazy').setup({
   { 'tpope/vim-vinegar' },
   -- text editing
   {
-    'echasnovski/mini.align',
+    'echasnovski/mini.nvim',
     config = function()
       require('mini.align').setup()
-    end,
-  },
-  {
-    'echasnovski/mini.surround',
-    config = function()
       require('mini.surround').setup()
     end,
   },
@@ -697,10 +691,10 @@ require('lazy').setup({
   -- lsp
   {
     'neovim/nvim-lspconfig',
-    dependencies = { 'hrsh7th/cmp-nvim-lsp' },
+    dependencies = { 'saghen/blink.cmp' },
     config = function()
       local g_lsp_servers = require('lspservers').singleton
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      local capabilities = require('blink.cmp').get_lsp_capabilities()
       local lspconfig = require('lspconfig')
 
       for _, lsp in ipairs(g_lsp_servers.servers) do
@@ -760,78 +754,19 @@ require('lazy').setup({
   { 'lbrayner/vim-rzip' },
   -- autocomplete
   {
-    'hrsh7th/nvim-cmp',
-    dependencies = {
-      'hrsh7th/cmp-nvim-lsp',
-      -- 'hrsh7th/cmp-path'
-      'hrsh7th/cmp-buffer',
-    },
+    'saghen/blink.cmp',
+    version = 'v0.12.4',
     config = function()
-      local cmp = require('cmp')
-      cmp.setup({
-        snippet = {
-          expand = function(args)
-            vim.snippet.expand(args.body)
-          end,
-        },
-        preselect = cmp.PreselectMode.None,
-        mapping = {
-          ['<C-n>'] = {
-            i = cmp.mapping.select_next_item({
-              behavior = cmp.SelectBehavior.Insert,
-            }),
+      require('blink.cmp').setup({
+        completion = {
+          list = {
+            selection = {
+              preselect = false,
+            },
           },
-          ['<C-p>'] = {
-            i = cmp.mapping.select_prev_item({
-              behavior = cmp.SelectBehavior.Insert,
-            }),
+          documentation = {
+            auto_show = true,
           },
-          ['<C-f>'] = {
-            i = cmp.mapping.scroll_docs(4),
-          },
-          ['<C-b>'] = {
-            i = cmp.mapping.scroll_docs(-4),
-          },
-          ['<C-Space>'] = {
-            i = cmp.mapping.complete({}),
-          },
-          ['<CR>'] = {
-            i = cmp.mapping.confirm({
-              behavior = cmp.ConfirmBehavior.Replace,
-              select = false,
-            }),
-          },
-          ['<C-y>'] = {
-            i = cmp.mapping.confirm({
-              behavior = cmp.ConfirmBehavior.Insert,
-              select = false,
-            }),
-          },
-          ['<C-e>'] = {
-            i = cmp.mapping.abort(),
-          },
-          ['<Tab>'] = cmp.mapping(function(fallback)
-            if vim.snippet.active({ direction = 1 }) then
-              vim.snippet.jump(1)
-            else
-              fallback()
-            end
-          end, { 'i' }),
-          ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if vim.snippet.active({ direction = -1 }) then
-              vim.snippet.jump(-1)
-            else
-              fallback()
-            end
-          end, { 'i' }),
-        },
-        sources = {
-          { name = 'nvim_lsp' },
-          { name = 'path' },
-          { name = 'buffer' },
-        },
-        window = {
-          documentation = cmp.config.window.bordered(),
         },
       })
     end,
