@@ -1,0 +1,18 @@
+set from='kevin@xorkevin.com'
+set envelope_from_address='kevin@xorkevin.com'
+set sendmail='/usr/bin/msmtp -a gmail'
+
+set spoolfile='+gmail/inbox'
+set mbox='+gmail/archive'
+set record='+gmail/sent'
+set copy=no
+set postponed='+gmail/drafts'
+set trash='+gmail/trash'
+
+mailboxes $spoolfile $mbox $record $postponed $trash '+gmail/spam'
+
+alternates '^kevin(\+.*)?@xorkevin.com$' '^wangkevin448(\+.*)?@gmail.com$'
+set signature='~/.config/neomutt/sig/gmail'
+
+macro index,pager ';r' '<shell-escape>mbsync gmail<enter>' 'run mbsync'
+macro index,pager ';a' "<tag-prefix-cond><save-message>$mbox<enter>" 'archive mail'

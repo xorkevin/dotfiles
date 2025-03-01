@@ -1,0 +1,41 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+  "runtime": {
+    "version": "LuaJIT",
+    "path": [
+      "lua/?.lua",
+      "lua/?/init.lua"
+    ],
+    "pathStrict": true
+  },
+  "workspace": {
+    "library": [
+      "/usr/share/nvim/runtime",
+      "~/.config/nvim/nvimluatypes",
+      "~/.local/share/nvim/site/pack/packer/start/LuaSnip",
+      "~/.local/share/nvim/site/pack/packer/start/cmp-buffer",
+      "~/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
+      "~/.local/share/nvim/site/pack/packer/start/cmp-path",
+      "~/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
+      "~/.local/share/nvim/site/pack/packer/start/fzf-lua",
+      "~/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
+      "~/.local/share/nvim/site/pack/packer/start/lsp_signature.nvim",
+      "~/.local/share/nvim/site/pack/packer/startline.nvim",
+      "~/.local/share/nvim/site/pack/packer/start/mini.align",
+      "~/.local/share/nvim/site/pack/packer/start/mini.surround",
+      "~/.local/share/nvim/site/pack/packer/start/nvim-base16",
+      "~/.local/share/nvim/site/pack/packer/start/nvim-cmp",
+      "~/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
+      "~/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
+      "~/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
+      "~/.local/share/nvim/site/pack/packer/start/packer.nvim",
+      "~/.local/share/nvim/site/pack/packer/start/vim-fugitive",
+      "~/.local/share/nvim/site/pack/packer/start/vim-vinegar",
+      "~/.local/share/nvim/site/pack/packer/start/vim-visual-star-search"
+    ],
+    "ignoreDir": [
+      "nvimluatypes"
+    ],
+    "checkThirdParty": false
+  }
+}

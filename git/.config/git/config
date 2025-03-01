@@ -1,0 +1,65 @@
+[user]
+	email = kevin@xorkevin.com
+	name = Kevin Wang
+	signingkey = FD1892910AAE75C98DFA3FC92E42FF4C895D00AB!
+[alias]
+	fire = !git checkout -b fire-branch-emergency && git add -A && git commit --no-gpg-sign -m \"emergency commit: fire\" && git push origin fire-branch-emergency
+	fixup = !git commit --fixup $(git log -n 64 --no-merges --pretty='tformat:%h | [%an <%ae> %ad] %s' | fzf | cut -d '|' -f 1)
+	rbi = !git rebase -i $(git log -n 64 --no-merges --pretty='tformat:%h | [%an <%ae> %ad] %s' | fzf | cut -d '|' -f 1)
+	select = "!__f() { git switch $(git branch -l \"$@\" | fzf); }; __f"
+[core]
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	dark = true
+	line-numbers = true
+	side-by-side = false
+	navigate = false
+	syntax-theme = base16
+	minus-style = syntax 52
+	minus-non-emph-style = syntax 52
+	minus-emph-style = syntax 124
+	minus-empty-line-marker-style = normal 52
+	plus-style = syntax 22
+	plus-non-emph-style = syntax 22
+	plus-emph-style = syntax 28
+	plus-empty-line-marker-style = normal 22
+[diff]
+	algorithm = histogram
+	colorMoved = default
+	tool = vimdiff
+[difftool]
+	prompt = true
+[difftool "vimdiff"]
+	cmd = nvim -R -d $LOCAL $REMOTE
+[merge]
+	tool = vimmerge
+[mergetool]
+	prompt = true
+	keepBackup = true
+[mergetool "vimmerge"]
+	cmd = nvim -d $LOCAL $MERGED $REMOTE
+[include]
+	path = .config/git.d/urls
+[commit]
+	gpgsign = true
+[tag]
+	gpgSign = true
+[sendemail]
+	smtpserver = /usr/bin/msmtp
+	smtpserveroption = -a
+	smtpserveroption = gmail
+	annotate = true
+	confirm = always
+	multiEdit = true
+	aliasesFile = ~/syncthing/mail/mutt_aliases
+	aliasFileType = mutt
+[push]
+	followTags = true
+[pull]
+	rebase = false
+[rebase]
+	autosquash = true
+[init]
+	defaultBranch = master

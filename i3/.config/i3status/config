@@ -1,0 +1,82 @@
+# i3status configuration file.
+# see "man i3status" for documentation.
+
+general {
+        colors = true
+        interval = 5
+        color_good = "#9ece6a"
+        color_degraded = "#e0af68"
+        color_bad = "#f7768e"
+}
+
+order += "ipv6"
+order += "wireless _first_"
+order += "ethernet _first_"
+# order += "battery all"
+# order += "disk /"
+order += "cpu_temperature 0"
+order += "cpu_temperature 1"
+order += "load"
+# order += "read_file brightness"
+order += "volume master"
+order += "tztime unix"
+order += "tztime utc"
+order += "tztime local"
+
+wireless _first_ {
+        format_up = "W: (%quality %essid %bitrate %frequency) %ip"
+        format_down = "W: down"
+}
+
+ethernet _first_ {
+        # if you use %speed, i3status requires root privileges
+        format_up = "E: %ip (%speed)"
+        format_down = "E: down"
+}
+
+# battery all {
+#         format = "%status %percentage %remaining"
+# }
+
+tztime local {
+        format = "local: [%Z%z] %a, %b %e %Y %T"
+}
+
+tztime unix {
+        format = "unix: %s"
+}
+
+tztime utc {
+        format = "utc: %F %T"
+        timezone = "UTC"
+}
+
+cpu_temperature 0 {
+        format = "%degrees°C"
+        path = "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon*/temp3_input"
+}
+
+cpu_temperature 1 {
+        format = "%degrees°C"
+        path = "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon*/temp4_input"
+}
+
+load {
+        format = "%1min"
+}
+
+# disk "/" {
+#         format = "%avail"
+# }
+
+volume master {
+        format = "♪:%volume"
+        format_muted = "♪:muted(%volume)"
+        device = "pulse:combined"
+}
+
+# read_file brightness {
+#         format = "󰃞:%content"
+#         path = "/sys/class/backlight/intel_backlight/brightness"
+#         max_characters = "5"
+# }
