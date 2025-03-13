@@ -713,6 +713,9 @@ require('lazy').setup({
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
       local null_ls = require('null-ls')
+      local command_resolver = require("null-ls.helpers.command_resolver")
+      local node_modules_resolver = command_resolver.from_node_modules()
+      local yarn_resolver = command_resolver.from_yarn_pnp()
       null_ls.setup({
         sources = {
           -- by default both use
@@ -739,6 +742,15 @@ require('lazy').setup({
               -- '--embedded-language-formatting=auto',
               -- '--single-attribute-per-line=false',
             },
+            dynamic_command = function(params, done)
+              local v = yarn_resolver(params)
+              -- command resolvers return params.command by default
+              if v and v ~= params.command then
+                done(v)
+                return
+              end
+              node_modules_resolver(params, done)
+            end,
           }),
           -- null_ls.builtins.diagnostics.eslint,
         },
