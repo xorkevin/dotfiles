@@ -640,7 +640,7 @@ require('lazy').setup({
       g_deps:provide('fzf', fzf)
 
       fzf.register_ui_select({
-        winopts_fn = function()
+        winopts = function()
           local winopts = {
             width = 0.5,
             height = 0.5,
