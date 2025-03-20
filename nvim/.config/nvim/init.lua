@@ -354,6 +354,7 @@ local lsp_menu_options = {
     capability = 'documentFormattingProvider',
     action = function(bufnr)
       vim.ui.select(vim.lsp.get_clients({ bufnr = bufnr }), {
+        kind = 'k_lsp',
         prompt = 'Clients:',
         format_item = function(item)
           return string.format('%s (id: %d)', item.name, item.id)
@@ -380,6 +381,7 @@ local lsp_menu_options = {
     label = 'Show server capabilities',
     action = function()
       vim.ui.select(vim.lsp.get_clients(), {
+        kind = 'k_lsp',
         prompt = 'Clients:',
         format_item = function(item)
           return string.format('%s (id: %d)', item.name, item.id)
@@ -406,6 +408,7 @@ local lsp_menu_options = {
 vim.keymap.set('n', '<leader>r', function()
   local bufnr = vim.api.nvim_get_current_buf()
   vim.ui.select(lsp_menu_options, {
+    kind = 'k_lsp',
     prompt = 'LSP:',
     format_item = function(item)
       return item.label
@@ -639,18 +642,17 @@ require('lazy').setup({
       local fzf = require('fzf-lua')
       g_deps:provide('fzf', fzf)
 
-      fzf.register_ui_select({
-        winopts = function()
-          local winopts = {
-            width = 0.5,
-            height = 0.5,
-          }
-          if vim.o.columns > 120 then
-            winopts.width = 0.25
-          end
-          return winopts
+      fzf.register_ui_select(function(ui_opts, items)
+        if ui_opts.kind ~= 'k_lsp' then
+          return {}
         end
-      }, true)
+        return {
+          winopts = {
+            width = math.min(80, math.floor(vim.o.columns * 0.8)),
+            height = math.min(math.max(24, #items + 2), math.floor(vim.o.lines * 0.85)),
+          },
+        }
+      end)
 
       local opts = { fzf_opts = { ['--layout'] = 'default' }, previewer = { syntax_limit_b = highlight_file_size_limit } }
       vim.keymap.set('n', '<leader>f', function()
