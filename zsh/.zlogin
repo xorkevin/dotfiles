@@ -1,10 +1,3 @@
-{
-  zcompdump="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
-  if [ -s "$zcompdump" ] && [ \( ! -s "${zcompdump}.zwc" \) -o \( "$zcompdump" -nt "${zcompdump}.zwc" \) ]; then
-    zcompile "$zcompdump"
-  fi
-} &!
-
 # Execute code only if STDERR is bound to a TTY.
 if [[ -o INTERACTIVE && -t 2 ]]; then
   (
