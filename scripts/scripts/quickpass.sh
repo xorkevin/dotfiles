@@ -6,6 +6,7 @@ selected_password=$(pass git ls-files '*.gpg' | sed 's/.gpg$//' | fzf --reverse 
 if [ -z "$selected_password" ]; then
   exit
 else
+  export GPG_TTY=$(tty)
   pass -c "$selected_password"
   sleep 15
 fi
