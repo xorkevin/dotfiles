@@ -133,8 +133,8 @@ bindsym $mod+Shift+e mode "$mode_exit"
 # lockscreen
 bindsym $mod+z exec $HOME/scripts/lockscreen.sh
 # screenshot
-bindsym $mod+x exec maim -u -s ~/screenshot.png
-bindsym $mod+c exec maim -u ~/screenshot.png
+bindsym $mod+x exec maim -usf png | tee "$TMPDIR/screenshot.png" | xclip -selection clipboard -t image/png
+bindsym $mod+c exec maim -uf png | tee "$TMPDIR/screenshot.png" | xclip -selection clipboard -t image/png
 
 for_window [instance="scripts_window"] floating enable, sticky enable, focus
 

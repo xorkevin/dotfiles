@@ -125,7 +125,7 @@ alias grep="${aliases[grep]:-grep} --color=auto"
 
 alias get='wget --continue --progress=bar --timestamping'
 
-alias clip="xclip -selection c"
+alias clip="xclip -selection clipboard"
 
 # Neovim
 alias vim="nvim"
