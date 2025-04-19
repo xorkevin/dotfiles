@@ -109,12 +109,8 @@ alias mv="${aliases[mv]:-mv} -i"
 alias cp="${aliases[cp]:-cp} -i"
 alias ln="${aliases[ln]:-ln} -i"
 
-if [[ -z "$LS_COLORS" ]]; then
-  if [[ -s "$HOME/.dir_colors" ]]; then
-    eval "$(dircolors --sh "$HOME/.dir_colors")"
-  else
-    eval "$(dircolors --sh)"
-  fi
+if [ -z "$LS_COLORS" ]; then
+  eval "$(dircolors --sh)"
 fi
 alias ls="${aliases[ls]:-ls} --group-directories-first --color=auto"
 
@@ -150,14 +146,6 @@ alias ta="tmux attach -t"
 alias tls="tmux list-sessions"
 alias tk="tmux kill-session -t"
 
-# check updates
-alias checksyu="curl -s https://www.archlinux.org/feeds/news/ | xmllint --xpath //item/title\ \|\ //item/pubDate /dev/stdin | sed -r -e 's:<title>([^<]*?)</title><pubDate>([^<]*?)</pubDate>:\2\t\1\n:g'"
-
-# observe
-observe() { while inotifywait --exclude .git -e modify -r -qq .; do $@; done; }
-
-latexgenpdf() { latexmk -pdf -bibtex -pdflatex='pdflatex -interaction=nonstopmode' $@ }
-
 npmpkglatest() {
   local file=${1:-package.json}
   cat $file | jq -j '(.dependencies // {}, .devDependencies // {}) | keys[] | " \(.)@latest"'
@@ -181,11 +169,9 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_R_OPTS="--reverse"
 export FZF_CTRL_T_OPTS="--reverse --preview '[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --color=always -r :\$FZF_PREVIEW_LINES {} || head -\$FZF_PREVIEW_LINES {}) 2> /dev/null'"
 export FZF_ALT_C_OPTS="--reverse"
-[ -f /usr/share/fzf/key-bindings.zsh ] && . /usr/share/fzf/key-bindings.zsh
-[ -f /usr/share/fzf/completion.zsh ] && . /usr/share/fzf/completion.zsh
-
-# opam configuration
-[ -r $HOME/.opam/opam-init/init.zsh ] && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+if command -v fzf > /dev/null; then
+  eval "$(fzf --zsh)"
+fi
 
 # prompt
 if command -v starship > /dev/null; then
@@ -198,88 +184,28 @@ if [ -f "$HOME/.antidote/antidote.zsh" ]; then
 fi
 
 # completion
+_comp_fpath="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/completion"
+mkdir -p "$_comp_fpath"
+for cmd in "kubectl" "forge" "anvil" "interchange" "fsserve" "bitcensus"; do
+  if command -v "$cmd" > /dev/null; then
+    if [[ -z $_comp_fpath/_$cmd(#qN.mh-20) ]]; then
+      "$cmd" completion zsh >| "$_comp_fpath/_$cmd"
+    fi
+  fi
+done
+fpath=($fpath "$_comp_fpath")
+unset _comp_fpath
+
 autoload -Uz compinit
 _comp_path="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
-# #q expands globs in conditional expressions
-if [[ $_comp_path(#qNmh-20) ]]; then
-  compinit -C -d "$_comp_path"
-else
-  mkdir -p "${_comp_path%/*}"
+if [[ -z $_comp_path(#qN.mh-20) ]]; then
+  mkdir -p "${_comp_path:h}"
   compinit -i -d "$_comp_path"
-fi
-if [ -s "$_comp_path" ] && [ \( ! -s "${_comp_path}.zwc" \) -o \( "$_comp_path" -nt "${_comp_path}.zwc" \) ]; then
-  if command mkdir "$TMPDIR/zcompdump.zwc.lock" 2>/dev/null; then
-    zcompile "$_comp_path"
-    command rmdir "$TMPDIR/zcompdump.zwc.lock" 2>/dev/null
-  fi
+  touch "$_comp_path"
+else
+  compinit -C -d "$_comp_path"
 fi
 unset _comp_path
-
-
-if command -v kubectl > /dev/null; then
-  __KUBECTL_COMPLETION_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/completion/kubectl_completion"
-  if [ ! -f $__KUBECTL_COMPLETION_FILE ] || [ ! -s $__KUBECTL_COMPLETION_FILE ] || [[ ! $__KUBECTL_COMPLETION_FILE(#qNmh-20) ]]; then
-    mkdir -p "${__KUBECTL_COMPLETION_FILE%/*}"
-    kubectl completion zsh >| $__KUBECTL_COMPLETION_FILE
-  fi
-  [ -f $__KUBECTL_COMPLETION_FILE ] && . $__KUBECTL_COMPLETION_FILE
-  unset __KUBECTL_COMPLETION_FILE
-fi
-
-if command -v forge > /dev/null; then
-  __FORGE_COMPLETION_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/completion/forge_completion"
-  if [ ! -f $__FORGE_COMPLETION_FILE ] || [ ! -s $__FORGE_COMPLETION_FILE ] || [[ ! $__FORGE_COMPLETION_FILE(#qNmh-20) ]]; then
-    mkdir -p "${__FORGE_COMPLETION_FILE%/*}"
-    printf 'compdef _forge forge\n' >| $__FORGE_COMPLETION_FILE
-    forge completion zsh >> $__FORGE_COMPLETION_FILE
-  fi
-  [ -f $__FORGE_COMPLETION_FILE ] && . $__FORGE_COMPLETION_FILE
-  unset __FORGE_COMPLETION_FILE
-fi
-
-if command -v anvil > /dev/null; then
-  __ANVIL_COMPLETION_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/completion/anvil_completion"
-  if [ ! -f $__ANVIL_COMPLETION_FILE ] || [ ! -s $__ANVIL_COMPLETION_FILE ] || [[ ! $__ANVIL_COMPLETION_FILE(#qNmh-20) ]]; then
-    mkdir -p "${__ANVIL_COMPLETION_FILE%/*}"
-    printf 'compdef _anvil anvil\n' >| $__ANVIL_COMPLETION_FILE
-    anvil completion zsh >> $__ANVIL_COMPLETION_FILE
-  fi
-  [ -f $__ANVIL_COMPLETION_FILE ] && . $__ANVIL_COMPLETION_FILE
-  unset __ANVIL_COMPLETION_FILE
-fi
-
-if command -v interchange > /dev/null; then
-  __INTERCHANGE_COMPLETION_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/completion/interchange_completion"
-  if [ ! -f $__INTERCHANGE_COMPLETION_FILE ] || [ ! -s $__INTERCHANGE_COMPLETION_FILE ] || [[ ! $__INTERCHANGE_COMPLETION_FILE(#qNmh-20) ]]; then
-    mkdir -p "${__INTERCHANGE_COMPLETION_FILE%/*}"
-    printf 'compdef _interchange interchange\n' >| $__INTERCHANGE_COMPLETION_FILE
-    interchange completion zsh >> $__INTERCHANGE_COMPLETION_FILE
-  fi
-  [ -f $__INTERCHANGE_COMPLETION_FILE ] && . $__INTERCHANGE_COMPLETION_FILE
-  unset __INTERCHANGE_COMPLETION_FILE
-fi
-
-if command -v fsserve > /dev/null; then
-  __FSSERVE_COMPLETION_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/completion/fsserve_completion"
-  if [ ! -f $__FSSERVE_COMPLETION_FILE ] || [ ! -s $__FSSERVE_COMPLETION_FILE ] || [[ ! $__FSSERVE_COMPLETION_FILE(#qNmh-20) ]]; then
-    mkdir -p "${__FSSERVE_COMPLETION_FILE%/*}"
-    printf 'compdef _fsserve fsserve\n' >| $__FSSERVE_COMPLETION_FILE
-    fsserve completion zsh >> $__FSSERVE_COMPLETION_FILE
-  fi
-  [ -f $__FSSERVE_COMPLETION_FILE ] && . $__FSSERVE_COMPLETION_FILE
-  unset __FSSERVE_COMPLETION_FILE
-fi
-
-if command -v bitcensus > /dev/null; then
-  __BITCENSUS_COMPLETION_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/completion/bitcensus_completion"
-  if [ ! -f $__BITCENSUS_COMPLETION_FILE ] || [ ! -s $__BITCENSUS_COMPLETION_FILE ] || [[ ! $__BITCENSUS_COMPLETION_FILE(#qNmh-20) ]]; then
-    mkdir -p "${__BITCENSUS_COMPLETION_FILE%/*}"
-    printf 'compdef _bitcensus bitcensus\n' >| $__BITCENSUS_COMPLETION_FILE
-    bitcensus completion zsh >> $__BITCENSUS_COMPLETION_FILE
-  fi
-  [ -f $__BITCENSUS_COMPLETION_FILE ] && . $__BITCENSUS_COMPLETION_FILE
-  unset __BITCENSUS_COMPLETION_FILE
-fi
 
 # Use caching to make completion for commands such as dpkg and apt usable.
 zstyle ':completion::complete:*' use-cache on
@@ -366,8 +292,6 @@ zstyle ':completion:*:(ssh|scp|rsync):*:hosts-host' ignored-patterns '*(.|:)*' l
 zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.<->.<->' '^[-[:alnum:]]##(.[-[:alnum:]]##)##' '*@*'
 zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
 
-if [ -d $HOME/.zsh.d ]; then
-  for file in $HOME/.zsh.d/*(N.); do
-    . "$file"
-  done
-fi
+for file in $HOME/.zsh.d/*(#qN.); do
+  . "$file"
+done
