@@ -22,8 +22,9 @@ setopt HIST_SAVE_NO_DUPS
 # Do not execute immediately upon history expansion.
 setopt HIST_VERIFY
 
-HISTFILE="${ZDOTDIR:-$HOME}/.zhistory"  # The path to the history file.
-HISTSIZE=20000                   # The maximum number of events to save in the internal history.
+HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/zsh/histfile" # The path to the history file.
+mkdir -p "$HISTFILE:h"
+HISTSIZE=20000 # The maximum number of events to save in the internal history.
 SAVEHIST=20000
 
 alias history-stat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head"
@@ -104,20 +105,20 @@ zle -N resumejob
 bindkey "^Z" resumejob
 
 # Safe ops. Ask the user before doing anything destructive.
-alias rm="${aliases[rm]:-rm} -i"
-alias mv="${aliases[mv]:-mv} -i"
-alias cp="${aliases[cp]:-cp} -i"
-alias ln="${aliases[ln]:-ln} -i"
+alias rm="rm -id"
+alias mv="mv -i"
+alias cp="cp -i"
+alias ln="ln -i"
 
 if [ -z "$LS_COLORS" ]; then
   eval "$(dircolors --sh)"
 fi
-alias ls="${aliases[ls]:-ls} --group-directories-first --color=auto"
+alias ls="ls --group-directories-first --color=auto"
 
 export LESS='-F -g -i -M -R -S -w -X -z-4'
 export GREP_COLOR='37;45'
 export GREP_COLORS="mt=$GREP_COLOR"
-alias grep="${aliases[grep]:-grep} --color=auto"
+alias grep="grep --color=auto"
 
 alias get='wget --continue --progress=bar --timestamping'
 
