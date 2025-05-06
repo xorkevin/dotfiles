@@ -121,8 +121,8 @@ export GREP_COLORS="mt=$GREP_COLOR"
 alias grep="grep --color=auto"
 
 alias get='wget --continue --progress=bar --timestamping'
-
-alias clip="xclip -selection clipboard"
+alias clip='xclip -selection clipboard'
+alias qrenc='qrencode -t UTF8'
 
 # Neovim
 alias vim="nvim"
