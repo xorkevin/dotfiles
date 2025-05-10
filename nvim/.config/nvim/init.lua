@@ -654,7 +654,7 @@ require('lazy').setup({
         }
       end)
 
-      local opts = { fzf_opts = { ['--layout'] = 'default' }, previewer = { syntax_limit_b = highlight_file_size_limit } }
+      local opts = { fzf_opts = { ['--layout'] = 'default' } }
       vim.keymap.set('n', '<leader>f', function()
         fzf.files(opts)
       end)
