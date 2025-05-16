@@ -69,12 +69,6 @@ vim.filetype.add({
 })
 
 -- lsp
-vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-  border = 'rounded',
-})
-vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-  border = 'rounded',
-})
 vim.diagnostic.config({
   float = { border = 'rounded' },
 })
@@ -213,7 +207,7 @@ end
 
 vim.keymap.set('n', 'K', function()
   if buf_has_lsp_capability(0, 'hoverProvider') then
-    vim.lsp.buf.hover()
+    vim.lsp.buf.hover({ border = 'rounded' })
   else
     vim.cmd('normal! K')
   end
@@ -224,7 +218,7 @@ vim.keymap.set('n', '<leader>k', function()
 end)
 
 vim.keymap.set('n', '<leader>j', function()
-  vim.diagnostic.goto_next()
+  vim.diagnostic.jump({ count = 1, float = true })
 end)
 
 vim.keymap.set('n', '<leader>a', function()
@@ -235,39 +229,39 @@ local lsp_menu_options = {
   {
     label = 'Go to definition',
     capability = 'definitionProvider',
-    action = function()
+    action = function(bufnr)
       vim.lsp.buf.definition()
     end,
   },
   {
     label = 'Go to typedefinition',
     capability = 'typeDefinitionProvider',
-    action = function()
+    action = function(bufnr)
       vim.lsp.buf.type_definition()
     end,
   },
   {
     label = 'Go to declaration',
     capability = 'declarationProvider',
-    action = function()
+    action = function(bufnr)
       vim.lsp.buf.declaration()
     end,
   },
   {
     label = 'List references',
     capability = 'referencesProvider',
-    action = function()
+    action = function(bufnr)
       if deps.loaded then
         deps.m.fzf.lsp_references()
       else
-        vim.lsp.buf.references({})
+        vim.lsp.buf.references()
       end
     end,
   },
   {
     label = 'List implementations',
     capability = 'implementationProvider',
-    action = function()
+    action = function(bufnr)
       if deps.loaded then
         deps.m.fzf.lsp_implementations()
       else
@@ -278,7 +272,7 @@ local lsp_menu_options = {
   {
     label = 'Incoming calls',
     capability = 'callHierarchyProvider',
-    action = function()
+    action = function(bufnr)
       if deps.loaded then
         deps.m.fzf.lsp_incoming_calls()
       else
@@ -289,7 +283,7 @@ local lsp_menu_options = {
   {
     label = 'Outgoing calls',
     capability = 'callHierarchyProvider',
-    action = function()
+    action = function(bufnr)
       if deps.loaded then
         deps.m.fzf.lsp_outgoing_calls()
       else
@@ -300,7 +294,7 @@ local lsp_menu_options = {
   {
     label = 'List document symbols',
     capability = 'documentSymbolProvider',
-    action = function()
+    action = function(bufnr)
       if deps.loaded then
         deps.m.fzf.lsp_document_symbols()
       else
@@ -311,7 +305,7 @@ local lsp_menu_options = {
   {
     label = 'List workspace symbols',
     capability = 'workspaceSymbolProvider',
-    action = function()
+    action = function(bufnr)
       if deps.loaded then
         deps.m.fzf.lsp_workspace_symbols()
       else
@@ -321,7 +315,7 @@ local lsp_menu_options = {
   },
   {
     label = 'List document diagnostics',
-    action = function()
+    action = function(bufnr)
       if deps.loaded then
         deps.m.fzf.diagnostics_document()
       end
@@ -329,7 +323,7 @@ local lsp_menu_options = {
   },
   {
     label = 'List workspace diagnostics',
-    action = function()
+    action = function(bufnr)
       if deps.loaded then
         deps.m.fzf.diagnostics_workspace()
       end
@@ -338,14 +332,14 @@ local lsp_menu_options = {
   {
     label = 'Rename',
     capability = 'renameProvider',
-    action = function()
+    action = function(bufnr)
       vim.lsp.buf.rename()
     end,
   },
   {
     label = 'Run codelens',
     capability = 'codeLensProvider',
-    action = function()
+    action = function(bufnr)
       vim.lsp.codelens.run()
     end,
   },
@@ -369,7 +363,7 @@ local lsp_menu_options = {
   },
   {
     label = 'List workspace folders',
-    action = function()
+    action = function(bufnr)
       local text_lines = { 'LSP workspaces', '', 'workspace_folders:', '' }
       for _, v in ipairs(vim.lsp.buf.list_workspace_folders()) do
         table.insert(text_lines, v)
@@ -379,7 +373,7 @@ local lsp_menu_options = {
   },
   {
     label = 'Show server capabilities',
-    action = function()
+    action = function(bufnr)
       vim.ui.select(vim.lsp.get_clients(), {
         kind = 'k_lsp',
         prompt = 'Clients:',
@@ -585,10 +579,7 @@ require('lazy').setup({
         highlight = {
           enable = true,
           disable = function(lang, bufnr)
-            local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(bufnr))
-            if ok and stats and stats.size > highlight_file_size_limit then
-              return true
-            end
+            return vim.fn.getfsize(vim.api.nvim_buf_get_name(bufnr)) > highlight_file_size_limit
           end
         },
       })
