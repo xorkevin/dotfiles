@@ -2,11 +2,10 @@ local wezterm = require('wezterm')
 
 local config = wezterm.config_builder()
 
-config.default_prog = { '/usr/bin/zsh' }
+config.default_prog = { '/bin/zsh' }
 
 config.font = wezterm.font('Hack Nerd Font Mono')
 config.font_size = 9
-config.cell_width = 1.1
 
 config.color_scheme = 'tokyonight_night'
 
