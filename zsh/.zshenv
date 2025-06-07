@@ -26,7 +26,9 @@ export YARN_GLOBAL_FOLDER="${XDG_DATA_HOME:-$HOME/.local/share}/yarn/berry"
 
 export GPG_TTY=$(tty)
 
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+if [ -z "$SSH_AUTH_SOCK" ]; then
+  export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+fi
 
 # password store
 export PASSWORD_STORE_DIR=$HOME/.password-store
