@@ -1,6 +1,6 @@
 # Temporary Files
-if [ ! -d "$TMPDIR" ]; then
-  export TMPDIR="/tmp/$LOGNAME"
+if [ -z "$TMPDIR" ]; then
+  export TMPDIR="/tmp/$USER"
   mkdir -p -m 700 "$TMPDIR"
 fi
 
