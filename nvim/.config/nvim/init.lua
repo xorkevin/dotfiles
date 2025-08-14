@@ -51,7 +51,6 @@ vim.opt.termguicolors = true
 vim.keymap.set('n', '<leader>e', '<cmd>edit .<CR>')
 vim.keymap.set('n', '<leader>d', '<cmd>bd<CR>')
 vim.keymap.set('n', '<leader>s', '<cmd>w<CR>')
-vim.keymap.set('n', '<leader>l', '<cmd>nohlsearch<CR>')
 
 -- base autocmds
 local resize_window_equal_group = vim.api.nvim_create_augroup('k_resize_window_equal', { clear = true })
@@ -221,10 +220,6 @@ vim.keymap.set('n', '<leader>j', function()
   vim.diagnostic.jump({ count = 1, float = true })
 end)
 
-vim.keymap.set('n', '<leader>a', function()
-  vim.lsp.buf.code_action()
-end)
-
 local lsp_menu_options = {
   {
     label = 'Go to definition',
@@ -341,6 +336,13 @@ local lsp_menu_options = {
     capability = 'codeLensProvider',
     action = function(bufnr)
       vim.lsp.codelens.run()
+    end,
+  },
+  {
+    label = 'Run code action',
+    capability = 'codeActionProvider',
+    action = function(bufnr)
+      vim.lsp.buf.code_action()
     end,
   },
   {
