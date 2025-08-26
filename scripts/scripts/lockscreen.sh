@@ -1,6 +1,6 @@
 #!/bin/sh
 
-screendim="3840x2160"
+screendim="2256x1504"
 
 if command -v convert > /dev/null && [ -e "$HOME/Pictures/lock" ]; then
   convert "$HOME/Pictures/lock" -resize "${screendim}^" \
