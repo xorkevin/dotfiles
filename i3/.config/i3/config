@@ -135,6 +135,7 @@ bindsym $mod+z exec $HOME/scripts/lockscreen.sh
 # screenshot
 bindsym $mod+x exec maim -usf png | tee "$TMPDIR/screenshot.png" | xclip -selection clipboard -t image/png
 bindsym $mod+c exec maim -uf png | tee "$TMPDIR/screenshot.png" | xclip -selection clipboard -t image/png
+bindsym $mod+Shift+x exec maim -usf png | tee "$TMPDIR/qrscreenshot.png" && zbarimg -q --raw --set test-inverted "$TMPDIR/qrscreenshot.png" | xclip -selection clipboard
 
 for_window [instance="scripts_window"] floating enable, sticky enable, focus
 
