@@ -654,10 +654,15 @@ require('lazy').setup({
       end)
     end,
   },
-  { 'tpope/vim-vinegar' },
+  {
+    'stevearc/oil.nvim',
+    config = function()
+      require('oil').setup()
+    end,
+  },
   -- text editing
   {
-    'echasnovski/mini.nvim',
+    'nvim-mini/mini.nvim',
     config = function()
       require('mini.align').setup()
       require('mini.surround').setup()
@@ -688,15 +693,15 @@ require('lazy').setup({
     config = function()
       local g_lsp_servers = require('lspservers').singleton
       local capabilities = require('blink.cmp').get_lsp_capabilities()
-      local lspconfig = require('lspconfig')
 
       for _, lsp in ipairs(g_lsp_servers.servers) do
         if lsp.cfg_reader == 'nvim-lspconfig' then
-          lspconfig[lsp.name].setup({
+          vim.lsp.config(lsp.name, {
             capabilities = capabilities,
             filetypes = lsp.filetypes,
             settings = lsp.settings,
           })
+          vim.lsp.enable(lsp.name)
         end
       end
     end,
