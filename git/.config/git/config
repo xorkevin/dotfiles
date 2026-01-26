@@ -15,16 +15,7 @@
 	dark = true
 	line-numbers = true
 	side-by-side = false
-	navigate = false
-	syntax-theme = base16
-	minus-style = syntax 52
-	minus-non-emph-style = syntax 52
-	minus-emph-style = syntax 124
-	minus-empty-line-marker-style = normal 52
-	plus-style = syntax 22
-	plus-non-emph-style = syntax 22
-	plus-emph-style = syntax 28
-	plus-empty-line-marker-style = normal 22
+	navigate = true
 [diff]
 	algorithm = histogram
 	colorMoved = default
@@ -35,6 +26,7 @@
 	cmd = nvim -R -d $LOCAL $REMOTE
 [merge]
 	tool = vimmerge
+	conflictStyle = zdiff3
 [mergetool]
 	prompt = true
 	keepBackup = true
