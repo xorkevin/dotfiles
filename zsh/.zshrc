@@ -115,7 +115,7 @@ if [ -z "$LS_COLORS" ]; then
 fi
 alias ls="ls --group-directories-first --color=auto"
 
-export LESS='-F -g -i -M -R -S -w -X -z-4'
+export LESS='-F -g -i -M -R -S -w -X'
 export GREP_COLOR='37;45'
 export GREP_COLORS="mt=$GREP_COLOR"
 alias grep="grep --color=auto"
