@@ -7,6 +7,6 @@ if [ -z "$selected_password" ]; then
   exit
 else
   export GPG_TTY=$(tty)
-  pass show -c "$selected_password"
+  pass otp code -c "$selected_password"
   sleep 15
 fi
