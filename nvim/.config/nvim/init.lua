@@ -86,12 +86,7 @@ lsp_servers:add_servers({
     },
   },
   { name = 'rust_analyzer' },
-  {
-    name = 'ts_ls',
-    overrides = {
-      autoDocumentFormatDisable = true,
-    },
-  },
+  { name = 'tsc' },
   {
     name = 'pylsp',
     settings = {
